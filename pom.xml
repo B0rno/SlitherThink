@@ -13,8 +13,8 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <maven.compiler.release>16</maven.compiler.release>
-    <javafx.version>17.0.2</javafx.version> <!--ptet a bouger-->
+    <maven.compiler.release>17</maven.compiler.release> <!-- à adapter-->
+    <javafx.version>17.0.2</javafx.version> <!--peut-être à bouger-->
   </properties>
 
   <dependencyManagement>
@@ -66,13 +66,19 @@
         <version>${javafx.version}</version> <!-- adapte à ta version de JavaFX -->
     </dependency>
 
-    <!--JavaFX Graphics-->
+    <!--JavaFX Graphics (peut-être à enlever car inclut dans controls)-->
     <dependency>
       <groupId>org.openjfx</groupId>
       <artifactId>javafx-graphics</artifactId>
       <version>${javafx.version}</version>
     </dependency>
 
+    <!--JavaFX Fxml-->
+    <dependency>
+      <groupId>org.openjfx</groupId>
+      <artifactId>javafx-fxml</artifactId>
+      <version>${javafx.version}</version>
+    </dependency>
   </dependencies>
 
   <build>
