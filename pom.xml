@@ -117,8 +117,12 @@
           <artifactId>maven-project-info-reports-plugin</artifactId>
           <version>3.6.1</version>
         </plugin>
+      </plugins>
+    </pluginManagement>
 
-        <!--plugins ajoutés-->
+
+    <!--plugins ajoutés-->
+    <plugins>
         <!--javafx-->
         <plugin>
             <groupId>org.openjfx</groupId>
@@ -128,7 +132,29 @@
                 <mainClass>com.exemple.MainApp</mainClass> <!-- Remplace par ta classe main -->
             </configuration>
         </plugin>
-      </plugins>
-    </pluginManagement>
+
+        <!--jar-->
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-shade-plugin</artifactId>
+          <version>3.5.0</version>
+          <executions>
+              <execution>
+                  <phase>package</phase>
+                  <goals>
+                      <goal>shade</goal>
+                  </goals>
+                  <configuration>
+                      <createDependencyReducedPom>false</createDependencyReducedPom>
+                      <transformers>
+                          <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                              <mainClass>com.lmu.SlitherThink.App</mainClass>
+                          </transformer>
+                      </transformers>
+                  </configuration>
+              </execution>
+          </executions>
+        </plugin>
+    </plugins>
   </build>
 </project>
