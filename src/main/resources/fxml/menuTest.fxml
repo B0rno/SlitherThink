@@ -9,45 +9,47 @@
 
 <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <VBox alignment="CENTER" spacing="40.0" StackPane.alignment="CENTER">
+      <Button mnemonicParsing="false" text="CHANGER DE COMPTE" StackPane.alignment="TOP_RIGHT">
+         <font>
+            <Font size="20.0" />
+         </font>
+         <StackPane.margin>
+            <Insets right="30.0" top="30.0" />
+         </StackPane.margin>
+      </Button>
+
+      <VBox alignment="CENTER" spacing="20.0" StackPane.alignment="CENTER">
          <children>
-            <Label alignment="CENTER" prefHeight="85.0" prefWidth="487.0" text="SLITHERTHINK" textAlignment="CENTER" translateY="20.0">
+            <Label alignment="CENTER" text="SLITHERTHINK" textAlignment="CENTER">
                <font>
-                  <Font size="60.0" />
-               </font>
-            </Label>
-            <Button alignment="CENTER" maxHeight="40.0" maxWidth="237.0" minHeight="60.0" minWidth="200.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="237.0" text="CHANGER DE COMPTE" translateX="450.0" translateY="-50.0">
-               <font>
-                  <Font size="20.0" />
+                  <Font size="80.0" />
                </font>
                <VBox.margin>
-                  <Insets />
+                  <Insets bottom="50.0" />
                </VBox.margin>
-               <StackPane.margin>
-                  <Insets />
-               </StackPane.margin>
-            </Button>
-            <Button maxHeight="30.0" maxWidth="100.0" minHeight="60.0" minWidth="200.0" mnemonicParsing="false" prefWidth="30.0" text="JOUER" translateY="-50.0">
+            </Label>
+
+            <Button minHeight="60.0" prefWidth="300.0" mnemonicParsing="false" text="JOUER">
                <font>
                   <Font size="20.0" />
                </font>
             </Button>
-            <Button maxHeight="30.0" maxWidth="100.0" minHeight="60.0" minWidth="200.0" mnemonicParsing="false" prefWidth="30.0" text="TUTORIEL" translateY="-50.0">
+            <Button minHeight="60.0" prefWidth="300.0" mnemonicParsing="false" text="TUTORIEL">
                <font>
                   <Font size="20.0" />
                </font>
             </Button>
-            <Button maxHeight="30.0" maxWidth="100.0" minHeight="60.0" minWidth="200.0" mnemonicParsing="false" prefWidth="30.0" text="LEADERBOARDS" translateY="-50.0">
+            <Button minHeight="60.0" prefWidth="300.0" mnemonicParsing="false" text="LEADERBOARDS">
                <font>
                   <Font size="20.0" />
                </font>
             </Button>
-            <Button maxHeight="30.0" maxWidth="100.0" minHeight="60.0" minWidth="200.0" mnemonicParsing="false" prefWidth="30.0" text="OPTIONS" translateY="-50.0">
+            <Button minHeight="60.0" prefWidth="300.0" mnemonicParsing="false" text="OPTIONS">
                <font>
                   <Font size="20.0" />
                </font>
             </Button>
-            <Button maxHeight="30.0" maxWidth="100.0" minHeight="60.0" minWidth="200.0" mnemonicParsing="false" prefWidth="30.0" text="QUITTER" translateY="-50.0">
+            <Button minHeight="60.0" prefWidth="300.0" mnemonicParsing="false" text="QUITTER">
                <font>
                   <Font size="20.0" />
                </font>
