@@ -13,8 +13,8 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <maven.compiler.release>17</maven.compiler.release> <!-- à adapter-->
-    <javafx.version>23.0.1</javafx.version> <!--peut-être à bouger-->
+    <maven.compiler.release>21</maven.compiler.release> <!-- à adapter-->
+    <javafx.version>21</javafx.version> <!--peut-être à bouger-->
   </properties>
 
   <dependencyManagement>
