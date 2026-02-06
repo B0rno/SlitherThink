@@ -8,14 +8,14 @@ public enum Trait {
             case VIDE -> PLEIN;
             case PLEIN -> CROIX;
             case CROIX -> VIDE;
-        }
+        };
     }
 
     public String toString(){
         return switch(this){
             case VIDE -> " ?  ";
-            case PLEIN -> '|?--';
-            case CROIX -> "*?**";
-        }
+            case PLEIN -> "┃?━";
+            case CROIX -> "*?*";
+        };
     }
 }
