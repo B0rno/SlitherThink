@@ -26,25 +26,25 @@
                      </VBox.margin>
                   </Label>
 
-                  <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="250.0" text="Partie suivante">
+                  <Button onAction="#partieSuivante" mnemonicParsing="false" prefHeight="50.0" prefWidth="250.0" text="Partie suivante">
                      <font>
                         <Font size="20.0" />
                      </font>
                   </Button>
                   
-                  <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="250.0" text="Recommencer">
+                  <Button onAction="#recommencer" mnemonicParsing="false" prefHeight="50.0" prefWidth="250.0" text="Recommencer">
                      <font>
                         <Font size="20.0" />
                      </font>
                   </Button>
                   
-                  <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="250.0" text="Choix du niveau">
+                  <Button "#choixPartieAventure" mnemonicParsing="false" prefHeight="50.0" prefWidth="250.0" text="Choix du niveau">
                      <font>
                         <Font size="20.0" />
                      </font>
                   </Button>
                   
-                  <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="250.0" text="Menu Principal">
+                  <Button onAction="#menu" mnemonicParsing="false" prefHeight="50.0" prefWidth="250.0" text="Menu Principal">
                      <font>
                         <Font size="20.0" />
                      </font>

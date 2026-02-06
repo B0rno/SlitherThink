@@ -1,4 +1,10 @@
 /home/ilann/Documents/SlitherThink/src/main/java/com/lmu/SlitherThink/App.java
 /home/ilann/Documents/SlitherThink/src/main/java/com/lmu/SlitherThink/Main.java
-/home/ilann/Documents/SlitherThink/src/main/java/com/lmu/SlitherThink/boutonsAction/ControlMenu.java
-/home/ilann/Documents/SlitherThink/src/main/java/com/lmu/SlitherThink/boutonsAction/changementFenetre.java
+/home/ilann/Documents/SlitherThink/src/main/java/com/lmu/SlitherThink/boutonsAction/ChangementFenetre.java
+/home/ilann/Documents/SlitherThink/src/main/java/com/lmu/SlitherThink/boutonsAction/ChoixDifficulte.java
+/home/ilann/Documents/SlitherThink/src/main/java/com/lmu/SlitherThink/boutonsAction/ChoixMode.java
+/home/ilann/Documents/SlitherThink/src/main/java/com/lmu/SlitherThink/boutonsAction/ChoixPartieAventure.java
+/home/ilann/Documents/SlitherThink/src/main/java/com/lmu/SlitherThink/boutonsAction/FinPartie.java
+/home/ilann/Documents/SlitherThink/src/main/java/com/lmu/SlitherThink/boutonsAction/Leaderboards.java
+/home/ilann/Documents/SlitherThink/src/main/java/com/lmu/SlitherThink/boutonsAction/MenuAccueil.java
+/home/ilann/Documents/SlitherThink/src/main/java/com/lmu/SlitherThink/boutonsAction/Pseudo.java
