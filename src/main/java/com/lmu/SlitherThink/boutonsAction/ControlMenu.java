@@ -1,17 +1,31 @@
 package com.lmu.SlitherThink.boutonsAction;
 
+
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+
+import java.util.ResourceBundle;
+
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
+import javafx.scene.control.TextField;
+import javafx.fxml.Initializable;
+import java.net.URL;
 
 // On hérite de changementFenetre pour accéder à switchScene
-public class ControlMenu extends changementFenetre {
+public class ControlMenu extends changementFenetre implements Initializable {
+
+
+    //boutons de la page pseudo.fxml
+    @FXML
+    private Button btnConfirmer;
+    @FXML
+    private TextField txtPseudo;
 
 
     //boutons de la page menuTest.fxml
     @FXML
-    private Button btnChangerCompte; //impossible de cliquer dessus, à fix
+    private Button btnChangerCompte; 
     @FXML
     private Button btnJouer;
     @FXML
@@ -48,10 +62,22 @@ public class ControlMenu extends changementFenetre {
     //actions des boutons
 
 
+
+    //actions des boutons de la page pseudo.fxml
+    @FXML
+    private void confirmer(ActionEvent event) {
+        String pseudo = txtPseudo.getText();
+        if (!pseudo.isEmpty()) {
+            System.out.println("Pseudo : " + pseudo);
+            switchScene(btnConfirmer, "/fxml/menuAccueil.fxml");
+        }
+    }
+
     //actions des boutons de la page menuTest.fxml
     @FXML
     private void changerCompte(ActionEvent event) {
-        System.out.println("Changer de compte");
+        switchScene(btnJouer, "/fxml/pseudo.fxml");
+
     }
     @FXML
     private void jouer(ActionEvent event) {
@@ -80,12 +106,11 @@ public class ControlMenu extends changementFenetre {
     //actions des boutons de la page choixMode.fxml
     @FXML
     private void retourMenu(ActionEvent event) {
-        // Utilisation de la méthode héritée pour revenir au menu principal
         switchScene(btnRetourMenu, "/fxml/menuTest.fxml");
     }
     @FXML
     private void aventure(ActionEvent event) {
-        System.out.println("Mode Aventure");    
+        switchScene(btnRetourMenu, "/fxml/choixPartie.fxml");
     }
     @FXML
     private void libre(ActionEvent event) {
@@ -109,7 +134,20 @@ public class ControlMenu extends changementFenetre {
     }
     @FXML
     private void retourChoix(ActionEvent event) {
-        switchScene(btnRetourChoix, "/fxml/choixMode.fxml");
+        Button boutonClique = (Button) event.getSource(); 
+        switchScene(boutonClique, "/fxml/choixMode.fxml");
+    }    
+
+    //page pseudo
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        if (txtPseudo != null) {
+            //limite le nombre de caractères à 12 
+            txtPseudo.textProperty().addListener((observable, oldValue, newValue) -> {
+                if (newValue != null && newValue.length() > 12) {
+                    txtPseudo.setText(oldValue);
+                }
+            });   
+        }
     }
-    
 }

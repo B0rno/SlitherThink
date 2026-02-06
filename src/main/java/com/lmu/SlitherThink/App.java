@@ -10,7 +10,7 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(App.class.getResource("/fxml/menuTest.fxml")); 
+        Parent root = FXMLLoader.load(App.class.getResource("/fxml/pseudo.fxml")); 
 
         Scene scene = new Scene(root);
         stage.setTitle("SlitherThink");
