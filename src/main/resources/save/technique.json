@@ -1,89 +1,94 @@
 
 {
-  "langage": "Francais",
-  "contenu": [
+  "stockage_langague" : [
     {
-      "nv": "basique",
-      "tips": [
-        {
-          "name": "Contraintes sur 3",
-          "description": "Parce que 3 est le plus grand indice dans Slitherlink nécessitant des lignes autour de trois de ses côtés, il arrive souvent qu’une contrainte voisine aide à déterminer ce que certaines de ces lignes devraient être. Dans cet exemple, nous avons un 3 sur le bord inférieur du puzzle, contraint à droite par un X. Similaire à la situation des coins des techniques de départ, les lignes rouges indiquent les chemins communs à toutes les solutions possibles, et qui doivent donc faire partie de la boucle."
-        },
-        {
-          "name": "Boucle atteignant un 3",
-          "description": "Dans cet exemple, la partie supérieure de la boucle atteint le coin d’un 3 avec la possibilité de continuer dans trois directions : à gauche, en bas et à droite. Cependant, la boucle peut continuer autour du 3 de deux manières possibles. Les lignes rouges indiquent des chemins communs aux deux solutions possibles, et qui doivent donc faire partie de la boucle. Puisque la boucle doit continuer autour du 3, elle ne peut pas se ramifier vers la gauche et il faut donc ajouter X pour montrer que ce lien est exclu."
-        },
-        {
-          "name": "Boucle atteignant un 1",
-          "description": "Parfois, la boucle atteint un 1 de telle sorte qu’elle est obligée de continuer sur l’un de ses côtés. Dans cet exemple, on voit la boucle atteindre 1 sur le bord inférieur du puzzle. En conséquence, la boucle peut continuer soit vers le haut, soit vers la droite. Cela signifie que les liens à droite et en haut du 1 sont exclus, comme le montrent les X rouges."
-        },
-        {
-          "name": "Contraintes sur un 2",
-          "description": "Certaines des situations les plus intéressantes dans Slitherlink se produisent lorsque la boucle tourne autour d’un 2. En examinant attentivement cet exemple, on peut voir qu’il n’y a que deux façons dont la boucle peut contourner le 2. Cependant, les deux solutions relieront toujours les deux points entourés en rouge. Cela signifie qu’il n’y a qu’une seule façon dont la boucle peut continuer, comme indiqué par la ligne rouge."
-        },
-        {
-          "name": "Éviter une boucle séparée",
-          "description": "La règle de Slitherlink dit qu’une seule boucle peut être formée. Cela signifie que nous ne devons jamais refermer de petites boucles dans le puzzle. Dans cet exemple, nous avons trois façons de continuer la boucle dans la partie inférieure du puzzle : à gauche, vers le haut et vers la droite. Cependant, si nous faisons une ligne vers la gauche, une boucle séparée sera formée, ce qui n’est pas autorisé. Par conséquent, ce lien est exclu par un X."
-        }
-      ]
-    },
-    {
-      "nv": "debutant",
-      "tips": [
-        {
-          "name": "Aucune ligne autour de 0",
-          "description": "Lors de la résolution d’énigmes Slitherlink, il est tout aussi important d’éliminer les liens où les lignes ne sont PAS autorisées. La meilleure façon de faire cela est de les marquer avec un X. Regardons le 0 au centre de cet exemple. Le 0 signifie qu’il n’est entouré d’aucune ligne, donc on peut placer quatre X autour pour montrer que les quatre liens sont exclus. Cet exemple montre également un 0 dans un coin et un 0 sur un côté. Dans les deux cas, deux X supplémentaires sont marqués pour indiquer que les lignes ne sont pas autorisées car elles ne peuvent pas être poursuivies."
-        },
-        {
-          "name": "Adjacents 0 et 3",
-          "description": "Dans cet exemple, il y a un X au-dessus du 3, donc il n’y a qu’une seule façon de contourner le 3 : à gauche, en bas et à droite comme montré ci-dessous. Nous pouvons maintenant prolonger la boucle avec deux lignes supplémentaires, une à droite et une à gauche, car il n’y a qu’une seule façon de continuer dans chaque direction. Enfin, on peut marquer quatre X à côté des coins car avoir des lignes à ces endroits crée des branches (ou des croisements), qui ne sont pas autorisés selon les règles de Slitherlink."
-        },
-        {
-          "name": "Diagonale 0 et 3",
-          "description": "La combinaison de 0 et 3 crée également une situation technique de départ particulière lorsqu’ils sont situés en diagonale l’un par rapport à l’autre. Dans cet exemple, les lignes grises montrent les deux seules solutions possibles. Toute autre façon mènerait à un conflit plus tard. Puisque deux lignes sont communes aux deux possibilités, nous savons qu’elles doivent faire partie de la boucle de la solution du puzzle."
-        },
-        {
-          "name": "Deux 3 adjacents",
-          "description": "Il n’existe que deux solutions pour les 3 adjacents, comme montré par les lignes grises dans cet exemple. Toute autre façon de tracer les lignes mènera rapidement à un conflit. Puisque trois des lignes rouges sont communes aux deux solutions, nous savons qu’elles doivent faire partie de la boucle. Nous constatons aussi que, quelle que soit la solution que nous obtenons, la boucle doit toujours se plier entre les 3. Cela signifie que deux X peuvent également être marqués. Cette technique fonctionne de la même manière pour un nombre quelconque de 3 adjacents."
-        },
-        {
-          "name": "Deux 3 en diagonale",
-          "description": "Il existe plusieurs façons de contourner deux 3 diagonaux, dont l’une est indiquée par les lignes grises ci-dessous. Cependant, il y a quatre lignes indiquées en rouge communes à toutes les solutions et doivent donc faire partie de la boucle. Pour éviter les croisements et les ramifications, quatre X sont également marqués. Exclure ces liens sera essentiel plus tard pour la progression de l’énigme."
-        },
-        {
-          "name": "N’importe quel numéro dans un coin",
-          "description": "N’importe quel numéro dans un coin fournit toujours des points de départ immédiats. Le 0 est simple et a été décrit dans la technique de départ 1. Le 1 nécessite de placer deux X dans le coin car il n’est pas possible de placer une seule ligne dans cette zone. Le 2 a deux solutions, qui relient toutes deux les points entourés en rouge, donc les deux lignes rouges doivent faire partie de la boucle. Enfin, il n’y a que deux façons de contourner les 3 et les lignes rouges indiquent quelles lignes sont communes aux deux solutions."
-        }
-      ]
-    },
-    {
-      "nv": "confirme",
-      "tips": [
-        {
-          "name": "Technique avancée 1 ",
-          "description": "Si la boucle dans le coin inférieur gauche est poursuivie vers le haut, comme montré dans le schéma de gauche, les étapes suivantes créeront rapidement un conflit de boucle fermée. Par conséquent, la boucle ne peut pas être poursuivie vers le haut comme indiqué par le X."
-        },
-        {
-          "name": "Technique avancée 2",
-          "description": "Si nous marquons un X à côté du 3 dans le diagramme de gauche, nous devrons alors ajouter trois lignes autour, comme montré dans le diagramme central, ce qui crée un conflit avec le 3 dans le coin supérieur droit. Il devrait donc y avoir une droite au lieu du X comme montré dans le diagramme de droite."
-        },
-        {
-          "name": "Technique avancée 3",
-          "description": "Si la boucle dans le coin inférieur droit est poursuivie vers le haut comme montré dans le diagramme de gauche, nous serons forcés de créer une petite boucle comme montré dans le diagramme central. Par conséquent, la boucle ne peut pas continuer vers le haut et un X devrait être marqué X à la place."
-        },
-        {
-          "name": "Technique avancée 4",
-          "description": "Les deux liens rouges dans le diagramme de gauche montrent comment la boucle contourne les 2 en haut à droite. Nous ne savons pas si la boucle va vers l’intérieur vers le centre ou vers l’extérieur jusqu’au coin du puzzle, mais nous savons que la boucle doit se connecter aux points avec les petits cercles rouges. Cela signifie que les deux lignes rouges montrées dans le schéma de droite font partie de la solution."
-        },
-        {
-          "name": "Technique avancée 5",
-          "description": "Si nous formons une ligne sous le 1 dans le diagramme de gauche, nous devrons alors ajouter trois X de chaque côté comme montré dans le diagramme central. Cela crée cependant un conflit avec le 3 dans le coin supérieur gauche. Il devrait donc y avoir un X sous le 1 au lieu d’une droite comme montré dans le diagramme de droite."
-        },
-        {
-          "name": "Technique avancée 6",
-          "description": "Si nous marquons le X en rouge dans le diagramme de gauche, nous créerons un conflit autour du 1 en haut à droite. Quelle que soit la façon dont on fait une ligne à côté de la 1, il faudra en faire une deuxième aussi. Il devrait donc y avoir une droite au lieu du X comme montré dans le diagramme de droite."
-        }
-      ]
+    "langage": "Francais",
+    "contenu": [
+      {
+        "nv": "basique",
+        "tips": [
+          {
+            "name": "Contraintes sur 3",
+            "description": "Parce que 3 est le plus grand indice dans Slitherlink nécessitant des lignes autour de trois de ses côtés, il arrive souvent qu’une contrainte voisine aide à déterminer ce que certaines de ces lignes devraient être. Dans cet exemple, nous avons un 3 sur le bord inférieur du puzzle, contraint à droite par un X. Similaire à la situation des coins des techniques de départ, les lignes rouges indiquent les chemins communs à toutes les solutions possibles, et qui doivent donc faire partie de la boucle."
+          },
+          {
+            "name": "Boucle atteignant un 3",
+            "description": "Dans cet exemple, la partie supérieure de la boucle atteint le coin d’un 3 avec la possibilité de continuer dans trois directions : à gauche, en bas et à droite. Cependant, la boucle peut continuer autour du 3 de deux manières possibles. Les lignes rouges indiquent des chemins communs aux deux solutions possibles, et qui doivent donc faire partie de la boucle. Puisque la boucle doit continuer autour du 3, elle ne peut pas se ramifier vers la gauche et il faut donc ajouter X pour montrer que ce lien est exclu."
+          },
+          {
+            "name": "Boucle atteignant un 1",
+            "description": "Parfois, la boucle atteint un 1 de telle sorte qu’elle est obligée de continuer sur l’un de ses côtés. Dans cet exemple, on voit la boucle atteindre 1 sur le bord inférieur du puzzle. En conséquence, la boucle peut continuer soit vers le haut, soit vers la droite. Cela signifie que les liens à droite et en haut du 1 sont exclus, comme le montrent les X rouges."
+          },
+          {
+            "name": "Contraintes sur un 2",
+            "description": "Certaines des situations les plus intéressantes dans Slitherlink se produisent lorsque la boucle tourne autour d’un 2. En examinant attentivement cet exemple, on peut voir qu’il n’y a que deux façons dont la boucle peut contourner le 2. Cependant, les deux solutions relieront toujours les deux points entourés en rouge. Cela signifie qu’il n’y a qu’une seule façon dont la boucle peut continuer, comme indiqué par la ligne rouge."
+          },
+          {
+            "name": "Éviter une boucle séparée",
+            "description": "La règle de Slitherlink dit qu’une seule boucle peut être formée. Cela signifie que nous ne devons jamais refermer de petites boucles dans le puzzle. Dans cet exemple, nous avons trois façons de continuer la boucle dans la partie inférieure du puzzle : à gauche, vers le haut et vers la droite. Cependant, si nous faisons une ligne vers la gauche, une boucle séparée sera formée, ce qui n’est pas autorisé. Par conséquent, ce lien est exclu par un X."
+          }
+        ]
+      },
+      {
+        "nv": "debutant",
+        "tips": [
+          {
+            "name": "Aucune ligne autour de 0",
+            "description": "Lors de la résolution d’énigmes Slitherlink, il est tout aussi important d’éliminer les liens où les lignes ne sont PAS autorisées. La meilleure façon de faire cela est de les marquer avec un X. Regardons le 0 au centre de cet exemple. Le 0 signifie qu’il n’est entouré d’aucune ligne, donc on peut placer quatre X autour pour montrer que les quatre liens sont exclus. Cet exemple montre également un 0 dans un coin et un 0 sur un côté. Dans les deux cas, deux X supplémentaires sont marqués pour indiquer que les lignes ne sont pas autorisées car elles ne peuvent pas être poursuivies."
+          },
+          {
+            "name": "Adjacents 0 et 3",
+            "description": "Dans cet exemple, il y a un X au-dessus du 3, donc il n’y a qu’une seule façon de contourner le 3 : à gauche, en bas et à droite comme montré ci-dessous. Nous pouvons maintenant prolonger la boucle avec deux lignes supplémentaires, une à droite et une à gauche, car il n’y a qu’une seule façon de continuer dans chaque direction. Enfin, on peut marquer quatre X à côté des coins car avoir des lignes à ces endroits crée des branches (ou des croisements), qui ne sont pas autorisés selon les règles de Slitherlink."
+          },
+          {
+            "name": "Diagonale 0 et 3",
+            "description": "La combinaison de 0 et 3 crée également une situation technique de départ particulière lorsqu’ils sont situés en diagonale l’un par rapport à l’autre. Dans cet exemple, les lignes grises montrent les deux seules solutions possibles. Toute autre façon mènerait à un conflit plus tard. Puisque deux lignes sont communes aux deux possibilités, nous savons qu’elles doivent faire partie de la boucle de la solution du puzzle."
+          },
+          {
+            "name": "Deux 3 adjacents",
+            "description": "Il n’existe que deux solutions pour les 3 adjacents, comme montré par les lignes grises dans cet exemple. Toute autre façon de tracer les lignes mènera rapidement à un conflit. Puisque trois des lignes rouges sont communes aux deux solutions, nous savons qu’elles doivent faire partie de la boucle. Nous constatons aussi que, quelle que soit la solution que nous obtenons, la boucle doit toujours se plier entre les 3. Cela signifie que deux X peuvent également être marqués. Cette technique fonctionne de la même manière pour un nombre quelconque de 3 adjacents."
+          },
+          {
+            "name": "Deux 3 en diagonale",
+            "description": "Il existe plusieurs façons de contourner deux 3 diagonaux, dont l’une est indiquée par les lignes grises ci-dessous. Cependant, il y a quatre lignes indiquées en rouge communes à toutes les solutions et doivent donc faire partie de la boucle. Pour éviter les croisements et les ramifications, quatre X sont également marqués. Exclure ces liens sera essentiel plus tard pour la progression de l’énigme."
+          },
+          {
+            "name": "N’importe quel numéro dans un coin",
+            "description": "N’importe quel numéro dans un coin fournit toujours des points de départ immédiats. Le 0 est simple et a été décrit dans la technique de départ 1. Le 1 nécessite de placer deux X dans le coin car il n’est pas possible de placer une seule ligne dans cette zone. Le 2 a deux solutions, qui relient toutes deux les points entourés en rouge, donc les deux lignes rouges doivent faire partie de la boucle. Enfin, il n’y a que deux façons de contourner les 3 et les lignes rouges indiquent quelles lignes sont communes aux deux solutions."
+          }
+        ]
+      },
+      {
+        "nv": "confirme",
+        "tips": [
+          {
+            "name": "Technique avancée 1 ",
+            "description": "Si la boucle dans le coin inférieur gauche est poursuivie vers le haut, comme montré dans le schéma de gauche, les étapes suivantes créeront rapidement un conflit de boucle fermée. Par conséquent, la boucle ne peut pas être poursuivie vers le haut comme indiqué par le X."
+          },
+          {
+            "name": "Technique avancée 2",
+            "description": "Si nous marquons un X à côté du 3 dans le diagramme de gauche, nous devrons alors ajouter trois lignes autour, comme montré dans le diagramme central, ce qui crée un conflit avec le 3 dans le coin supérieur droit. Il devrait donc y avoir une droite au lieu du X comme montré dans le diagramme de droite."
+          },
+          {
+            "name": "Technique avancée 3",
+            "description": "Si la boucle dans le coin inférieur droit est poursuivie vers le haut comme montré dans le diagramme de gauche, nous serons forcés de créer une petite boucle comme montré dans le diagramme central. Par conséquent, la boucle ne peut pas continuer vers le haut et un X devrait être marqué X à la place."
+          },
+          {
+            "name": "Technique avancée 4",
+            "description": "Les deux liens rouges dans le diagramme de gauche montrent comment la boucle contourne les 2 en haut à droite. Nous ne savons pas si la boucle va vers l’intérieur vers le centre ou vers l’extérieur jusqu’au coin du puzzle, mais nous savons que la boucle doit se connecter aux points avec les petits cercles rouges. Cela signifie que les deux lignes rouges montrées dans le schéma de droite font partie de la solution."
+          },
+          {
+            "name": "Technique avancée 5",
+            "description": "Si nous formons une ligne sous le 1 dans le diagramme de gauche, nous devrons alors ajouter trois X de chaque côté comme montré dans le diagramme central. Cela crée cependant un conflit avec le 3 dans le coin supérieur gauche. Il devrait donc y avoir un X sous le 1 au lieu d’une droite comme montré dans le diagramme de droite."
+          },
+          {
+            "name": "Technique avancée 6",
+            "description": "Si nous marquons le X en rouge dans le diagramme de gauche, nous créerons un conflit autour du 1 en haut à droite. Quelle que soit la façon dont on fait une ligne à côté de la 1, il faudra en faire une deuxième aussi. Il devrait donc y avoir une droite au lieu du X comme montré dans le diagramme de droite."
+          }
+        ]
+      }
+    ]
     }
   ]
+  
 }

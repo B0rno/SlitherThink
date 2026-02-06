@@ -1,1 +1,8 @@
+saveTechnique.class
 com/lmu/SlitherThink/AppTest.class
+saveGlobal.class
+saveGrille.class
+saveJoeur.class
+save.class
+positionTrait.class
+positionGrille.class

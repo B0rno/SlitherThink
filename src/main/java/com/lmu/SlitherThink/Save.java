@@ -1,13 +1,17 @@
+package com.lmu.SlitherThink;
+
 import com.google.gson.Gson;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
-public class save {
+public class Save {
 	public static void main(String[] args){
         Gson gson = new Gson();
-        try (Reader reader = new FileReader("save/saveGrille/grilleJeu1.json")) {
+    try (Reader reader = new InputStreamReader(Save.class.getResourceAsStream("/save/saveGrille/grilleJeu1.json"),StandardCharsets.UTF_8)) {
             saveGrille grille = gson.fromJson(reader, saveGrille.class);
             System.out.println("Taille de la grille: " + grille.getTailleGrille());
             System.out.println("Numéro des cases:");
