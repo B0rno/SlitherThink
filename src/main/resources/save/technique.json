@@ -6,7 +6,7 @@
     "contenu": [
       {
         "nv": "basique",
-        "tips": [
+        "techniqueParsNv": [
           {
             "name": "Contraintes sur 3",
             "description": "Parce que 3 est le plus grand indice dans Slitherlink nécessitant des lignes autour de trois de ses côtés, il arrive souvent qu’une contrainte voisine aide à déterminer ce que certaines de ces lignes devraient être. Dans cet exemple, nous avons un 3 sur le bord inférieur du puzzle, contraint à droite par un X. Similaire à la situation des coins des techniques de départ, les lignes rouges indiquent les chemins communs à toutes les solutions possibles, et qui doivent donc faire partie de la boucle."
@@ -31,7 +31,7 @@
       },
       {
         "nv": "debutant",
-        "tips": [
+        "techniqueParsNv": [
           {
             "name": "Aucune ligne autour de 0",
             "description": "Lors de la résolution d’énigmes Slitherlink, il est tout aussi important d’éliminer les liens où les lignes ne sont PAS autorisées. La meilleure façon de faire cela est de les marquer avec un X. Regardons le 0 au centre de cet exemple. Le 0 signifie qu’il n’est entouré d’aucune ligne, donc on peut placer quatre X autour pour montrer que les quatre liens sont exclus. Cet exemple montre également un 0 dans un coin et un 0 sur un côté. Dans les deux cas, deux X supplémentaires sont marqués pour indiquer que les lignes ne sont pas autorisées car elles ne peuvent pas être poursuivies."
@@ -60,7 +60,7 @@
       },
       {
         "nv": "confirme",
-        "tips": [
+        "techniqueParsNv": [
           {
             "name": "Technique avancée 1 ",
             "description": "Si la boucle dans le coin inférieur gauche est poursuivie vers le haut, comme montré dans le schéma de gauche, les étapes suivantes créeront rapidement un conflit de boucle fermée. Par conséquent, la boucle ne peut pas être poursuivie vers le haut comme indiqué par le X."
