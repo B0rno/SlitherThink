@@ -1,9 +1,9 @@
 package com.lmu.SlitherThink.boutonsAction;
 
 
-import javafx.fxml.FXML;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 
 public class MenuAccueil extends ChangementFenetre{
     @FXML
@@ -36,5 +36,10 @@ public class MenuAccueil extends ChangementFenetre{
     private void quitter(ActionEvent event) {
         Platform.exit(); 
         System.exit(0); 
+    }
+    @FXML
+    private void pause(ActionEvent event) {
+        System.out.println("Pause");
+        handleSceneChange(event, "/fxml/pause.fxml");
     }
 }
