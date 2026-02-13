@@ -31,7 +31,7 @@ public class Case {
      * @return un tableau de 4 traits tous initialisés à VIDE
      */
     private static Trait[] getEtatInitialCase(){
-        return new Trait[]{Trait.VIDE,Trait.VIDE,Trait.VIDE,Trait.VIDE};
+        return new Trait[]{new Trait(),new Trait(),new Trait(),new Trait()};
     }
 
     /**
@@ -66,6 +66,15 @@ public class Case {
     }
 
     /**
+     * Définit les traits partagés pour cette case.
+     * 
+     * @param traits un tableau de 4 traits (haut, gauche, droite, bas)
+     */
+    public void setTraits(Trait[] traits) {
+        this.etatJeu = traits;
+    }
+
+    /**
      * Récupère la représentation textuelle d'un trait spécifique.
      * 
      * Extrait la partie pertinente de la représentation du trait selon la direction :
@@ -94,7 +103,7 @@ public class Case {
      * @param direction l'index du trait à modifier (0=haut, 1=gauche, 2=droite, 3=bas)
      */
     public void updateTrait(int direction){
-        this.etatJeu[direction] = this.etatJeu[direction].etatSuivant();
+        this.etatJeu[direction].etatSuivant();
     }
 
     /**
@@ -104,8 +113,8 @@ public class Case {
      * @return une chaîne représentant visuellement la case
      */
     public String toString(){
-        return " " + getStringOfTrait(0) + " \n"
-            + getStringOfTrait(1) + this.numero_case + getStringOfTrait(2) + "\n"
+        return " " + getStringOfTrait(0) + " "
+            + getStringOfTrait(1) + this.numero_case + getStringOfTrait(2) + " "
             + " " + getStringOfTrait(3) + " ";
     }
 }
