@@ -41,7 +41,7 @@ public enum ValeurTrait {
      */
     public String toString(){
         return switch(this){
-            case VIDE -> " ?  ";
+            case VIDE -> " ? ";
             case PLEIN -> "┃?━";
             case CROIX -> "*?*";
         };

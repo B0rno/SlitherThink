@@ -47,6 +47,15 @@ public class Case {
     }
 
     /**
+     * Retourne le numéro unique de cette case.
+     * 
+     * @return le numéro de la case
+     */
+    public int getNumero() {
+        return numero_case;
+    }
+
+    /**
      * Définit l'état de la solution pour cette case.
      * 
      * @param solutionCase un tableau de 4 traits représentant la solution attendue

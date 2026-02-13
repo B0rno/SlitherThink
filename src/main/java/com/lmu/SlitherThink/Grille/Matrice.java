@@ -123,19 +123,80 @@ public class Matrice {
 
     /**
      * Retourne une représentation textuelle de la matrice.
-     * Affiche l'état actuel de toutes les cases.
+     * Affiche l'état actuel de toutes les cases avec les traits correctement positionnés.
      * 
      * @return une chaîne représentant visuellement la matrice
      */
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
+        
         for (int i = 0; i < hauteur; i++) {
+            // Ligne des traits horizontaux du haut
             for (int j = 0; j < largeur; j++) {
-                sb.append(grille[i][j]).append("  ");
+                sb.append(" ");
+                sb.append(getStringOfTraitHorizontal(i, j, 0)); // trait haut
             }
             sb.append("\n");
+            
+            // Ligne des cases avec traits verticaux
+            for (int j = 0; j < largeur; j++) {
+                sb.append(getStringOfTraitVertical(i, j, 1));   // trait gauche
+                sb.append(String.format("[%d]", grille[i][j].getNumero()));
+            }
+            sb.append(getStringOfTraitVertical(i,largeur-1,2)); // trait droit de la dernière case
+            sb.append("\n");
         }
+        
+        // Dernière ligne des traits horizontaux du bas
+        for (int j = 0; j < largeur; j++) {
+            sb.append(" ");
+            sb.append(getStringOfTraitHorizontal(hauteur - 1, j, 3)); // trait bas
+        }
+        sb.append("\n");
+        
         return sb.toString();
+    }
+
+    /**
+     * Récupère la représentation textuelle d'un trait horizontal.
+     * 
+     * @param ligne l'indice de ligne de la case
+     * @param colonne l'indice de colonne de la case
+     * @param direction 0 pour haut, 3 pour bas
+     * @return une chaîne représentant le trait horizontal
+     */
+    private String getStringOfTraitHorizontal(int ligne, int colonne, int direction) {
+        Trait trait;
+        if (direction == 0) {
+            trait = traitsHorizontaux[ligne][colonne];
+        } else {
+            trait = traitsHorizontaux[ligne + 1][colonne];
+        }
+        
+        String representation = trait.toString();
+        String[] parts = representation.split("\\?");
+        return parts[1] + parts[1] + parts[1];
+    }
+
+    /**
+     * Récupère la représentation textuelle d'un trait vertical.
+     * 
+     * @param ligne l'indice de ligne de la case
+     * @param colonne l'indice de colonne de la case
+     * @param direction 1 pour gauche, 2 pour droite
+     * @return une chaîne représentant le trait vertical
+     */
+    private String getStringOfTraitVertical(int ligne, int colonne, int direction) {
+        Trait trait;
+        if (direction == 1) {
+            trait = traitsVerticaux[ligne][colonne];
+        } else {
+            trait = traitsVerticaux[ligne][colonne + 1];
+        }
+        
+        String representation = trait.toString();
+        String[] parts = representation.split("\\?");
+        return parts[0];
     }
 }
