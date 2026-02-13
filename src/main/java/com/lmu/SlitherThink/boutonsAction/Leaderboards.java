@@ -9,6 +9,6 @@ public class Leaderboards extends ChangementFenetre {
 
     @FXML
     private void retour(ActionEvent event) {
-        handleSceneChange(event, "/fxml/menuAccueil.fxml");
+        changerFenetre(event, "menuAccueil");
     }
 }

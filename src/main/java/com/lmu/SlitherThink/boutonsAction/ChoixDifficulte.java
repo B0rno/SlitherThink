@@ -21,6 +21,6 @@ public class ChoixDifficulte extends ChangementFenetre {
 
     @FXML
     private void retour(ActionEvent event) {
-        handleSceneChange(event, "/fxml/choixMode.fxml");
+        changerFenetre(event, "choixMode");
     }
 }

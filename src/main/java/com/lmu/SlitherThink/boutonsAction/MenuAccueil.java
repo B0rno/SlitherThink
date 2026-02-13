@@ -8,12 +8,12 @@ import javafx.fxml.FXML;
 public class MenuAccueil extends ChangementFenetre{
     @FXML
     private void changerCompte(ActionEvent event) {
-        handleSceneChange(event, "/fxml/pseudo.fxml");
+        changerFenetre(event, "pseudo");
     }
 
     @FXML 
     private void jouer(ActionEvent event) {
-        handleSceneChange(event, "/fxml/choixMode.fxml");
+        changerFenetre(event, "choixMode");
     }
 
     @FXML
@@ -23,8 +23,7 @@ public class MenuAccueil extends ChangementFenetre{
 
     @FXML
     private void leaderboards(ActionEvent event) {
-        System.out.println("Leaderboards");
-        handleSceneChange(event, "/fxml/leaderboards.fxml");
+        changerFenetre(event, "leaderboards");  
     }
 
     @FXML
@@ -40,6 +39,6 @@ public class MenuAccueil extends ChangementFenetre{
     @FXML
     private void pause(ActionEvent event) {
         System.out.println("Pause");
-        handleSceneChange(event, "/fxml/pause.fxml");
+        changerFenetre(event, "pause");
     }
 }

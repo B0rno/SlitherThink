@@ -28,13 +28,13 @@
                </font>
             </Label>
 
-            <TextField maxWidth="350.0" promptText="Pseudo...">
+            <TextField fx:id="txtPseudo" maxWidth="350.0" promptText="Pseudo...">
                <font>
                   <Font size="20.0" />
                </font>
             </TextField>
 
-            <Button alignment="CENTER" defaultButton="true" mnemonicParsing="false" onAction="#confirmer" prefHeight="50.0" prefWidth="200.0" text="CONFIRMER">
+            <Button fx:id="btnConfirmer" alignment="CENTER" defaultButton="true" mnemonicParsing="false" onAction="#confirmer" prefHeight="50.0" prefWidth="200.0" text="CONFIRMER">
                <font>
                   <Font size="21.0" />
                </font>

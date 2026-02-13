@@ -7,16 +7,18 @@ public class ChoixMode extends ChangementFenetre {
 
     @FXML
     private void aventure(ActionEvent event) {
-        handleSceneChange(event, "/fxml/choixPartieAventure.fxml");
+        changerFenetre(event, "choixPartieAventure");
     }
 
     @FXML
     private void libre(ActionEvent event) {
-        handleSceneChange(event, "/fxml/choixDifficulte.fxml");
+        changerFenetre(event, "choixDifficulte");
+
     }
 
     @FXML
     private void retour(ActionEvent event) {
-        handleSceneChange(event, "/fxml/menuAccueil.fxml");
+        changerFenetre(event, "menuAccueil");
+
     }
 }

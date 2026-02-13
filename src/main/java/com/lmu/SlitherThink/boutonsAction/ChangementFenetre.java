@@ -1,35 +1,41 @@
 package com.lmu.SlitherThink.boutonsAction;
 
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.stage.Stage;
 import javafx.event.ActionEvent;
-import java.io.IOException;
-import java.net.URL;
+
+import com.lmu.SlitherThink.GestionnaireVues;
 
 public abstract class ChangementFenetre {
 
-    // Centralise la logique de récupération du bouton depuis l'événement
-    protected void handleSceneChange(ActionEvent event, String fxmlPath) {
-        Button btn = (Button) event.getSource();
-        switchScene(btn, fxmlPath);
-    }
-
-    protected void switchScene(Button sourceButton, String fxmlPath) {
-        try {
-            URL location = getClass().getResource(fxmlPath);
-            if (location == null) {
-                System.err.println("ERREUR : FXML introuvable -> " + fxmlPath);
-                return;
-            }
-            Parent root = FXMLLoader.load(location);
-            Stage stage = (Stage) sourceButton.getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
+    protected void changerVueFinPartie(Button sourceButton, int aides, int aidesMax, String temps, String tempsMax, boolean succes) {
+        Parent root = GestionnaireVues.getView("finPartieAventure");
+        FinPartieAventure controller = (FinPartieAventure) GestionnaireVues.getController("finPartieAventure");
+        if (root != null && controller != null) {
+            controller.mettreDonnees(aides, aidesMax, temps, tempsMax, succes);
+    
+            sourceButton.getScene().setRoot(root);
+        } else {
+            System.err.println("La vue finPartie n'est pas prête !");
         }
     }
+
+    protected void changerVue(Button sourceButton, String viewName) {
+        Parent root = GestionnaireVues.getView(viewName);
+        if (root != null) {
+    
+            Scene scene = sourceButton.getScene();
+
+            scene.setRoot(root);
+        } else {
+            System.err.println("La vue " + viewName + " n'a pas été préchauffée !");
+        }
+    }
+
+    protected void changerFenetre(ActionEvent event, String viewName) {
+        Button btn = (Button) event.getSource();
+        changerVue(btn, viewName);
+    }
+    
 }
