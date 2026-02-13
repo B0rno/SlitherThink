@@ -7,26 +7,163 @@ import java.io.Reader;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonPrimitive;
+import com.google.gson.JsonSerializationContext;
+import com.google.gson.JsonSerializer;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
+import java.lang.reflect.Type;
 
 public class Save {
 	public static void main(String[] args){
         loadSave save = new loadSave("");
-        System.out.println(save.toString());
+
+        saveManger saveManager = new saveManger(save);
+        saveManager.separerLesSauvegardes();
+        saveManager.getDossiersJson().forEach((key, value) -> {
+            System.out.println("Clé: " + key);
+            System.out.println("Valeur JSON: " + value);
+            System.out.println("-----------------------------");
+        });
+    }
+}
+
+class saveManger{
+    private loadSave save;
+    private List<Class<?>> classesAExtraire = List.of(
+        SaveGrille.class, DetailleSavePartie.class, SaveGlobal.class, SaveTechnique.class
+    );
+    private Map< String, String> dossiersJson ;
+    saveManger(loadSave save){
+        this.save = save;
+        dossiersJson = new HashMap<>();
+    }
+
+    public Map<String, String> getDossiersJson() {
+        return dossiersJson;
+    }
+
+    public void separerLesSauvegardes() {
+        Gson gsonBasique = new GsonBuilder()
+            .setPrettyPrinting()
+            .create();
+        JsonSerializer<Object> separateur = new JsonSerializer<Object>() {
+            @Override
+            public JsonElement serialize(Object src, Type typeOfSrc, JsonSerializationContext context) {
+                String nomClasse;
+                if (src instanceof DetailleSavePartie) {
+                    DetailleSavePartie d = (DetailleSavePartie) src;
+                    String customName = d.getNameClass();
+                    nomClasse = (customName != null && !customName.isEmpty())
+                            ? customName
+                            : d.getClass().getSimpleName();
+                } else {
+                    nomClasse = src.getClass().getSimpleName();
+                }
+                String jsonExtrait = gsonBasique.toJson(src);
+                dossiersJson.put(nomClasse, jsonExtrait);
+
+                return new JsonPrimitive("fichier:" + nomClasse);
+            }
+        };
+
+        // Pré-popule les extraits pour les références
+        dossiersJson.put("SaveGrille", gsonBasique.toJson(save.getGrille()));
+        dossiersJson.put("SaveTechnique", gsonBasique.toJson(save.getTechnique()));
+        dossiersJson.put("SaveGlobal", gsonBasique.toJson(save.getSaveGlobal()));
+
+        // Ajoute les détails des parties (150, 151, etc.)
+        if (save.getSaveGlobal() != null) {
+            if (save.getSaveGlobal().getSauvegardeLibre() != null) {
+                for (savePartieLienJoueur sp : save.getSaveGlobal().getSauvegardeLibre()) {
+                    DetailleSavePartie det = sp.getDetailleSave();
+                    if (det != null) {
+                        dossiersJson.put(det.getNameClass() != null ? det.getNameClass() : "DetailleSavePartie", gsonBasique.toJson(det));
+                    }
+                }
+            }
+            if (save.getSaveGlobal().getSauvegardeAventure() != null) {
+                for (savePartieLienJoueur sp : save.getSaveGlobal().getSauvegardeAventure()) {
+                    DetailleSavePartie det = sp.getDetailleSave();
+                    if (det != null) {
+                        dossiersJson.put(det.getNameClass() != null ? det.getNameClass() : "DetailleSavePartie", gsonBasique.toJson(det));
+                    }
+                }
+            }
+        }
+
+        GsonBuilder gsonbuilder = new GsonBuilder().setPrettyPrinting()
+            .registerTypeAdapter(loadSave.class, new LoadSaveSerializer());
+        
+        for (Class<?> clazz : classesAExtraire) {
+            gsonbuilder.registerTypeAdapter(clazz, separateur);
+        }
+        
+        Gson gsonPrincipal = gsonbuilder.create();
+        String jsonPrincipal = gsonPrincipal.toJson(save);
+        dossiersJson.put("LoadSave", jsonPrincipal);
+    }
+
+
+
+}
+// Sérialise loadSave avec références et liste des détails
+class LoadSaveSerializer implements JsonSerializer<loadSave> {
+    @Override
+    public JsonElement serialize(loadSave src, Type typeOfSrc, JsonSerializationContext context) {
+        JsonObject obj = new JsonObject();
+        obj.addProperty("grille", "fichier:SaveGrille");
+        obj.addProperty("technique", "fichier:SaveTechnique");
+        obj.addProperty("saveGlobal", "fichier:SaveGlobal");
+
+        // Ajoute un tableau des références de détails
+        com.google.gson.JsonArray detailsRefs = new com.google.gson.JsonArray();
+        SaveGlobal sg = src.getSaveGlobal();
+        if (sg != null) {
+            java.util.function.Consumer<java.util.List<savePartieLienJoueur>> addRefs = list -> {
+                if (list == null) return;
+                for (savePartieLienJoueur sp : list) {
+                    DetailleSavePartie det = sp != null ? sp.getDetailleSave() : null;
+                    if (det != null) {
+                        String name = det.getNameClass();
+                        detailsRefs.add("fichier:" + (name != null ? name : "DetailleSavePartie"));
+                    }
+                }
+            };
+            addRefs.accept(sg.getSauvegardeLibre());
+            addRefs.accept(sg.getSauvegardeAventure());
+        }
+        if (detailsRefs.size() > 0) {
+            obj.add("DetailleSavePartie", detailsRefs);
+        }
+        return obj;
     }
 }
 
 class loadSave{
-    private saveGrille grille;
-    private saveTechnique technique;
+    private SaveGrille grille;
+    private SaveTechnique technique;
+    private SaveGlobal saveGlobal;
+    
     loadSave(String pathBeforeSave){
+
         Gson gson = new Gson();
         try (Reader reader = new InputStreamReader(Save.class.getResourceAsStream(pathBeforeSave + "/save/saveGrille/grilleJeu1.json"),StandardCharsets.UTF_8)) {
-            grille = gson.fromJson(reader, saveGrille.class);
+            grille = gson.fromJson(reader, SaveGrille.class);
         } catch (IOException e) {
             e.printStackTrace();
         }
         try (Reader reader = new InputStreamReader(Save.class.getResourceAsStream(pathBeforeSave +"/save/technique.json"),StandardCharsets.UTF_8)) {
-            technique = gson.fromJson(reader, saveTechnique.class);
+            technique = gson.fromJson(reader, SaveTechnique.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try (Reader reader = new InputStreamReader(Save.class.getResourceAsStream(pathBeforeSave +"/save/saveGlobal.json"),StandardCharsets.UTF_8)) {
+            saveGlobal = gson.fromJson(reader, SaveGlobal.class);
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -82,17 +219,22 @@ class loadSave{
         Gson gson = new Gson();
         String jsonGrille = gson.toJson(grille);
         String jsonTechnique = gson.toJson(technique);
+        
         System.out.println("Grille en JSON:\n" + jsonGrille);
         System.out.println("Technique en JSON:\n" + jsonTechnique);
     }
 
-    public saveGrille getGrille(){
+    public SaveGrille getGrille(){
         return grille;
     }
-    public saveTechnique getTechnique(){
+    public SaveTechnique getTechnique(){
         return technique;
     }
+    public SaveGlobal getSaveGlobal(){
+        return saveGlobal;
+    }
 
+    @Override
     public String toString(){
         this.afficherGrille();
         this.afficherTechn();
@@ -100,32 +242,63 @@ class loadSave{
         this.affichertoJson();
         return "Affichage de la grille et des techniques terminé.";
     }
-
-
-
 }
 
-class saveGlobal{
-    private List<savePartie> SauvegardeLibre;
-    private List<savePartie> SauvegardeAventure;
+class SaveGlobal{
+    private List<savePartieLienJoueur> SauvegardeLibre;
+    private List<savePartieLienJoueur> SauvegardeAventure;
 
-    public List<savePartie> getSauvegardeLibre(){
+    public List<savePartieLienJoueur> getSauvegardeLibre(){
         return SauvegardeLibre;
     }
-    public List<savePartie> getSauvegardeAventure(){
+    public List<savePartieLienJoueur> getSauvegardeAventure(){
         return SauvegardeAventure;
     }
 }
 
-class savePartie{
+class savePartieLienJoueur{
+    private static final String pathLienJoueurSave = "/save/saveJoueur/";
     private String pseudo;
     private Integer id;
-    private String pathGrille;
+    private String path;
+    private transient DetailleSavePartie detailleSave;
 
-    savePartie(String pseudo, Integer id, String pathGrille){
+    // No-arg constructor for Gson
+    savePartieLienJoueur() {}
+
+    savePartieLienJoueur(String pseudo, Integer id, String path){
         this.pseudo = pseudo;
         this.id = id;
-        this.pathGrille = pathGrille;
+        this.path = path;
+    }
+
+    public void loadDetailleSave(){
+        if (id == null) {
+            return;
+        }
+        
+        String pathSaveJoeur = pathLienJoueurSave + id + ".json";
+        Gson gson = new Gson();
+        java.io.InputStream is = Save.class.getResourceAsStream(pathSaveJoeur);
+        if (is == null) {
+            System.err.println("Ressource introuvable: " + pathSaveJoeur);
+            return;
+        }
+        try (Reader reader = new InputStreamReader(is, StandardCharsets.UTF_8)) {
+            detailleSave = gson.fromJson(reader, DetailleSavePartie.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        if (this.detailleSave != null) {
+            this.detailleSave.setNameClass(this.id != null ? this.id.toString() : null);
+        }
+    }
+
+    public DetailleSavePartie getDetailleSave(){
+        if (detailleSave == null) {
+            loadDetailleSave();
+        }
+        return detailleSave;
     }
 
     public String getPseudo(){
@@ -134,8 +307,8 @@ class savePartie{
     public Integer getId(){
         return id;
     }
-    public String getPathGrille(){
-        return pathGrille;
+    public String getPath(){
+        return path;
     }
     public void setPseudo(String pseudo){
         this.pseudo = pseudo;
@@ -143,12 +316,12 @@ class savePartie{
     public void setId(Integer id){
         this.id = id;
     }
-    public void setPathGrille(String pathGrille){
-        this.pathGrille = pathGrille;
+    public void setPath(String path){
+        this.path = path;
     }
 }
 
-class saveTechnique{
+class SaveTechnique{
     private List<languageContenue> stockage_langague;
 
     public List<languageContenue> getStockageLangague(){
@@ -192,7 +365,7 @@ class stockageTechnique{
     }
 }
 
-class saveGrille{
+class SaveGrille{
     private int taille;
     private List<positionGrille> numero_cases;
     private List<positionTrait> liste_position_trait;
@@ -229,10 +402,11 @@ class saveGrille{
         return valeur;
     }
 }
- class detailleSavePartie{
+ class DetailleSavePartie{
     private List<positionTrait> etatgrille;
     private Integer Chronometre;
     private Integer nbAides;
+    private String nameClass = null ;
 
     public List<positionTrait> getEtatGrille(){
         return etatgrille;
@@ -242,6 +416,12 @@ class saveGrille{
     }
     public Integer getNbAides(){
         return nbAides;
+    }
+    public String getNameClass(){
+        return nameClass;
+    }
+    public void setNameClass(String nameClass){
+        this.nameClass = nameClass;
     }
 
 }
