@@ -1,0 +1,27 @@
+# Java/Maven build outputs
+/target/
+
+# IDE/editor metadata
+/.vscode/
+/.idea/
+*.iml
+/.settings/
+/.classpath
+/.project
+
+# Compiled classes and binaries
+*.class
+/bin/
+
+# OS files
+.DS_Store
+
+# Logs and temp
+*.log
+/tmp/
+
+# Maven wrapper binary
+/.mvn/wrapper/maven-wrapper.jar
+
+# Windows ADS metadata
+*:Zone.Identifier
