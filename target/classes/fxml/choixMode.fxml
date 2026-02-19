@@ -7,11 +7,11 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<StackPane fx:controller="com.lmu.SlitherThink.boutonsAction.ChoixMode" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.lmu.SlitherThink.boutonsAction.ChoixMode">
    <children>
       <VBox alignment="CENTER" spacing="40.0" StackPane.alignment="CENTER">
          <children>
-            <Label alignment="CENTER" prefHeight="85.0" prefWidth="867.0" text="Choisissez votre mode de jeu" textAlignment="CENTER" translateY="20.0">
+            <Label alignment="CENTER" prefHeight="85.0" prefWidth="867.0" text="CHOIX MODE DE JEU" textAlignment="CENTER" translateY="20.0">
                <font>
                   <Font size="60.0" />
                </font>
@@ -19,17 +19,17 @@
                   <Insets bottom="100.0" />
                </VBox.margin>
             </Label>
-            <Button onAction="#libre" maxHeight="30.0" maxWidth="100.0" minHeight="60.0" minWidth="200.0" mnemonicParsing="false" prefWidth="30.0" text="LIBRE" translateY="-50.0">
+            <Button maxHeight="30.0" maxWidth="100.0" minHeight="60.0" minWidth="200.0" mnemonicParsing="false" onAction="#libre" prefWidth="30.0" text="LIBRE" translateY="-50.0">
                <font>
                   <Font size="20.0" />
                </font>
             </Button>
-            <Button onAction="#aventure" maxHeight="30.0" maxWidth="100.0" minHeight="60.0" minWidth="200.0" mnemonicParsing="false" prefWidth="30.0" text="AVENTURE" translateY="-50.0">
+            <Button maxHeight="30.0" maxWidth="100.0" minHeight="60.0" minWidth="200.0" mnemonicParsing="false" onAction="#aventure" prefWidth="30.0" text="AVENTURE" translateY="-50.0">
                <font>
                   <Font size="20.0" />
                </font>
             </Button>
-            <Button onAction="#retour" maxHeight="30.0" maxWidth="100.0" minHeight="60.0" minWidth="200.0" mnemonicParsing="false" prefWidth="30.0" text="RETOUR" translateY="-50.0">
+            <Button maxHeight="30.0" maxWidth="100.0" minHeight="60.0" minWidth="200.0" mnemonicParsing="false" onAction="#retour" prefWidth="30.0" text="RETOUR" translateY="-50.0">
                <font>
                   <Font size="20.0" />
                </font>

@@ -19,6 +19,6 @@ public class ChoixPartieAventure extends ChangementFenetre {
         String tempsMax = "08:00";
         boolean succes = true;
 
-        changerVueFinPartie(btn, aides, aidesMax, temps, tempsMax, succes);
+        changerVueFinPartie(aides, aidesMax, temps, tempsMax, succes);
     }
 }

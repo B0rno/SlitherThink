@@ -1,11 +1,2 @@
-com\lmu\SlitherThink\boutonsAction\Pause.class
-com\lmu\SlitherThink\App.class
-com\lmu\SlitherThink\boutonsAction\ChoixMode.class
-com\lmu\SlitherThink\boutonsAction\ChangementFenetre.class
-com\lmu\SlitherThink\boutonsAction\ChoixDifficulte.class
-com\lmu\SlitherThink\boutonsAction\FinPartie.class
-com\lmu\SlitherThink\Main.class
-com\lmu\SlitherThink\boutonsAction\Pseudo.class
-com\lmu\SlitherThink\boutonsAction\Leaderboards.class
-com\lmu\SlitherThink\boutonsAction\MenuAccueil.class
-com\lmu\SlitherThink\boutonsAction\ChoixPartieAventure.class
+com/lmu/SlitherThink/GestionnaireVues.class
+com/lmu/SlitherThink/boutonsAction/FinPartieAventure.class
