@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.text.Font?>
+
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label alignment="CENTER" text="Options" textAlignment="CENTER" translateY="-250.0">
+         <font>
+            <Font size="80.0" />
+         </font>
+      </Label>
+      <CheckBox mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" text="Audio" translateX="-290.0" translateY="-100.0">
+         <font>
+            <Font size="36.0" />
+         </font>
+      </CheckBox>
+      <CheckBox mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" text="Croix Automatique" translateX="-400.0">
+         <font>
+            <Font size="36.0" />
+         </font>
+      </CheckBox>
+      <Label text="Choix de la langue" translateX="350.0" translateY="-120.0">
+         <font>
+            <Font size="23.0" />
+         </font>
+      </Label>
+      <MenuButton fx:id="languageMenuButton" mnemonicParsing="false" prefHeight="30.0" prefWidth="200.0" text="Français" translateX="350.0" translateY="-80.0">
+        <items>
+          <MenuItem mnemonicParsing="false" text="Français" />
+          <MenuItem mnemonicParsing="false" text="English" />
+        </items>
+      </MenuButton>
+      <Button maxHeight="30.0" maxWidth="100.0" minHeight="60.0" minWidth="200.0" mnemonicParsing="false" onAction="#retour" prefWidth="30.0" text="RETOUR" translateY="250.0">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Button>
+   </children>
+</StackPane>
