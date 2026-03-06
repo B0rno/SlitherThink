@@ -6,7 +6,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
-import com.lmu.SlitherThink.save.gestionDonnee.EcrirEnJson;
+import com.lmu.SlitherThink.save.gestionDonnee.EcrireEnJson;
 import com.lmu.SlitherThink.save.gestionDonnee.LoadSaveSerializer;
 import com.lmu.SlitherThink.save.gestionDonnee.savePartieLienJoueur;
 import com.lmu.SlitherThink.save.structure.DetailleSavePartie;
@@ -110,7 +110,7 @@ public class SaveManager {
 
         dossiersJson.forEach((nomFichier, contenuJson) -> {
             String cheminFichier = determinerChemin(base, nomFichier);
-            EcrirEnJson.ecrireJson(cheminFichier, contenuJson);
+            EcrireEnJson.ecrireJson(cheminFichier, contenuJson);
         });
     }
 

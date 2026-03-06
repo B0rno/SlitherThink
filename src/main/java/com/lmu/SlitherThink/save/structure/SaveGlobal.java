@@ -26,4 +26,14 @@ public class SaveGlobal {
         }
         SauvegardeAventure.add(partie);
     }
+
+    public void addSauvegardeLibre(savePartieLienJoueur partie) {
+        if (partie == null) {
+            return;
+        }
+        if (SauvegardeLibre == null) {
+            SauvegardeLibre = new ArrayList<>();
+        }
+        SauvegardeLibre.add(partie);
+    }
 }
