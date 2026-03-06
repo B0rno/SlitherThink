@@ -4,7 +4,6 @@
  * Une case est caractérisée par :
  * - Un numéro unique identifiant la case
  * - Un tableau de 4 traits (haut, gauche, droite, bas) pour l'état actuel du jeu
- * - Un tableau de 4 traits pour la solution attendue
  * 
  * Les directions des traits sont indexées comme suit :
  * - 0 : haut (top)
@@ -18,9 +17,6 @@
 public class Case {
     /** Numéro unique identifiant cette case */
     private final int numero_case;
-    
-    /** Tableau contenant l'état de la solution pour les 4 traits */
-    private Trait[] solution;
     
     /** Tableau contenant l'état actuel du jeu pour les 4 traits */
     private Trait[] etatJeu;
@@ -43,7 +39,6 @@ public class Case {
     public Case(int num){
         this.numero_case = num;
         this.etatJeu = Case.getEtatInitialCase();
-        this.solution = Case.getEtatInitialCase();
     }
 
     /**
@@ -53,25 +48,6 @@ public class Case {
      */
     public int getNumero() {
         return numero_case;
-    }
-
-    /**
-     * Définit l'état de la solution pour cette case.
-     * 
-     * @param solutionCase un tableau de 4 traits représentant la solution attendue
-     */
-    public void setSolutionTrait(int direction, ValeurTrait val){
-        this.solution[direction].setTrait(val);
-    }
-
-    public void loadSolution(Trait[] sol){
-        this.solution = sol;
-    }
-
-    public int getNbOfValidesTraits(){
-        int cpt = 0;
-        for(int i = 0; i<4; i++) if(this.estValide(i)) cpt++;
-        return cpt;
     }
 
     /**
@@ -114,14 +90,6 @@ public class Case {
         }
         return parts[0];
     }
-
-    private boolean estValide(int direction){
-    ValeurTrait etatActuel = this.etatJeu[direction].getEtat();
-    ValeurTrait etatSolution = this.solution[direction].getEtat();
-    
-    return etatActuel == etatSolution || 
-           (etatActuel == ValeurTrait.CROIX && etatSolution != ValeurTrait.PLEIN);
-}
 
     /**
      * Fait passer au trait suivant son état.

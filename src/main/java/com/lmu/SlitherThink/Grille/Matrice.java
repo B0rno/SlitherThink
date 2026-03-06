@@ -15,9 +15,7 @@
  * @version 1.0
  */
 
-
 /* TODO APPLIQUER LE DESIGN PATTERN SINGLETON ICI !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! */
-
 
 public class Matrice {
     /** Nombre de lignes de la matrice */
@@ -35,12 +33,17 @@ public class Matrice {
     /** Matrice des traits verticaux (partagés entre gauche/droite des cases) */
     private Trait[][] traitsVerticaux;
 
+    /** Matrice des traits horizontaux solution */
     private Trait[][] traitsHorizontauxSol;
 
+    /** Matrice des traits verticaux solution */
     private Trait[][] traitsVerticauxSol;
 
     /** Compteur de traits dans le bon état */
     private int cpt;
+
+    /** Booleen donnant la complétion de la grille */
+    private boolean completed;
 
     /**
      * Constructeur de la matrice.
@@ -56,6 +59,7 @@ public class Matrice {
         this.grille = new Case[hauteur][largeur];
 
         this.cpt = 0;
+        this.completed = false;
         
         // Créer les matrices de traits
         // traitsHorizontaux : (hauteur+1) x largeur
@@ -64,7 +68,6 @@ public class Matrice {
         this.traitsVerticaux = new Trait[hauteur][largeur + 1];
 
         this.traitsHorizontauxSol = new Trait[hauteur + 1][largeur];
-
         this.traitsVerticauxSol = new Trait[hauteur][largeur + 1];
         
         // Initialiser tous les traits
@@ -94,15 +97,8 @@ public class Matrice {
                 traits[1] = traitsVerticaux[i][j];              // gauche
                 traits[2] = traitsVerticaux[i][j + 1];          // droite
                 traits[3] = traitsHorizontaux[i + 1][j];        // bas
-
-                Trait[] traitsSol = new Trait[4];
-                traitsSol[0] = traitsHorizontauxSol[i][j];        // haut
-                traitsSol[1] = traitsVerticauxSol[i][j];          // gauche
-                traitsSol[2] = traitsVerticauxSol[i][j + 1];      // droite
-                traitsSol[3] = traitsHorizontauxSol[i + 1][j];    // bas
                 
                 grille[i][j].setTraits(traits);
-                grille[i][j].loadSolution(traitsSol);
             }
         }
     }
@@ -139,32 +135,88 @@ public class Matrice {
         return largeur;
     }
 
+    /**
+     * Charge la solution dans la matrice.
+     * Définit les états des traits solution pour tous les traits.
+     */
     public void loadSolution(){
-        for (int i = 0; i < hauteur; i++) {
+        for (int i = 0; i <= hauteur; i++) {
             for (int j = 0; j < largeur; j++) {
-                this.grille[i][j].setSolutionTrait(0,ValeurTrait.PLEIN);
-                this.grille[i][j].setSolutionTrait(1,ValeurTrait.VIDE);
-                this.grille[i][j].setSolutionTrait(2,ValeurTrait.VIDE);
-                this.grille[i][j].setSolutionTrait(3,ValeurTrait.VIDE);
+                if (i < hauteur) {
+                    traitsHorizontauxSol[i][j].setTrait(ValeurTrait.PLEIN);
+                } else {
+                    traitsHorizontauxSol[i][j].setTrait(ValeurTrait.VIDE);
+                }
             }
         }
+        
+        for (int i = 0; i < hauteur; i++) {
+            for (int j = 0; j <= largeur; j++) {
+                traitsVerticauxSol[i][j].setTrait(ValeurTrait.VIDE);
+            }
+        }
+        
         this.cpt = this.compterTraitsValides();
+        this.completed = false;
     }
 
+    /**
+     * Compte le nombre total de traits valides dans la matrice.
+     * Un trait est valide si son état actuel correspond à la solution.
+     * 
+     * @return le nombre de traits valides
+     */
     private int compterTraitsValides() {
         int total = 0;
-        for (int i = 0; i < hauteur; i++) {
+        
+        // Vérifier les traits horizontaux
+        for (int i = 0; i <= hauteur; i++) {
             for (int j = 0; j < largeur; j++) {
-                total += this.grille[i][j].getNbOfValidesTraits();
+                if (traitsHorizontaux[i][j].getEtat() == traitsHorizontauxSol[i][j].getEtat() ||
+                    (traitsHorizontaux[i][j].getEtat() == ValeurTrait.CROIX && 
+                     traitsHorizontauxSol[i][j].getEtat() != ValeurTrait.PLEIN)) {
+                    total++;
+                }
             }
         }
+        
+        // Vérifier les traits verticaux
+        for (int i = 0; i < hauteur; i++) {
+            for (int j = 0; j <= largeur; j++) {
+                if (traitsVerticaux[i][j].getEtat() == traitsVerticauxSol[i][j].getEtat() ||
+                    (traitsVerticaux[i][j].getEtat() == ValeurTrait.CROIX && 
+                     traitsVerticauxSol[i][j].getEtat() != ValeurTrait.PLEIN)) {
+                    total++;
+                }
+            }
+        }
+        
         return total;
     }
 
+    /**
+     * Modifie l'état d'un trait d'une case.
+     * 
+     * @param ligne l'indice de ligne de la case (0-indexed)
+     * @param colonne l'indice de colonne de la case (0-indexed)
+     * @param direction l'index du trait (0=haut, 1=gauche, 2=droite, 3=bas)
+     */
     public void cliquer(int ligne, int colonne, int direction){
         this.grille[ligne][colonne].updateTrait(direction);
         this.cpt = this.compterTraitsValides();
-        if(this.cpt == this.hauteur * this.largeur * 4) System.out.println("GAGNE !!!!!!!!!!!!!!!!!!!");
+        if(this.cpt == (hauteur + 1) * largeur + hauteur * (largeur + 1)) {
+            System.out.println("GAGNE !!!!!!!!!!!!!!!!!!!");
+            this.completed = true;
+        }
+    }
+
+    /**
+     * Vérifie la complétion de la grille.
+     * 
+     * @return un booleen donnant l'information de complétion
+     */
+    public boolean verifierVictoire(){
+        return this.completed;
     }
 
     /**
@@ -199,7 +251,9 @@ public class Matrice {
             sb.append(" ");
             sb.append(getStringOfTraitHorizontal(hauteur - 1, j, 3)); // trait bas
         }
-        sb.append("\nSolution : "+ this.cpt +"/"+ this.hauteur * this.largeur * 4);
+        
+        int totalTraits = (hauteur + 1) * largeur + hauteur * (largeur + 1);
+        sb.append("\nSolution : ").append(this.cpt).append("/").append(totalTraits);
         
         return sb.toString();
     }
