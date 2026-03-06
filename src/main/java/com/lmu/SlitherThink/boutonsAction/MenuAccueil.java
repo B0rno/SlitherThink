@@ -28,7 +28,7 @@ public class MenuAccueil extends ChangementFenetre{
 
     @FXML
     private void options(ActionEvent event) {
-        System.out.println("Options");  
+        changerFenetre(event, "options"); 
     }
 
     @FXML
