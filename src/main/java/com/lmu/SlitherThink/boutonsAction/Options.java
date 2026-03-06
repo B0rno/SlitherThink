@@ -3,9 +3,10 @@ package com.lmu.SlitherThink.boutonsAction;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.MenuButton;
+
 import javafx.scene.control.MenuItem;
 
-public class Options {
+public class Options extends ChangementFenetre{
 
     @FXML
     private MenuButton languageMenuButton;
@@ -18,5 +19,11 @@ public class Options {
         
         languageMenuButton.setText(nouvelleLangue);
         
+    }
+
+
+    @FXML
+    private void retour(ActionEvent event) {
+        changerFenetre(event, "menuAccueil");
     }
 }

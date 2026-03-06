@@ -26,6 +26,8 @@ public class App extends Application {
         GestionnaireVues.loadView("finPartieAventure", "/fxml/finPartieAventure.fxml");
         GestionnaireVues.loadView("leaderboards", "/fxml/leaderboards.fxml");
         GestionnaireVues.loadView("pause", "/fxml/pause.fxml");
+        GestionnaireVues.loadView("options", "/fxml/options.fxml");
+
 
         changerVue("pseudo");
 
@@ -57,8 +59,10 @@ public class App extends Application {
         scene.widthProperty().addListener(listener);
         scene.heightProperty().addListener(listener);
 
+        String css = this.getClass().getResource("/css/styles.css").toExternalForm();
+        scene.getStylesheets().add(css);
+
         // Passage en Plein Écran
-        stage.setFullScreenExitHint("");
         javafx.application.Platform.runLater(() -> {
             stage.setFullScreen(true);
             stage.setFullScreenExitHint("");

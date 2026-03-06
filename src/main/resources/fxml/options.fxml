@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+<StackPane fx:controller="com.lmu.SlitherThink.boutonsAction.Options" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Label alignment="CENTER" text="Options" textAlignment="CENTER" translateY="-250.0">
          <font>
@@ -32,9 +32,10 @@
       </Label>
       <MenuButton fx:id="languageMenuButton" mnemonicParsing="false" prefHeight="30.0" prefWidth="200.0" text="Français" translateX="350.0" translateY="-80.0">
         <items>
-          <MenuItem mnemonicParsing="false" text="Français" />
-          <MenuItem mnemonicParsing="false" text="English" />
+          <MenuItem mnemonicParsing="false" onAction="#changerLangue" text="Français" />
+          <MenuItem mnemonicParsing="false" onAction="#changerLangue" text="English" />
         </items>
+
       </MenuButton>
       <Button maxHeight="30.0" maxWidth="100.0" minHeight="60.0" minWidth="200.0" mnemonicParsing="false" onAction="#retour" prefWidth="30.0" text="RETOUR" translateY="250.0">
          <font>
