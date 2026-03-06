@@ -1,0 +1,3 @@
+# Fichiers inutiles à push
+target/
+*.class
