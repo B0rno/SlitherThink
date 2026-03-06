@@ -35,6 +35,13 @@ public class Matrice {
     /** Matrice des traits verticaux (partagés entre gauche/droite des cases) */
     private Trait[][] traitsVerticaux;
 
+    private Trait[][] traitsHorizontauxSol;
+
+    private Trait[][] traitsVerticauxSol;
+
+    /** Compteur de traits dans le bon état */
+    private int cpt;
+
     /**
      * Constructeur de la matrice.
      * Initialise une matrice de cases de dimensions hauteur x largeur.
@@ -47,23 +54,31 @@ public class Matrice {
         this.hauteur = hauteur;
         this.largeur = largeur;
         this.grille = new Case[hauteur][largeur];
+
+        this.cpt = 0;
         
         // Créer les matrices de traits
         // traitsHorizontaux : (hauteur+1) x largeur
         this.traitsHorizontaux = new Trait[hauteur + 1][largeur];
         // traitsVerticaux : hauteur x (largeur+1)
         this.traitsVerticaux = new Trait[hauteur][largeur + 1];
+
+        this.traitsHorizontauxSol = new Trait[hauteur + 1][largeur];
+
+        this.traitsVerticauxSol = new Trait[hauteur][largeur + 1];
         
         // Initialiser tous les traits
         for (int i = 0; i <= hauteur; i++) {
             for (int j = 0; j < largeur; j++) {
                 traitsHorizontaux[i][j] = new Trait();
+                traitsHorizontauxSol[i][j] = new Trait();
             }
         }
         
         for (int i = 0; i < hauteur; i++) {
             for (int j = 0; j <= largeur; j++) {
                 traitsVerticaux[i][j] = new Trait();
+                traitsVerticauxSol[i][j] = new Trait();
             }
         }
         
@@ -75,12 +90,19 @@ public class Matrice {
                 
                 // Assigner les traits à la case
                 Trait[] traits = new Trait[4];
-                traits[0] = traitsHorizontaux[i][j];        // haut
-                traits[1] = traitsVerticaux[i][j];          // gauche
-                traits[2] = traitsVerticaux[i][j + 1];      // droite
-                traits[3] = traitsHorizontaux[i + 1][j];    // bas
+                traits[0] = traitsHorizontaux[i][j];            // haut
+                traits[1] = traitsVerticaux[i][j];              // gauche
+                traits[2] = traitsVerticaux[i][j + 1];          // droite
+                traits[3] = traitsHorizontaux[i + 1][j];        // bas
+
+                Trait[] traitsSol = new Trait[4];
+                traitsSol[0] = traitsHorizontauxSol[i][j];        // haut
+                traitsSol[1] = traitsVerticauxSol[i][j];          // gauche
+                traitsSol[2] = traitsVerticauxSol[i][j + 1];      // droite
+                traitsSol[3] = traitsHorizontauxSol[i + 1][j];    // bas
                 
                 grille[i][j].setTraits(traits);
+                grille[i][j].loadSolution(traitsSol);
             }
         }
     }
@@ -117,8 +139,32 @@ public class Matrice {
         return largeur;
     }
 
+    public void loadSolution(){
+        for (int i = 0; i < hauteur; i++) {
+            for (int j = 0; j < largeur; j++) {
+                this.grille[i][j].setSolutionTrait(0,ValeurTrait.PLEIN);
+                this.grille[i][j].setSolutionTrait(1,ValeurTrait.VIDE);
+                this.grille[i][j].setSolutionTrait(2,ValeurTrait.VIDE);
+                this.grille[i][j].setSolutionTrait(3,ValeurTrait.VIDE);
+            }
+        }
+        this.cpt = this.compterTraitsValides();
+    }
+
+    private int compterTraitsValides() {
+        int total = 0;
+        for (int i = 0; i < hauteur; i++) {
+            for (int j = 0; j < largeur; j++) {
+                total += this.grille[i][j].getNbOfValidesTraits();
+            }
+        }
+        return total;
+    }
+
     public void cliquer(int ligne, int colonne, int direction){
-        grille[ligne][colonne].updateTrait(direction);
+        this.grille[ligne][colonne].updateTrait(direction);
+        this.cpt = this.compterTraitsValides();
+        if(this.cpt == this.hauteur * this.largeur * 4) System.out.println("GAGNE !!!!!!!!!!!!!!!!!!!");
     }
 
     /**
@@ -153,7 +199,7 @@ public class Matrice {
             sb.append(" ");
             sb.append(getStringOfTraitHorizontal(hauteur - 1, j, 3)); // trait bas
         }
-        sb.append("\n");
+        sb.append("\nSolution : "+ this.cpt +"/"+ this.hauteur * this.largeur * 4);
         
         return sb.toString();
     }

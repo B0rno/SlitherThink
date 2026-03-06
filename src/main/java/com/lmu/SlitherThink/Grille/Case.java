@@ -60,8 +60,18 @@ public class Case {
      * 
      * @param solutionCase un tableau de 4 traits représentant la solution attendue
      */
-    public void setSolutionCase(Trait[] solutionCase){
-        this.solution = solutionCase;
+    public void setSolutionTrait(int direction, ValeurTrait val){
+        this.solution[direction].setTrait(val);
+    }
+
+    public void loadSolution(Trait[] sol){
+        this.solution = sol;
+    }
+
+    public int getNbOfValidesTraits(){
+        int cpt = 0;
+        for(int i = 0; i<4; i++) if(this.estValide(i)) cpt++;
+        return cpt;
     }
 
     /**
@@ -79,7 +89,7 @@ public class Case {
      * 
      * @param traits un tableau de 4 traits (haut, gauche, droite, bas)
      */
-    public void setTraits(Trait[] traits) {
+    public void setTraits(Trait[] traits){
         this.etatJeu = traits;
     }
 
@@ -104,6 +114,14 @@ public class Case {
         }
         return parts[0];
     }
+
+    private boolean estValide(int direction){
+    ValeurTrait etatActuel = this.etatJeu[direction].getEtat();
+    ValeurTrait etatSolution = this.solution[direction].getEtat();
+    
+    return etatActuel == etatSolution || 
+           (etatActuel == ValeurTrait.CROIX && etatSolution != ValeurTrait.PLEIN);
+}
 
     /**
      * Fait passer au trait suivant son état.

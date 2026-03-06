@@ -5,6 +5,18 @@ public class Trait {
         this.etat = ValeurTrait.VIDE;
     }
 
+    public Trait(ValeurTrait etat){
+        this.etat = etat;
+    }
+
+    public void setTrait(ValeurTrait etat){
+        this.etat = etat;
+    }
+
+    public ValeurTrait getEtat(){
+        return this.etat;
+    }
+
     public void etatSuivant(){
         this.etat = this.etat.etatSuivant();
     }
