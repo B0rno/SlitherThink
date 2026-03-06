@@ -8,6 +8,18 @@ public class DetailleSavePartie {
     private Integer nbAides;
     private transient String nameClass = null;
 
+    public DetailleSavePartie() {}
+
+    private DetailleSavePartie(List<PositionTrait> etatgrille, Integer chronometre, Integer nbAides) {
+        this.etatgrille = etatgrille;
+        this.Chronometre = chronometre;
+        this.nbAides = nbAides;
+    }
+
+    public static DetailleSavePartie create(List<PositionTrait> etatgrille, Integer chronometre, Integer nbAides) {
+        return new DetailleSavePartie(etatgrille, chronometre, nbAides);
+    }
+
     public List<PositionTrait> getEtatGrille() {
         return etatgrille;
     }

@@ -28,6 +28,10 @@ public class savePartieLienJoueur {
         this.path = path;
     }
 
+    public static savePartieLienJoueur create(String pseudo, Integer id, String path) {
+        return new savePartieLienJoueur(pseudo, id, path);
+    }
+
     public static void setBasePath(String basePathParam) {
         basePath = basePathParam == null ? "" : basePathParam;
     }
@@ -74,6 +78,13 @@ public class savePartieLienJoueur {
             loadDetailleSave();
         }
         return detailleSave;
+    }
+
+    public void setDetailleSave(DetailleSavePartie detailleSave) {
+        this.detailleSave = detailleSave;
+        if (this.detailleSave != null && this.id != null) {
+            this.detailleSave.setNameClass(this.id.toString());
+        }
     }
 
     public String getPseudo() {

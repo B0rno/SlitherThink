@@ -1,5 +1,6 @@
 package com.lmu.SlitherThink.save.structure;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.lmu.SlitherThink.save.gestionDonnee.savePartieLienJoueur;
@@ -14,5 +15,15 @@ public class SaveGlobal {
 
     public List<savePartieLienJoueur> getSauvegardeAventure() {
         return SauvegardeAventure;
+    }
+
+    public void addSauvegardeAventure(savePartieLienJoueur partie) {
+        if (partie == null) {
+            return;
+        }
+        if (SauvegardeAventure == null) {
+            SauvegardeAventure = new ArrayList<>();
+        }
+        SauvegardeAventure.add(partie);
     }
 }
