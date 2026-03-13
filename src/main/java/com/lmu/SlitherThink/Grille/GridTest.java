@@ -1,8 +1,10 @@
+package com.lmu.SlitherThink.Grille;
+
 import com.lmu.SlitherThink.Grille.Matrice;
 
-public class Test {
+public class GridTest {
     public static void main(String[] argv){
-        Matrice mat = Matrice.loadGrille(5,5);
+        Matrice mat = Matrice.loadGrille("grilleJeu1");
         System.out.println(mat);
     }
 }

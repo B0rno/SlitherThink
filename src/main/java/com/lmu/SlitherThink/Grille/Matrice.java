@@ -95,7 +95,7 @@ public class Matrice {
         }
         
         // Créer les cases et assigner les traits partagés
-        int numero = 0;
+        int numero = -1;
         for (int i = 0; i < hauteur; i++) {
             for (int j = 0; j < largeur; j++) {
                 grille[i][j] = new Case(numero);
@@ -156,12 +156,14 @@ public class Matrice {
      * Charge la solution dans la matrice.
      * Définit les états des traits solution pour tous les traits.
      */
-    public static Matrice loadGrille(int hauteur, int largeur){
+    public static Matrice loadGrille(String key){
         LoadSave save = LoadSave.getInstance("");
 
-        SaveGrille grid = save.getGrille();
+        SaveGrille grid = save.getGrilles().get(key);
 
-        Matrice loadedMatrice = new Matrice(hauteur, largeur);
+        int hauteur = grid.getTailleGrille();
+
+        Matrice loadedMatrice = new Matrice(hauteur, hauteur);
 
         for(positionGrille pos : grid.getNumeroCases()){
             List<Integer> coord = pos.getPositionGrille();
@@ -181,10 +183,10 @@ public class Matrice {
                     case 0: // Trait haut
                         loadedMatrice.getTraitHorizSolution(ligne, colonne).setTrait(ValeurTrait.PLEIN);
                         break;
-                    case 1: // Trait gauche
+                    case 2: // Trait gauche
                         loadedMatrice.getTraitVertiSolution(ligne, colonne).setTrait(ValeurTrait.PLEIN);
                         break;
-                    case 2: // Trait droite
+                    case 1: // Trait droite
                         loadedMatrice.getTraitVertiSolution(ligne, colonne + 1).setTrait(ValeurTrait.PLEIN);
                         break;
                     case 3: // Trait bas
@@ -279,7 +281,9 @@ public class Matrice {
             // Ligne des cases avec traits verticaux
             for (int j = 0; j < largeur; j++) {
                 sb.append(getStringOfTraitVertical(i, j, 1));   // trait gauche
-                sb.append(String.format("[%d]", grille[i][j].getNumero()));
+                if(grille[i][j].getNumero() != -1)
+                    sb.append(String.format("[%d]", grille[i][j].getNumero()));
+                else sb.append("[ ]");
             }
             sb.append(getStringOfTraitVertical(i,largeur-1,2)); // trait droit de la dernière case
             sb.append("\n");
