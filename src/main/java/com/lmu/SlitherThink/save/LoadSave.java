@@ -283,4 +283,12 @@ public class LoadSave {
         this.affichertoJson();
         return "Affichage de la grille et des techniques terminé.";
     }
+
+
+    public List<SaveGrille> getGrillesNv(int nvDifficulte) {
+        return grilles.entrySet().stream()
+            .filter(entry -> entry.getValue() != null && entry.getValue().getNvGrille() == nvDifficulte)
+            .map(Map.Entry::getValue)
+            .toList();
+    }
 }

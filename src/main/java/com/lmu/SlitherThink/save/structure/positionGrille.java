@@ -13,4 +13,13 @@ public class positionGrille {
     public int getValeurGrille() {
         return valeur;
     }
+
+    @Override
+    public String toString() {
+        return 
+        "positionGrille{" +
+            "position=" + position +
+            ", valeur=" + valeur +
+        '}';
+    }
 }
