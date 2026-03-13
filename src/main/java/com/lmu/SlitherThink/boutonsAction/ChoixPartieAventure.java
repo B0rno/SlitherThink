@@ -15,7 +15,7 @@ public class ChoixPartieAventure extends ChangementFenetre {
     public void partie(ActionEvent event) {
         Button b = (Button) event.getSource();
         String niveau = b.getId().replace("btn", "");   
-        choixPartie(event, niveau);
+        choixPartieAventure(event, niveau);
         //méthode dans changementfenetre.java
     }
 }

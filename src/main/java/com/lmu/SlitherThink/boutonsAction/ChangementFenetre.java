@@ -26,16 +26,22 @@ public abstract class ChangementFenetre {
         }
     }
 
-    protected void choixPartie(ActionEvent event, String numPartie) {
-        Partie controller = (Partie) GestionnaireVues.getController("partie");
+    protected void choixPartieAventure(ActionEvent event, String numPartie) {
+        PartieTimer controller = (PartieTimer) GestionnaireVues.getController("partieTimer");
     
         if (controller != null) {
             int numero = Integer.parseInt(numPartie);
             controller.initialiserPartie(numero);
-            App.changerVue("partie");
+            App.changerVue("partieTimer");
             
         } else {
             System.err.println("Erreur : Le contrôleur de la partie est introuvable !");
         }
     }
+
+    protected void choixPartieLibre(ActionEvent event, String difficulte) {
+        //gestion de recherche de la partie selon la difficulté
+        changerFenetre(event, "partie");
+    }
+    
 }

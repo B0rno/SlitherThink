@@ -7,15 +7,19 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 
 public class Pause extends ChangementFenetre{
+
     @FXML
     private void recommencer(ActionEvent event) {
-        Partie controller = (Partie) GestionnaireVues.getController("partie");
-    
-        if (controller != null) {
-            // 2. Appeler une méthode que vous créez dans PartieController pour relancer le timer
-            controller.relancerJeu(); 
+        if("libre".equals(Partie.dernierMode)){
+            changerFenetre(event, "partie");
         }
-        changerFenetre(event, "partie");
+        else{
+            PartieTimer controller = (PartieTimer) GestionnaireVues.getController("partieTimer");
+            if (controller != null) {
+                controller.initialiserPartie(PartieTimer.getNumPartie());
+            }
+            changerFenetre(event, "partieTimer");
+        }
     }
 
     @FXML 
@@ -41,13 +45,19 @@ public class Pause extends ChangementFenetre{
 
     @FXML
     private void reprendre(ActionEvent event) {
-        Partie controller = (Partie) GestionnaireVues.getController("partie");
-    
-        if (controller != null) {
-            // 2. Appeler une méthode que vous créez dans PartieController pour relancer le timer
-            controller.relancerJeu(); 
+        
+        if ("libre".equals(Partie.dernierMode)){
+            changerFenetre(event, "partie");
         }
-        changerFenetre(event, "partie");
+        else{
+            PartieTimer controller = (PartieTimer) GestionnaireVues.getController("partieTimer");
+            if (controller != null) {
+                // 2. Appeler une méthode que vous créez dans PartieController pour relancer le timer
+                controller.relancerJeu(); 
+            }
+            changerFenetre(event, "partieTimer");
+        }    
+       
     }
     
 }

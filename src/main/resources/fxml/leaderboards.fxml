@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<StackPane fx:controller="com.lmu.SlitherThink.boutonsAction.Leaderboards" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+<StackPane fx:controller="com.lmu.SlitherThink.boutonsAction.Leaderboards" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <VBox alignment="CENTER" spacing="40.0" StackPane.alignment="CENTER">
          <children>
@@ -24,20 +24,20 @@
                   <Insets bottom="100.0" />
                </VBox.margin>
             </Label>
-            <MenuButton mnemonicParsing="false" prefHeight="26.0" prefWidth="148.0" text="Choix de la partie" translateX="-300.0" translateY="-30.0">
+            <MenuButton fx:id="menuLeaderboards" mnemonicParsing="false" prefHeight="26.0" prefWidth="148.0" text="Choix de la partie" translateX="-300.0" translateY="-30.0">
                <items>
-                  <MenuItem mnemonicParsing="false" text="Partie 1" />
-                  <MenuItem mnemonicParsing="false" text="Partie 2" />
-                  <MenuItem mnemonicParsing="false" text="Partie 3" />
-                  <MenuItem mnemonicParsing="false" text="Partie 4" />
-                  <MenuItem mnemonicParsing="false" text="Partie 5" />
-                  <MenuItem mnemonicParsing="false" text="Partie 6" />
-                  <MenuItem mnemonicParsing="false" text="Partie 7" />
-                  <MenuItem mnemonicParsing="false" text="Partie 8" />
-                  <MenuItem mnemonicParsing="false" text="Partie 9" />
-                  <MenuItem mnemonicParsing="false" text="Partie 10" />
-                  <MenuItem mnemonicParsing="false" text="Partie 11" />
-                  <MenuItem mnemonicParsing="false" text="Partie 12" />
+                  <MenuItem onAction="#modifChamp" mnemonicParsing="false" text="Partie 1" />
+                  <MenuItem onAction="#modifChamp" mnemonicParsing="false" text="Partie 2" />
+                  <MenuItem onAction="#modifChamp" mnemonicParsing="false" text="Partie 3" />
+                  <MenuItem onAction="#modifChamp" mnemonicParsing="false" text="Partie 4" />
+                  <MenuItem onAction="#modifChamp" mnemonicParsing="false" text="Partie 5" />
+                  <MenuItem onAction="#modifChamp" mnemonicParsing="false" text="Partie 6" />
+                  <MenuItem onAction="#modifChamp" mnemonicParsing="false" text="Partie 7" />
+                  <MenuItem onAction="#modifChamp" mnemonicParsing="false" text="Partie 8" />
+                  <MenuItem onAction="#modifChamp" mnemonicParsing="false" text="Partie 9" />
+                  <MenuItem onAction="#modifChamp" mnemonicParsing="false" text="Partie 10" />
+                  <MenuItem onAction="#modifChamp" mnemonicParsing="false" text="Partie 11" />
+                  <MenuItem onAction="#modifChamp" mnemonicParsing="false" text="Partie 12" />
                </items>
             </MenuButton>
             <StackPane maxHeight="400.0" maxWidth="200.0" minHeight="350.0" minWidth="200.0" prefHeight="150.0" prefWidth="200.0" translateY="-100.0">

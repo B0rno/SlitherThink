@@ -6,17 +6,17 @@ import javafx.event.ActionEvent;
 public class ChoixDifficulte extends ChangementFenetre {
     @FXML
     private void facile(ActionEvent event) {
-        System.out.println("Difficulté facile");
+        choixPartieLibre(event, "facile");
     }
 
     @FXML
     private void moyen(ActionEvent event) {
-        System.out.println("Difficulté moyen");
+        choixPartieLibre(event, "moyen");
     }
 
     @FXML
     private void difficile(ActionEvent event) {
-        System.out.println("Difficulté difficile");
+        choixPartieLibre(event, "difficile");
     }
 
     @FXML
