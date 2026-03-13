@@ -1,3 +1,5 @@
+package com.lmu.SlitherThink.Grille;
+
 /**
  * Représente une matrice de cases pour le jeu SlitherLink.
  * 

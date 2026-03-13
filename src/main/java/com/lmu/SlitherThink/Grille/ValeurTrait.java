@@ -1,3 +1,5 @@
+package com.lmu.SlitherThink.Grille;
+
 /**
  * Énumération représentant les états possibles d'un trait dans une case du jeu SlitherLink.
  * 

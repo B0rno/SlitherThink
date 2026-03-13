@@ -1,3 +1,5 @@
+import com.lmu.SlitherThink.Grille.Matrice;
+
 public class Test {
     public static void main(String[] argv){
         int size = 8;

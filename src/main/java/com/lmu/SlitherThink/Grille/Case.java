@@ -1,3 +1,5 @@
+package com.lmu.SlitherThink.Grille;
+
 /**
  * Représente une case du plateau de jeu SlitherLink.
  * 

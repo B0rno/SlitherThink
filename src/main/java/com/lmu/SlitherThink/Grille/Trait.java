@@ -1,3 +1,5 @@
+package com.lmu.SlitherThink.Grille;
+
 public class Trait {
     private ValeurTrait etat;
 
