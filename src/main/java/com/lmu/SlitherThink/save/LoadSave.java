@@ -11,7 +11,6 @@ import com.lmu.SlitherThink.save.structure.positionGrille;
 import com.lmu.SlitherThink.save.structure.stockageTechnique;
 import com.lmu.SlitherThink.save.structure.PositionTrait;
 
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -28,6 +27,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * Classe principale pour charger et gérer les sauvegardes du jeu.
+ * Cette classe utilise le pattern Singleton pour garantir une seule instance.
+ * Elle permet de charger les grilles, techniques et sauvegardes globales depuis des fichiers JSON.
+ */
 public class LoadSave {
     private static LoadSave instance;
     private SaveGrille grille;
@@ -36,6 +40,13 @@ public class LoadSave {
     private SaveGlobal saveGlobal;
     private final String basePath;
 
+    /**
+     * Retourne l'instance unique de `LoadSave`.
+     * Si l'instance n'existe pas, elle est créée avec le chemin spécifié.
+     *
+     * @param pathBeforeSave Le chemin de base pour les fichiers de sauvegarde.
+     * @return L'instance unique de `LoadSave`.
+     */
     public static synchronized LoadSave getInstance(String pathBeforeSave) {
         if (instance == null) {
             instance = new LoadSave(pathBeforeSave);
@@ -43,6 +54,11 @@ public class LoadSave {
         return instance;
     }
 
+    /**
+     * Constructeur privé pour initialiser les données de sauvegarde.
+     *
+     * @param pathBeforeSave Le chemin de base pour les fichiers de sauvegarde.
+     */
     private LoadSave(String pathBeforeSave) {
         this.basePath = determinerBasePath(pathBeforeSave);
         savePartieLienJoueur.setBasePath(this.basePath);
@@ -55,6 +71,12 @@ public class LoadSave {
         grille = choisirGrilleParDefaut();
     }
 
+    /**
+     * Charge toutes les grilles disponibles depuis les fichiers JSON.
+     *
+     * @param gson L'instance de Gson pour la désérialisation.
+     * @return Une map contenant les grilles avec leurs noms comme clés.
+     */
     private Map<String, SaveGrille> chargerGrilles(Gson gson) {
         Map<String, SaveGrille> resultat = new LinkedHashMap<>();
 
@@ -99,40 +121,11 @@ public class LoadSave {
         return resultat;
     }
 
-    private Set<String> extraireNomsGrillesDepuisSaveGlobal() {
-        Set<String> noms = new HashSet<>();
-        if (saveGlobal == null) {
-            return noms;
-        }
-
-        java.util.function.Consumer<List<savePartieLienJoueur>> collecteur = list -> {
-            if (list == null) {
-                return;
-            }
-            for (savePartieLienJoueur partie : list) {
-                if (partie == null || partie.getPath() == null || partie.getPath().isBlank()) {
-                    continue;
-                }
-                String fichier = Paths.get(partie.getPath().replace("\\", "/")).getFileName().toString();
-                if (fichier.toLowerCase().endsWith(".json")) {
-                    noms.add(retirerExtension(fichier));
-                }
-            }
-        };
-
-        collecteur.accept(saveGlobal.getSauvegardeLibre());
-        collecteur.accept(saveGlobal.getSauvegardeAventure());
-        return noms;
-    }
-
-    private String retirerExtension(String nomFichier) {
-        int index = nomFichier.lastIndexOf('.');
-        if (index <= 0) {
-            return nomFichier;
-        }
-        return nomFichier.substring(0, index);
-    }
-
+    /**
+     * Retourne la grille par défaut (ou la première grille disponible).
+     *
+     * @return La grille par défaut.
+     */
     private SaveGrille choisirGrilleParDefaut() {
         if (grilles == null || grilles.isEmpty()) {
             return null;
@@ -145,31 +138,16 @@ public class LoadSave {
         return grilles.values().iterator().next();
     }
 
-    private String determinerBasePath(String pathBeforeSave) {
-        if (pathBeforeSave != null && !pathBeforeSave.isBlank()) {
-            return Paths.get(pathBeforeSave).toAbsolutePath().normalize().toString();
-        }
-
-        try {
-            URI location = LoadSave.class.getProtectionDomain().getCodeSource().getLocation().toURI();
-            Path codeSourcePath = Paths.get(location).toAbsolutePath().normalize();
-
-            if (Files.isRegularFile(codeSourcePath) && codeSourcePath.toString().endsWith(".jar")) {
-                Path parent = codeSourcePath.getParent();
-                if (parent != null) {
-                    return parent.toString();
-                }
-            }
-        } catch (Exception ignored) {
-        }
-
-        return Paths.get(System.getProperty("user.dir", ".")).toAbsolutePath().normalize().toString();
-    }
-
-    private String cheminFichier(String cheminRelatif) {
-        return Paths.get(basePath, cheminRelatif).toString();
-    }
-
+    /**
+     * Lit un fichier JSON et le désérialise en un objet de type spécifié.
+     *
+     * @param cheminRessource Le chemin de la ressource.
+     * @param cheminFichier   Le chemin du fichier.
+     * @param type            Le type de l'objet à désérialiser.
+     * @param gson            L'instance de Gson pour la désérialisation.
+     * @param <T>             Le type de l'objet.
+     * @return L'objet désérialisé ou null en cas d'erreur.
+     */
     private <T> T lireJson(String cheminRessource, String cheminFichier, Class<T> type, Gson gson) {
         if (cheminFichier != null) {
             Path path = Paths.get(cheminFichier);
@@ -195,65 +173,7 @@ public class LoadSave {
         }
     }
 
-    public void afficherTechn() {
-        if (technique != null && technique.getStockageLangague() != null) {
-            for (languageContenue langcont : technique.getStockageLangague()) {
-                if (langcont == null) continue;
-                System.out.println("Langage: " + langcont.getLangage());
-                List<contenuTechnique> contenus = langcont.getContenu();
-                if (contenus == null) continue;
-                for (contenuTechnique contenu : contenus) {
-                    if (contenu == null) continue;
-                    System.out.println("----------------\nNiveau: " + contenu.getNv());
-                    List<stockageTechnique> techs = contenu.getTechniqueParsNv();
-                    if (techs == null) {
-                        System.out.println("Aucune technique disponible pour ce niveau.");
-                        continue;
-                    }
-                    for (stockageTechnique tech : techs) {
-                        if (tech == null) continue;
-                        System.out.println("----------------\nNom de la technique: " + tech.getName());
-                        System.out.println("----------------Description----------------\n" + tech.getDescription());
-                    }
-                }
-            }
-        } else {
-            System.out.println("Aucune technique disponible.");
-        }
-    }
-
-    public void afficherGrille(String nomGrille, SaveGrille grille) {
-        if (grille != null) {
-            System.out.println("Nom de la grille: " + nomGrille);
-            System.out.println("Taille de la grille: " + grille.getTailleGrille());
-            List<positionGrille> cases = grille.getNumeroCases();
-            if (cases != null) {
-                for (positionGrille posgrille : cases) {
-                    if (posgrille == null) continue;
-                    System.out.println("----------------\nPosition: " + posgrille.getPositionGrille());
-                    System.out.println("Valeur: " + posgrille.getValeurGrille());
-                }
-            } else {
-                System.out.println("Aucune case disponible dans la grille.");
-            }
-        } else {
-            System.out.println("Aucune grille disponible.");
-        }
-    }
-
-    public void affichertoJson() {
-        Gson gson = new Gson();
-        String jsonGrille = gson.toJson(grille);
-        String jsonTechnique = gson.toJson(technique);
-
-        System.out.println("Grille en JSON:\n" + jsonGrille);
-        System.out.println("Technique en JSON:\n" + jsonTechnique);
-    }
-
-    public List<PositionTrait> getListeTrait(String nomGrille) {
-        return this.grilles.get(nomGrille).getListePositionTrait();
-    }
-
+    // Getters pour accéder aux données chargées
     public SaveGrille getGrille() {
         return grille;
     }
@@ -272,15 +192,5 @@ public class LoadSave {
 
     public String getBasePath() {
         return basePath;
-    }
-
-
-    @Override
-    public String toString() {
-        this.afficherGrille(this.grilles.keySet().stream().findFirst().orElse("Grille par défaut"), this.grilles.values().stream().findFirst().orElse(grille));
-        this.afficherTechn();
-        System.out.println("\n\nAffichage en JSON:");
-        this.affichertoJson();
-        return "Affichage de la grille et des techniques terminé.";
     }
 }

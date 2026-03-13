@@ -10,7 +10,22 @@ import com.lmu.SlitherThink.save.LoadSave;
 import com.lmu.SlitherThink.save.structure.DetailleSavePartie;
 import com.lmu.SlitherThink.save.structure.SaveGlobal;
 
+/**
+ * Sérialiseur personnalisé pour la classe {@link LoadSave}.
+ * Permet de convertir un objet {@link LoadSave} en JSON avec des références spécifiques
+ * pour les fichiers associés.
+ */
 public class LoadSaveSerializer implements JsonSerializer<LoadSave> {
+
+    /**
+     * Sérialise un objet {@link LoadSave} en JSON.
+     * Ajoute des références spécifiques pour les fichiers associés (grille, technique, sauvegardes).
+     *
+     * @param src       L'objet {@link LoadSave} à sérialiser.
+     * @param typeOfSrc Le type de l'objet source.
+     * @param context   Le contexte de sérialisation.
+     * @return Un objet JSON représentant l'objet {@link LoadSave}.
+     */
     @Override
     public JsonElement serialize(LoadSave src, Type typeOfSrc, JsonSerializationContext context) {
         JsonObject obj = new JsonObject();
