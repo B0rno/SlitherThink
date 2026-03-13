@@ -5,7 +5,11 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.control.Label;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 
 public class PartieTimer extends Partie{
@@ -13,9 +17,50 @@ public class PartieTimer extends Partie{
 
     @FXML
     private Label timerLabel;
+    @FXML
+    private VBox zoneJeu; // Zone de jeu pour afficher les éléments du niveau
+
+
     private int secondesEcoulees = 0;
     private Timeline chronometre;
+    private StackPane[][] matriceCases;
+    private int tailleMatrice;
 
+
+
+
+
+    private void genererPlateau(int taille) {
+        this.tailleMatrice = taille;
+        this.matriceCases = new StackPane[taille][taille];
+        
+        // On vide la zone de jeu avant de reconstruire [cite: 8]
+        zoneJeu.getChildren().clear();
+
+        GridPane plateau = new GridPane();
+        plateau.setAlignment(Pos.CENTER);
+        
+        // Calcul dynamique de la taille d'une case (600px / nombre de cases)
+        double tailleCase = 540.0 / taille; // 540 pour laisser une petite marge de padding [cite: 8]
+
+        for (int ligne = 0; ligne < taille; ligne++) {
+            for (int col = 0; col < taille; col++) {
+                StackPane caseGrille = new StackPane();
+                caseGrille.setPrefSize(tailleCase, tailleCase);
+                
+                // Style visuel des cases
+                caseGrille.setStyle("-fx-border-color: #2f2f2f; -fx-background-color: #f4f4f4;");
+                
+                // On stocke la référence dans notre matrice Java
+                matriceCases[ligne][col] = caseGrille;
+                
+                // On l'ajoute au GridPane (enfant, colonne, ligne)
+                plateau.add(caseGrille, col, ligne);
+            }
+        }
+        
+        zoneJeu.getChildren().add(plateau);
+    }
 
 
     private void majLabel() {
@@ -66,6 +111,8 @@ public class PartieTimer extends Partie{
         
         // - Charger le bon fichier JSON
         secondesEcoulees = 0;
+        genererPlateau(7);
+
         majLabel();
         chargerConfigurationNiveau(numero);
         chronometre.play();
