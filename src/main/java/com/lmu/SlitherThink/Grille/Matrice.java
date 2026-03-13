@@ -159,16 +159,16 @@ public class Matrice {
     public static Matrice loadGrille(int hauteur, int largeur){
         LoadSave save = LoadSave.getInstance("");
 
-        SaveGrille = save.getGrille();
+        SaveGrille grid = save.getGrille();
 
         Matrice loadedMatrice = new Matrice(hauteur, largeur);
 
-        for(positionGrille pos : save.getNumeroCases()){
+        for(positionGrille pos : grid.getNumeroCases()){
             List<Integer> coord = pos.getPositionGrille();
             loadedMatrice.getCase(coord.get(0), coord.get(1)).setNumero(pos.getValeurGrille());
         }
 
-        for(PositionTrait pos : save.getListePositionTrait()){
+        for(PositionTrait pos : grid.getListePositionTrait()){
             List<Integer> coord = pos.getPositionTrait();
             List<Integer> etat = pos.getEtatTrait();
             
