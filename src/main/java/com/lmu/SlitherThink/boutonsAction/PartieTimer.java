@@ -111,12 +111,18 @@ public class PartieTimer extends Partie{
         
         // - Charger le bon fichier JSON
         secondesEcoulees = 0;
-        genererPlateau(7);
+        genererPlateau(13);
+        placerChiffre(0,0, 3);
+        placerChiffre(2,3, 1);
+
+        placerChiffre(5,7, 0);
+        placerChiffre(7,5, 2);
+
+
 
         majLabel();
         chargerConfigurationNiveau(numero);
         chronometre.play();
-
     }
     
     private void chargerConfigurationNiveau(int n) {
@@ -130,6 +136,25 @@ public class PartieTimer extends Partie{
         chronometre.play();
 
         // Logique pour reprendre le jeu
+    }
+
+
+    public void placerChiffre(int ligne, int col, int valeur) {
+        if (ligne >= 0 && ligne < tailleMatrice && col >= 0 && col < tailleMatrice) {
+            StackPane caseCible = matriceCases[ligne][col];
+            
+            Label labelChiffre = new Label(String.valueOf(valeur));
+            
+            // Optionnel : Style pour que ce soit joli
+            labelChiffre.setStyle("-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #2f2f2f;");
+            
+            caseCible.getChildren().clear();
+            
+            caseCible.getChildren().add(labelChiffre);
+        }
+        else{
+            System.out.println("Coordonnées hors limites : ligne " + ligne + ", col " + col);
+        }
     }
 }
 
