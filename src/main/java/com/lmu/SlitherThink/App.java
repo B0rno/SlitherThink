@@ -27,6 +27,10 @@ public class App extends Application {
         GestionnaireVues.loadView("leaderboards", "/fxml/leaderboards.fxml");
         GestionnaireVues.loadView("pause", "/fxml/pause.fxml");
         GestionnaireVues.loadView("options", "/fxml/options.fxml");
+        GestionnaireVues.loadView("partie", "/fxml/partie.fxml");
+        GestionnaireVues.loadView("partieTimer", "/fxml/partieTimer.fxml");
+
+
 
 
         changerVue("pseudo");

@@ -28,6 +28,7 @@ public class MenuAccueil extends ChangementFenetre{
 
     @FXML
     private void options(ActionEvent event) {
+        Options.setVuePrecedente("menuAccueil");
         changerFenetre(event, "options"); 
     }
 

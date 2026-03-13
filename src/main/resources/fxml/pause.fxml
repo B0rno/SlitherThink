@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<StackPane fx:controller="com.lmu.SlitherThink.boutonsAction.Pause" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.lmu.SlitherThink.boutonsAction.Pause">
    <children>
       <VBox alignment="CENTER" spacing="20.0" StackPane.alignment="CENTER">
          <children>
@@ -19,27 +19,32 @@
                   <Insets bottom="50.0" />
                </VBox.margin>
             </Label>
-            <Button onAction="#recommencer" minHeight="60.0" prefWidth="300.0" mnemonicParsing="false" text="Recommencer">
+            <Button layoutX="500.0" layoutY="273.0" minHeight="60.0" mnemonicParsing="false" onAction="#reprendre" prefWidth="300.0" text="Reprendre">
                <font>
                   <Font size="20.0" />
                </font>
             </Button>
-            <Button onAction="#abandonner" minHeight="60.0" prefWidth="300.0" mnemonicParsing="false" text="Abandonner">
+            <Button minHeight="60.0" mnemonicParsing="false" onAction="#recommencer" prefWidth="300.0" text="Recommencer">
                <font>
                   <Font size="20.0" />
                </font>
             </Button>
-            <Button onAction="#options" minHeight="60.0" prefWidth="300.0" mnemonicParsing="false" text="Options">
+            <Button minHeight="60.0" mnemonicParsing="false" onAction="#abandonner" prefWidth="300.0" text="Abandonner">
                <font>
                   <Font size="20.0" />
                </font>
             </Button>
-            <Button onAction="#techniques" minHeight="60.0" prefWidth="300.0" mnemonicParsing="false" text="Les Techniques">
+            <Button minHeight="60.0" mnemonicParsing="false" onAction="#options" prefWidth="300.0" text="Options">
                <font>
                   <Font size="20.0" />
                </font>
             </Button>
-            <Button onAction="#retour" minHeight="60.0" prefWidth="300.0" mnemonicParsing="false" text="Menu principal">
+            <Button minHeight="60.0" mnemonicParsing="false" onAction="#techniques" prefWidth="300.0" text="Les Techniques">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Button>
+            <Button minHeight="60.0" mnemonicParsing="false" onAction="#retour" prefWidth="300.0" text="Menu principal">
                <font>
                   <Font size="20.0" />
                </font>

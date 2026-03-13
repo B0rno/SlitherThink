@@ -25,4 +25,17 @@ public abstract class ChangementFenetre {
             System.err.println("Erreur : Le contrôleur finPartieAventure est null !");
         }
     }
+
+    protected void choixPartie(ActionEvent event, String numPartie) {
+        Partie controller = (Partie) GestionnaireVues.getController("partie");
+    
+        if (controller != null) {
+            int numero = Integer.parseInt(numPartie);
+            controller.initialiserPartie(numero);
+            App.changerVue("partie");
+            
+        } else {
+            System.err.println("Erreur : Le contrôleur de la partie est introuvable !");
+        }
+    }
 }

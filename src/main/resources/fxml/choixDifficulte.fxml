@@ -29,7 +29,7 @@
                   <Font size="20.0" />
                </font>
             </Button>
-            <Button maxHeight="30.0" maxWidth="100.0" minHeight="60.0" minWidth="200.0" mnemonicParsing="false" onAction="#difficile" prefWidth="30.0" text="Difficile" translateY="-50.0">
+            <Button maxHeight="30.0" maxWidth="100.0" minHeight="60.0" minWidth="200.0" mnemonicParsing="false" onAction="#difficile" prefWidth="30.0" text="DIFFICILE" translateY="-50.0">
                <font>
                   <Font size="20.0" />
                </font>

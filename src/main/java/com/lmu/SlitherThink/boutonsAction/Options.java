@@ -8,6 +8,13 @@ import javafx.scene.control.MenuItem;
 
 public class Options extends ChangementFenetre{
 
+    private static String vuePrecedente = "menuAccueil";
+
+
+    public static void setVuePrecedente(String vue) {
+        vuePrecedente = vue;
+    }
+
     @FXML
     private MenuButton languageMenuButton;
 
@@ -18,12 +25,10 @@ public class Options extends ChangementFenetre{
         String nouvelleLangue = itemSelectionne.getText();
         
         languageMenuButton.setText(nouvelleLangue);
-        
     }
-
 
     @FXML
     private void retour(ActionEvent event) {
-        changerFenetre(event, "menuAccueil");
+        changerFenetre(event, vuePrecedente);
     }
 }

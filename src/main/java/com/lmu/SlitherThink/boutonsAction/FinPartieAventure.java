@@ -32,7 +32,7 @@ public class FinPartieAventure extends ChangementFenetre {
     @FXML private Label txtComplete;
 
 
-
+    //utiliser cette méthode en récupérant les données de la partie pour les afficher dans la fenêtre de fin de partie
     public void mettreDonnees(int aides, int aidesMax, String temps, String tempsMax, boolean complete) {
         /*
         aides = aides utilisées

@@ -10,15 +10,12 @@ public class ChoixPartieAventure extends ChangementFenetre {
         changerFenetre(event, "choixMode");
     }
 
+    //load partie en fonction du bouton cliqué (load la vue "partie" avec le numero de la partie cliquée)
     @FXML
-    private void partie1(ActionEvent event) {
-        Button btn = (Button) event.getSource();
-        int aides = 2;
-        int aidesMax = 0;
-        String temps = "05:46";
-        String tempsMax = "08:00";
-        boolean succes = true;
-
-        changerVueFinPartie(aides, aidesMax, temps, tempsMax, succes);
+    public void partie(ActionEvent event) {
+        Button b = (Button) event.getSource();
+        String niveau = b.getId().replace("btn", "");   
+        choixPartie(event, niveau);
+        //méthode dans changementfenetre.java
     }
 }
