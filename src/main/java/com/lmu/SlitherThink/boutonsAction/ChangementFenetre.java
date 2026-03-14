@@ -40,7 +40,7 @@ public abstract class ChangementFenetre {
     }
 
     protected void choixPartieLibre(ActionEvent event, String difficulte) {
-        //gestion de recherche de la partie selon la difficulté
+        //TODO gestion de recherche de la partie selon la difficulté
         changerFenetre(event, "partie");
     }
     

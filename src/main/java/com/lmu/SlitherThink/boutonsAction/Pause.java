@@ -13,12 +13,21 @@ public class Pause extends ChangementFenetre{
         if("libre".equals(Partie.dernierMode)){
             changerFenetre(event, "partie");
         }
-        else{
+        else if ("aventure".equals(Partie.dernierMode)){
             PartieTimer controller = (PartieTimer) GestionnaireVues.getController("partieTimer");
             if (controller != null) {
                 controller.initialiserPartie(PartieTimer.getNumPartie());
             }
             changerFenetre(event, "partieTimer");
+        }
+        //tutoriel
+        else{
+            PartieTimer controller = (PartieTimer) GestionnaireVues.getController("partieTimer");
+            if (controller != null) {
+                controller.lancerTutoriel();
+                changerFenetre(event, "partieTimer");
+            }
+
         }
     }
 

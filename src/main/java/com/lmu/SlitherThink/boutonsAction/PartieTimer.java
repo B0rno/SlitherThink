@@ -1,163 +1,141 @@
 package com.lmu.SlitherThink.boutonsAction;
 
+import com.lmu.SlitherThink.Grille.Matrice;
+import com.lmu.SlitherThink.Partie.EtatPartie;
+import com.lmu.SlitherThink.Partie.Score;
+import com.lmu.SlitherThink.Partie.Profil; // Import ajouté
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.geometry.Pos;
 import javafx.scene.control.Label;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 
-public class PartieTimer extends Partie{
+public class PartieTimer extends Partie {
     private static int numPartie;
 
     @FXML
     private Label timerLabel;
-    @FXML
-    private VBox zoneJeu; // Zone de jeu pour afficher les éléments du niveau
-
 
     private int secondesEcoulees = 0;
     private Timeline chronometre;
-    private StackPane[][] matriceCases;
-    private int tailleMatrice;
 
-
-
-
-
-    private void genererPlateau(int taille) {
-        this.tailleMatrice = taille;
-        this.matriceCases = new StackPane[taille][taille];
-        
-        // On vide la zone de jeu avant de reconstruire [cite: 8]
-        zoneJeu.getChildren().clear();
-
-        GridPane plateau = new GridPane();
-        plateau.setAlignment(Pos.CENTER);
-        
-        // Calcul dynamique de la taille d'une case (600px / nombre de cases)
-        double tailleCase = 540.0 / taille; // 540 pour laisser une petite marge de padding [cite: 8]
-
-        for (int ligne = 0; ligne < taille; ligne++) {
-            for (int col = 0; col < taille; col++) {
-                StackPane caseGrille = new StackPane();
-                caseGrille.setPrefSize(tailleCase, tailleCase);
-                
-                // Style visuel des cases
-                caseGrille.setStyle("-fx-border-color: #2f2f2f; -fx-background-color: #f4f4f4;");
-                
-                // On stocke la référence dans notre matrice Java
-                matriceCases[ligne][col] = caseGrille;
-                
-                // On l'ajoute au GridPane (enfant, colonne, ligne)
-                plateau.add(caseGrille, col, ligne);
-            }
-        }
-        
-        zoneJeu.getChildren().add(plateau);
+    @Override
+    public void onVictoire(Score score) {
+        if (chronometre != null) chronometre.stop();
+        String tempsFormate = formatTime(secondesEcoulees);
+        String test = "05:00";
+        changerVueFinPartie(0, 5, tempsFormate, test, true);
     }
 
+    @Override
+    public void onEtatChange(EtatPartie etat) {
+        if (etat == EtatPartie.PAUSE) {
+            if (chronometre != null) chronometre.pause();
+        } else if (etat == EtatPartie.EN_COURS) {
+            if (chronometre != null) chronometre.play();
+        }
+    }
 
-    private void majLabel() {
-        int minutes = secondesEcoulees / 60;
-        int secondes = secondesEcoulees % 60;
-        
-        // Formate le texte en "00:00"
-        String tempsFormate = String.format("%02d:%02d", minutes, secondes);
-        timerLabel.setText(tempsFormate);
+    private String formatTime(int totalSeconds) {
+        int minutes = totalSeconds / 60;
+        int seconds = totalSeconds % 60;
+        return String.format("%02d:%02d", minutes, seconds);
+    }
+
+    private void actualiseChrono() {
+        String tempsFormate = formatTime(secondesEcoulees);
+        if (timerLabel != null) timerLabel.setText(tempsFormate);
     }
 
     public static int getNumPartie() {
         return numPartie;
     }
 
-
-  
-
-
     @FXML 
     public void initialize(){
         chronometre = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
             secondesEcoulees++;
-            majLabel();
+            actualiseChrono();
         }));
-        
-        chronometre.setCycleCount(Timeline.INDEFINITE); // Le timer tourne sans fin
+        chronometre.setCycleCount(Timeline.INDEFINITE);
     }
-
 
     @FXML
     @Override
     public void menuPause(ActionEvent event) {
         if (chronometre != null) chronometre.pause(); 
+        // On prévient aussi le moteur logique que la partie est en pause
+        if (moteurJeu != null) moteurJeu.mettreEnPause();
         super.menuPause(event);
     }
-    
 
     @FXML
     private void aide(ActionEvent event) {
-        System.out.println("Aide demandée pour la partie n°" + numPartie);}
+        System.out.println("Aide demandée pour la partie n°" + numPartie);
+        if (moteurJeu != null) moteurJeu.utiliserAide();
+    }
 
     @FXML
     public void initialiserPartie(int numero) {
         this.numPartie = numero;
+        secondesEcoulees = 0;
         Partie.setDernierMode("aventure"); 
         System.out.println("Chargement du niveau n°" + numero);
-        
-        // - Charger le bon fichier JSON
-        secondesEcoulees = 0;
-        genererPlateau(13);
-        placerChiffre(0,0, 3);
-        placerChiffre(2,3, 1);
 
-        placerChiffre(5,7, 0);
-        placerChiffre(7,5, 2);
+        String grille = "partie" + numero;
+        Matrice mat = Matrice.loadGrille(grille);
 
+        if (mat == null) {
+            System.err.println("Erreur : la matrice n'a pas pu être chargée.");
+            return; 
+        }
 
+        // --- INITIALISATION DU MOTEUR LOGIQUE ---
+        // On crée l'objet métier avec un profil, la matrice chargée et un nouveau score
+        this.moteurJeu = new com.lmu.SlitherThink.Partie.Partie(new Profil("Joueur"), mat, 3, new Score());
+        this.moteurJeu.ajouterObserver(this); // Pour recevoir onVictoire
+        this.moteurJeu.demarrer();            // Pour que jouerCoup() soit actif
+        // ----------------------------------------
 
-        majLabel();
-        chargerConfigurationNiveau(numero);
+        chargerMatrice(mat);
+        actualiseChrono();
         chronometre.play();
     }
-    
-    private void chargerConfigurationNiveau(int n) {
-        // Logique de lecture de fichier ou de setup
+
+    @FXML 
+    public void lancerTutoriel() {
+        this.numPartie = -1; 
+        this.secondesEcoulees = 0;
+        Partie.setDernierMode("tutoriel");
+        System.out.println("Chargement du tutoriel");
+        
+        Matrice mat = Matrice.loadGrille("tutoriel");
+        if (mat == null) {
+            System.err.println("Erreur : la matrice n'a pas pu être chargée.");
+            return; 
+        }
+
+        // --- INITIALISATION DU MOTEUR LOGIQUE POUR TUTO ---
+        this.moteurJeu = new com.lmu.SlitherThink.Partie.Partie(new Profil("Apprenti"), mat, 99, new Score());
+        this.moteurJeu.ajouterObserver(this);
+        this.moteurJeu.demarrer();
+        // --------------------------------------------------
+
+        chargerMatrice(mat);
+        actualiseChrono();
+        chronometre.play();
     }
 
     @Override
     public void relancerJeu() {
-        System.out.println("Relance du jeu pour la partie n°" + numPartie);
-        majLabel();
-        chronometre.play();
-
-        // Logique pour reprendre le jeu
-    }
-
-
-    public void placerChiffre(int ligne, int col, int valeur) {
-        if (ligne >= 0 && ligne < tailleMatrice && col >= 0 && col < tailleMatrice) {
-            StackPane caseCible = matriceCases[ligne][col];
-            
-            Label labelChiffre = new Label(String.valueOf(valeur));
-            
-            // Optionnel : Style pour que ce soit joli
-            labelChiffre.setStyle("-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #2f2f2f;");
-            
-            caseCible.getChildren().clear();
-            
-            caseCible.getChildren().add(labelChiffre);
-        }
-        else{
-            System.out.println("Coordonnées hors limites : ligne " + ligne + ", col " + col);
+        if (numPartie != -1){
+            System.out.println("Relance du jeu pour la partie n°" + numPartie);
+            initialiserPartie(numPartie); // On réutilise l'initialisation complète
+        } else {
+            lancerTutoriel();
         }
     }
 }
-
-
-
-

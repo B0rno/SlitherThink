@@ -57,45 +57,46 @@ public class LoadSave {
 
     private Map<String, SaveGrille> chargerGrilles(Gson gson) {
         Map<String, SaveGrille> resultat = new LinkedHashMap<>();
-
-        Path dossierGrilles = Paths.get(basePath, "save", "saveGrille");
-        if (Files.isDirectory(dossierGrilles)) {
-            try (var fichiers = Files.list(dossierGrilles)) {
-                fichiers
-                    .filter(Files::isRegularFile)
-                    .filter(path -> path.getFileName().toString().toLowerCase().endsWith(".json"))
-                    .sorted(Comparator.comparing(path -> path.getFileName().toString()))
-                    .forEach(path -> {
-                        try (Reader reader = Files.newBufferedReader(path, StandardCharsets.UTF_8)) {
-                            SaveGrille grilleChargee = gson.fromJson(reader, SaveGrille.class);
-                            if (grilleChargee != null) {
-                                String nom = retirerExtension(path.getFileName().toString());
-                                resultat.put(nom, grilleChargee);
+    
+        // On essaie plusieurs chemins possibles pour le dossier physique
+        Path[] cheminsPossibles = {
+            Paths.get(basePath, "GrilleJson/Exemple"),
+            Paths.get(basePath, "src/main/resources/GrilleJson/Exemple"),
+            Paths.get("src/main/resources/GrilleJson/Exemple")
+        };
+    
+        for (Path dossierGrilles : cheminsPossibles) {
+            if (Files.isDirectory(dossierGrilles)) {
+                try (var fichiers = Files.list(dossierGrilles)) {
+                    fichiers
+                        .filter(Files::isRegularFile)
+                        .filter(path -> path.getFileName().toString().toLowerCase().endsWith(".json"))
+                        .forEach(path -> {
+                            try (Reader reader = Files.newBufferedReader(path, StandardCharsets.UTF_8)) {
+                                SaveGrille grilleChargee = gson.fromJson(reader, SaveGrille.class);
+                                if (grilleChargee != null) {
+                                    String nom = retirerExtension(path.getFileName().toString());
+                                    resultat.put(nom, grilleChargee);
+                                }
+                            } catch (Exception e) {
+                                System.err.println("Erreur lecture fichier : " + path);
                             }
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    });
-            } catch (IOException e) {
-                e.printStackTrace();
+                        });
+                } catch (IOException e) { e.printStackTrace(); }
+                break; // Si on a trouvé le dossier, on s'arrête là
             }
         }
-
-        if (!resultat.isEmpty()) {
-            return resultat;
-        }
-
-        Set<String> nomsCandidates = extraireNomsGrillesDepuisSaveGlobal();
-        nomsCandidates.add("grilleJeu1");
-
-        for (String nomGrille : nomsCandidates) {
-            String ressource = "/save/saveGrille/" + nomGrille + ".json";
-            SaveGrille grilleChargee = lireJson(ressource, null, SaveGrille.class, gson);
-            if (grilleChargee != null) {
-                resultat.put(nomGrille, grilleChargee);
+        
+        // Si après le scan disque c'est vide, on peut forcer manuellement pour le test
+        if (resultat.isEmpty()) {
+            System.out.println("Scan disque vide, tentative chargement manuel...");
+            String[] grillesManuelles = {"GrilleFacile5X5_1", "GrilleFacile5X5_2"};
+            for (String nom : grillesManuelles) {
+                SaveGrille g = lireJson("/GrilleJson/Exemple/" + nom + ".json", null, SaveGrille.class, gson);
+                if (g != null) resultat.put(nom, g);
             }
         }
-
+    
         return resultat;
     }
 

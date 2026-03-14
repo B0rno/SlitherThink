@@ -160,7 +160,10 @@ public class Matrice {
         LoadSave save = LoadSave.getInstance("");
 
         SaveGrille grid = save.getGrilles().get(key);
-
+        if (grid == null) {
+            System.err.println("La grille '" + key + "' n'a pas été trouvée dans le dossier GrilleJson.");
+            return null; 
+        }
         int hauteur = grid.getTailleGrille();
 
         Matrice loadedMatrice = new Matrice(hauteur, hauteur);

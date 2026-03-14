@@ -135,7 +135,7 @@
             <artifactId>javafx-maven-plugin</artifactId>
             <version>0.0.8</version>
             <configuration>
-                <mainClass>com.lmu.SlitherThink.Main</mainClass>
+                <mainClass>com.lmu.SlitherThink.App</mainClass>
             </configuration>
         </plugin>
 

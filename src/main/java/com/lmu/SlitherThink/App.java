@@ -67,11 +67,12 @@ public class App extends Application {
         scene.getStylesheets().add(css);
 
         // Passage en Plein Écran
+        stage.show();
+
         javafx.application.Platform.runLater(() -> {
             stage.setFullScreen(true);
             stage.setFullScreenExitHint("");
         });
-        stage.show();
         stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
     }
 
