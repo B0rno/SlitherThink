@@ -131,11 +131,13 @@ public class PartieTimer extends Partie {
 
     @Override
     public void relancerJeu() {
-        if (numPartie != -1){
-            System.out.println("Relance du jeu pour la partie n°" + numPartie);
-            initialiserPartie(numPartie); // On réutilise l'initialisation complète
-        } else {
-            lancerTutoriel();
+        System.out.println("Reprise du jeu pour la partie n°" + numPartie);
+        // Reprendre la partie existante
+        if (moteurJeu != null) {
+            moteurJeu.demarrer(); // Reprise depuis PAUSE -> EN_COURS
+        }
+        if (chronometre != null) {
+            chronometre.play(); // Relancer le timer
         }
     }
 }

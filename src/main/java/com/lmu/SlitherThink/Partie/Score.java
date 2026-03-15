@@ -88,7 +88,13 @@ public class Score {
      * @return la durée en secondes
      */
     public long getDureeEnSecondes() {
-        return dureeAccumulee.getSeconds();
+        if (debutSession != null) {
+            // Chrono en cours : durée accumulée + session actuelle
+            return dureeAccumulee.plus(Duration.between(debutSession, Instant.now())).getSeconds();
+        } else {
+            // Chrono arrêté : uniquement la durée accumulée
+            return dureeAccumulee.getSeconds();
+        }
     }
 
     /**
