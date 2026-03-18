@@ -58,42 +58,47 @@ public class LoadSave {
     private Map<String, SaveGrille> chargerGrilles(Gson gson) {
         Map<String, SaveGrille> resultat = new LinkedHashMap<>();
     
-        // On essaie plusieurs chemins possibles pour le dossier physique
-        Path[] cheminsPossibles = {
-            Paths.get(basePath, "GrilleJson/Exemple"),
-            Paths.get(basePath, "src/main/resources/GrilleJson/Exemple"),
-            Paths.get("src/main/resources/GrilleJson/Exemple")
-        };
+        // Liste des sous-dossiers à scanner dans GrilleJson
+        String[] sousDossiers = {"", "Aventure"}; // "" pour la racine (Libre), "Aventure" 
     
-        for (Path dossierGrilles : cheminsPossibles) {
-            if (Files.isDirectory(dossierGrilles)) {
-                try (var fichiers = Files.list(dossierGrilles)) {
-                    fichiers
-                        .filter(Files::isRegularFile)
-                        .filter(path -> path.getFileName().toString().toLowerCase().endsWith(".json"))
-                        .forEach(path -> {
-                            try (Reader reader = Files.newBufferedReader(path, StandardCharsets.UTF_8)) {
-                                SaveGrille grilleChargee = gson.fromJson(reader, SaveGrille.class);
-                                if (grilleChargee != null) {
-                                    String nom = retirerExtension(path.getFileName().toString());
-                                    resultat.put(nom, grilleChargee);
+        for (String sousDir : sousDossiers) {
+            // Construction des chemins physiques possibles
+            Path[] cheminsPossibles = {
+                Paths.get(System.getProperty("user.dir"), "src/main/resources/GrilleJson", sousDir),
+                Paths.get(basePath, "GrilleJson", sousDir),
+                Paths.get("src/main/resources/GrilleJson", sousDir)
+            };
+    
+            boolean dossierTrouveSurDisque = false;
+            for (Path dossier : cheminsPossibles) {
+                if (Files.isDirectory(dossier)) {
+                    try (var fichiers = Files.list(dossier)) {
+                        fichiers
+                            .filter(Files::isRegularFile)
+                            .filter(path -> path.getFileName().toString().toLowerCase().endsWith(".json"))
+                            .forEach(path -> {
+                                String nom = retirerExtension(path.getFileName().toString());
+                                // On utilise lireJson pour bénéficier de la double sécurité (Fichier puis Ressource)
+                                SaveGrille g = lireJson("/GrilleJson/" + (sousDir.isEmpty() ? "" : sousDir + "/") + path.getFileName().toString(), 
+                                                       path.toString(), SaveGrille.class, gson);
+                                if (g != null) {
+                                    resultat.put(nom, g);
                                 }
-                            } catch (Exception e) {
-                                System.err.println("Erreur lecture fichier : " + path);
-                            }
-                        });
-                } catch (IOException e) { e.printStackTrace(); }
-                break; // Si on a trouvé le dossier, on s'arrête là
+                            });
+                        dossierTrouveSurDisque = true;
+                    } catch (IOException e) {
+                        System.err.println("Erreur lors du scan du dossier : " + dossier);
+                    }
+                    break; // On a trouvé le dossier physique, on passe au sous-dossier suivant
+                }
             }
-        }
-        
-        // Si après le scan disque c'est vide, on peut forcer manuellement pour le test
-        if (resultat.isEmpty()) {
-            System.out.println("Scan disque vide, tentative chargement manuel...");
-            String[] grillesManuelles = {"GrilleFacile5X5_1", "GrilleFacile5X5_2"};
-            for (String nom : grillesManuelles) {
-                SaveGrille g = lireJson("/GrilleJson/Exemple/" + nom + ".json", null, SaveGrille.class, gson);
-                if (g != null) resultat.put(nom, g);
+    
+            // Si le scan disque a échoué pour ce dossier (cas du JAR), on peut tenter un chargement manuel 
+            // par ressource pour des grilles spécifiques si nécessaire.
+            if (!dossierTrouveSurDisque) {
+                System.out.println("Dossier physique non trouvé pour " + (sousDir.isEmpty() ? "racine" : sousDir) + ", utilisation des ressources.");
+                // Note : Lister des fichiers à l'intérieur d'un JAR est complexe sans bibliothèque tierce.
+                // Si tu es dans un JAR, assure-toi que tes chemins de ressources sont corrects.
             }
         }
     

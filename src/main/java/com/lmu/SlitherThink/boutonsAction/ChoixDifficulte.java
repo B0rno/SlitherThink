@@ -6,17 +6,18 @@ import javafx.event.ActionEvent;
 public class ChoixDifficulte extends ChangementFenetre {
     @FXML
     private void facile(ActionEvent event) {
-        choixPartieLibre(event, "facile");
+        //choixPartieLibre est dans le fichier ChangementFenetre
+        choixPartieLibre(event, "Facile");
     }
 
     @FXML
     private void moyen(ActionEvent event) {
-        choixPartieLibre(event, "moyen");
+        choixPartieLibre(event, "Moyen");
     }
 
     @FXML
     private void difficile(ActionEvent event) {
-        choixPartieLibre(event, "difficile");
+        choixPartieLibre(event, "Difficile");
     }
 
     @FXML

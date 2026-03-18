@@ -125,7 +125,7 @@ public class Partie {
      */    
     private void notifierAideUtilisee() {
         for (PartieObserver o : observers) {
-            o.onAideUtilisee(nbAides);
+            o.onAideUtilisee();
         }
     }
 

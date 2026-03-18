@@ -6,6 +6,7 @@ import com.lmu.SlitherThink.save.structure.PositionTrait;
 import com.lmu.SlitherThink.save.structure.positionGrille;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Représente une matrice de cases pour le jeu SlitherLink.
@@ -157,7 +158,17 @@ public class Matrice {
      * Définit les états des traits solution pour tous les traits.
      */
     public static Matrice loadGrille(String key){
-        LoadSave save = LoadSave.getInstance("");
+        LoadSave save = LoadSave.getInstance(null);
+
+
+        Map<String, SaveGrille> toutesLesGrilles = save.getGrilles();
+    
+        if (toutesLesGrilles == null || !toutesLesGrilles.containsKey(key)) {
+            System.err.println("ERREUR : La grille '" + key + "' est introuvable.");
+            // Petit debug pour voir ce qui est chargé
+            if(toutesLesGrilles != null) System.out.println("Grilles dispos : " + toutesLesGrilles.keySet());
+            return null; 
+        }
 
         SaveGrille grid = save.getGrilles().get(key);
         if (grid == null) {

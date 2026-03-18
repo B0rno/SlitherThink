@@ -12,6 +12,8 @@ public interface PartieObserver {
 
     void onVictoire(Score score);        // Appelé quand la partie est gagnée
     void onEtatChange(EtatPartie etat);  // Appelé quand changement d'état de la partie
-    void onAideUtilisee(int restantes);  // Appelé quand le joueur utilise une aide
+    void onAideUtilisee();  // Appelé quand le joueur utilise une aide
+    //pas besoin de param, l'utilisateur peut cliquer dessus autant qu'il veut, il n'est jamais bloqué. ça va juste influencer le score final
+
 
 }
