@@ -9,6 +9,7 @@ import com.google.gson.JsonSerializer;
 import com.lmu.SlitherThink.save.gestionDonnee.EcrireEnJson;
 import com.lmu.SlitherThink.save.gestionDonnee.LoadSaveSerializer;
 import com.lmu.SlitherThink.save.gestionDonnee.savePartieLienJoueur;
+import com.lmu.SlitherThink.save.csvScore.SaveCSV;
 import com.lmu.SlitherThink.save.structure.DetailleSavePartie;
 import com.lmu.SlitherThink.save.structure.SaveGlobal;
 import com.lmu.SlitherThink.save.structure.SaveGrille;
@@ -112,6 +113,8 @@ public class SaveManager {
             String cheminFichier = determinerChemin(base, nomFichier);
             EcrireEnJson.ecrireJson(cheminFichier, contenuJson);
         });
+
+        SaveCSV.sauvegarder(save.getScores(), determinerCheminCsv(base));
     }
 
     private String determinerChemin(String base, String nomFichier) {
@@ -149,6 +152,14 @@ public class SaveManager {
         }
 
         return prefixeSave + "autres/" + nomNettoye + ".json";
+    }
+
+    private String determinerCheminCsv(String base) {
+        String baseNormalisee = base == null ? "" : base;
+        if (!baseNormalisee.isEmpty() && !baseNormalisee.endsWith("/")) {
+            baseNormalisee += "/";
+        }
+        return baseNormalisee + "save/Score.csv";
     }
 
 }
