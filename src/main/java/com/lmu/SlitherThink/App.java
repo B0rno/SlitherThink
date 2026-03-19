@@ -39,7 +39,7 @@ public class App extends Application {
         Pane root = new Pane();
         root.getChildren().add(conteneurVues); // Le conteneur global est posé sur le fond noir
 
-        Scene scene = new Scene(root);
+        Scene scene = new Scene(root, 1280, 720);
         stage.setTitle("SlitherThink");
         stage.setScene(scene);
 
@@ -67,13 +67,34 @@ public class App extends Application {
         scene.getStylesheets().add(css);
 
         // Passage en Plein Écran
+        
+
         stage.show();
 
+        // On crée une vérification qui tourne jusqu'à ce que le plein écran soit effectif
+        javafx.animation.Timeline verificateur = new javafx.animation.Timeline(
+            new javafx.animation.KeyFrame(javafx.util.Duration.millis(100), e -> {
+                if (!stage.isFullScreen()) {
+                    stage.setFullScreen(true);
+                }
+            })
+        );
+        // On essaie 5 fois maximum (pendant 0.5 seconde)
+        verificateur.setCycleCount(5); 
+        verificateur.play();
+
+        stage.setFullScreenExitHint("");
+        stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
+
+        /*
+        stage.show();
+        
         javafx.application.Platform.runLater(() -> {
             stage.setFullScreen(true);
             stage.setFullScreenExitHint("");
         });
         stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
+        */
     }
 
     // Méthode pour changer de page
