@@ -12,6 +12,10 @@ import java.nio.file.Paths;
 import com.google.gson.Gson;
 import com.lmu.SlitherThink.save.structure.DetailleSavePartie;
 
+/**
+ * Classe représentant le lien entre un joueur et une sauvegarde de partie.
+ * Permet de charger et de gérer les détails d'une sauvegarde associée à un joueur.
+ */
 public class savePartieLienJoueur {
     private static final String pathLienJoueurSave = "/save/saveJoueur/";
     private static String basePath = "";
@@ -20,22 +24,49 @@ public class savePartieLienJoueur {
     private String path;
     private transient DetailleSavePartie detailleSave;
 
+    /**
+     * Constructeur par défaut pour la désérialisation.
+     */
     savePartieLienJoueur() {}
 
+    /**
+     * Constructeur pour créer un lien entre un joueur et une sauvegarde.
+     *
+     * @param pseudo Le pseudo du joueur.
+     * @param id     L'identifiant unique de la sauvegarde.
+     * @param path   Le chemin vers le fichier de sauvegarde.
+     */
     savePartieLienJoueur(String pseudo, Integer id, String path) {
         this.pseudo = pseudo;
         this.id = id;
         this.path = path;
     }
 
+    /**
+     * Crée une instance de {@link savePartieLienJoueur}.
+     *
+     * @param pseudo Le pseudo du joueur.
+     * @param id     L'identifiant unique de la sauvegarde.
+     * @param path   Le chemin vers le fichier de sauvegarde.
+     * @return Une nouvelle instance de {@link savePartieLienJoueur}.
+     */
     public static savePartieLienJoueur create(String pseudo, Integer id, String path) {
         return new savePartieLienJoueur(pseudo, id, path);
     }
 
+    /**
+     * Définit le chemin de base pour les fichiers de sauvegarde.
+     *
+     * @param basePathParam Le chemin de base.
+     */
     public static void setBasePath(String basePathParam) {
         basePath = basePathParam == null ? "" : basePathParam;
     }
 
+    /**
+     * Charge les détails de la sauvegarde associée à ce lien.
+     * Lit le fichier JSON correspondant et désérialise les données.
+     */
     public void loadDetailleSave() {
         if (id == null) {
             return;
@@ -57,6 +88,13 @@ public class savePartieLienJoueur {
         }
     }
 
+    /**
+     * Ouvre un lecteur pour lire un fichier JSON.
+     *
+     * @param cheminRessource Le chemin vers la ressource ou le fichier.
+     * @return Un {@link Reader} pour lire le fichier, ou null si le fichier est introuvable.
+     * @throws IOException En cas d'erreur d'entrée/sortie.
+     */
     private Reader ouvrirReader(String cheminRessource) throws IOException {
         if (basePath != null && !basePath.isBlank()) {
             String relatif = cheminRessource.startsWith("/") ? cheminRessource.substring(1) : cheminRessource;
@@ -73,6 +111,12 @@ public class savePartieLienJoueur {
         return new InputStreamReader(is, StandardCharsets.UTF_8);
     }
 
+    /**
+     * Retourne les détails de la sauvegarde associée.
+     * Charge les détails si ce n'est pas encore fait.
+     *
+     * @return Les détails de la sauvegarde.
+     */
     public DetailleSavePartie getDetailleSave() {
         if (detailleSave == null) {
             loadDetailleSave();
@@ -80,6 +124,11 @@ public class savePartieLienJoueur {
         return detailleSave;
     }
 
+    /**
+     * Définit les détails de la sauvegarde associée.
+     *
+     * @param detailleSave Les détails de la sauvegarde.
+     */
     public void setDetailleSave(DetailleSavePartie detailleSave) {
         this.detailleSave = detailleSave;
         if (this.detailleSave != null && this.id != null) {
@@ -87,6 +136,7 @@ public class savePartieLienJoueur {
         }
     }
 
+    // Getters et setters pour les champs privés
     public String getPseudo() {
         return pseudo;
     }

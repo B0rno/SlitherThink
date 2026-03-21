@@ -20,6 +20,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Classe responsable de la gestion des sauvegardes.
+ * Permet de séparer les données en fichiers JSON distincts et de les sauvegarder sur disque.
+ */
 public class SaveManager {
     private LoadSave save;
     private List<Class<?>> classesAExtraire = List.of(
@@ -27,15 +31,29 @@ public class SaveManager {
     );
     private Map<String, String> dossiersJson;
 
+    /**
+     * Constructeur pour initialiser le gestionnaire de sauvegardes.
+     *
+     * @param save L'instance de `LoadSave` contenant les données à sauvegarder.
+     */
     SaveManager(LoadSave save) {
         this.save = save;
         dossiersJson = new HashMap<>();
     }
 
+    /**
+     * Retourne les fichiers JSON générés.
+     *
+     * @return Une map contenant les noms des fichiers et leur contenu JSON.
+     */
     public Map<String, String> getDossiersJson() {
         return dossiersJson;
     }
 
+    /**
+     * Sépare les données en fichiers JSON distincts.
+     * Les données sont organisées par type (grilles, techniques, sauvegardes, etc.).
+     */
     public void separerLesSauvegardes() {
         Gson gsonBasique = new GsonBuilder()
             .setPrettyPrinting()
@@ -104,6 +122,11 @@ public class SaveManager {
         dossiersJson.put("LoadSave", jsonPrincipal);
     }
 
+    /**
+     * Sauvegarde les fichiers JSON générés dans l'arborescence spécifiée.
+     *
+     * @param base Le chemin de base pour la sauvegarde.
+     */
     public void sauvegarderJsonDansArborescence(String base) {
         if (dossiersJson.isEmpty()) {
             separerLesSauvegardes();
@@ -117,6 +140,13 @@ public class SaveManager {
         SaveCSV.sauvegarder(save.getScores(), determinerCheminCsv(base));
     }
 
+    /**
+     * Détermine le chemin complet pour un fichier JSON donné.
+     *
+     * @param base       Le chemin de base.
+     * @param nomFichier Le nom du fichier.
+     * @return Le chemin complet du fichier.
+     */
     private String determinerChemin(String base, String nomFichier) {
         String baseNormalisee = base == null ? "" : base;
         if (!baseNormalisee.isEmpty() && !baseNormalisee.endsWith("/")) {
