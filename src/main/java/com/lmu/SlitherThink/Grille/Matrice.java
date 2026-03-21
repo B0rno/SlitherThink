@@ -4,6 +4,8 @@ import com.lmu.SlitherThink.save.LoadSave;
 import com.lmu.SlitherThink.save.structure.SaveGrille;
 import com.lmu.SlitherThink.save.structure.PositionTrait;
 import com.lmu.SlitherThink.save.structure.positionGrille;
+import com.lmu.SlitherThink.save.gestionDonnee.savePartieLienJoueur;
+import com.lmu.SlitherThink.save.structure.DetailleSavePartie;
 
 import java.util.List;
 
@@ -198,6 +200,38 @@ public class Matrice {
 
         loadedMatrice.compterTraitsValides();
         return loadedMatrice;
+    }
+
+    public void loadSave(Integer id, String path){
+        LoadSave save = LoadSave.getInstance("");
+
+        List<savePartieLienJoueur> saveJoueurs = save.getSaveGlobal().getSauvegardeLibre();
+
+        List<PositionTrait> detail = null;
+
+        for(savePartieLienJoueur saveJoueur : saveJoueurs){
+            System.out.println(saveJoueur.getId());
+            System.out.println(saveJoueur.getPath());
+            if(saveJoueur.getId() == id && saveJoueur.getPath().equals(path)){
+                System.out.println("OK");
+                detail = saveJoueur.getDetailleSave().getEtatGrille();
+                break;
+            }
+        }
+
+        if(detail != null){
+            for(PositionTrait pos : detail){
+                List<Integer> coord = pos.getPositionTrait();
+                List<Integer> etat = pos.getEtatTrait();
+                
+                int ligne = coord.get(0);
+                int colonne = coord.get(1);
+                
+                for(Integer direction : etat){
+                    this.cliquer(ligne, colonne, direction);
+                }
+            }
+        }
     }
 
     /**
