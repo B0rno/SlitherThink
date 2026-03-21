@@ -212,7 +212,7 @@ public class Matrice {
         for(savePartieLienJoueur saveJoueur : saveJoueurs){
             System.out.println(saveJoueur.getId());
             System.out.println(saveJoueur.getPath());
-            if(saveJoueur.getId() == id && saveJoueur.getPath().equals(path)){
+            if(saveJoueur.getId().equals(id) && saveJoueur.getPath().equals(path)){
                 System.out.println("OK");
                 detail = saveJoueur.getDetailleSave().getEtatGrille();
                 break;
