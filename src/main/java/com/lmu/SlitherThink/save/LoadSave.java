@@ -10,6 +10,8 @@ import com.lmu.SlitherThink.save.structure.languageContenue;
 import com.lmu.SlitherThink.save.structure.positionGrille;
 import com.lmu.SlitherThink.save.structure.stockageTechnique;
 import com.lmu.SlitherThink.save.structure.PositionTrait;
+import com.lmu.SlitherThink.save.csvScore.structure.StructureCSV;
+import com.lmu.SlitherThink.save.csvScore.LoadCSV;
 
 
 import java.io.IOException;
@@ -22,6 +24,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Comparator;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -34,6 +37,7 @@ public class LoadSave {
     private Map<String, SaveGrille> grilles;
     private SaveTechnique technique;
     private SaveGlobal saveGlobal;
+    private List<StructureCSV> scores;
     private final String basePath;
 
     public static synchronized LoadSave getInstance(String pathBeforeSave) {
@@ -53,6 +57,7 @@ public class LoadSave {
 
         grilles = chargerGrilles(gson);
         grille = choisirGrilleParDefaut();
+        scores = LoadCSV.lire("/save/Score.csv", cheminFichier("save/Score.csv") , StructureCSV.class);
     }
 
     private Map<String, SaveGrille> chargerGrilles(Gson gson) {
@@ -278,6 +283,70 @@ public class LoadSave {
 
     public String getBasePath() {
         return basePath;
+    }
+
+    public List<StructureCSV> getScores() {
+        return scores == null ? Collections.emptyList() : scores;
+    }
+
+    public void afficherContenuUtilisateurParId(int idUtilisateur) {
+        savePartieLienJoueur partie = chercherSauvegardeParId(idUtilisateur);
+        if (partie == null) {
+            System.out.println("Aucune sauvegarde trouvée pour l'id: " + idUtilisateur);
+            return;
+        }
+
+        System.out.println("Sauvegarde trouvée pour l'id: " + idUtilisateur);
+        System.out.println("Pseudo: " + partie.getPseudo());
+        System.out.println("Grille: " + partie.getPath());
+
+        var detaille = partie.getDetailleSave();
+        if (detaille == null) {
+            System.out.println("Aucun détail de partie disponible.");
+            return;
+        }
+
+        System.out.println("Chronometre: " + detaille.getChronometre());
+        System.out.println("Nb aides: " + detaille.getNbAides());
+        List<PositionTrait> etatGrille = detaille.getEtatGrille();
+        if (etatGrille == null || etatGrille.isEmpty()) {
+            System.out.println("Etat de grille vide.");
+            return;
+        }
+
+        System.out.println("Etat de grille:");
+        for (PositionTrait trait : etatGrille) {
+            if (trait == null) {
+                continue;
+            }
+            System.out.println("- position=" + trait.getPositionTrait() + ", etat=" + trait.getEtatTrait());
+        }
+    }
+
+    private savePartieLienJoueur chercherSauvegardeParId(int idUtilisateur) {
+        if (saveGlobal == null) {
+            return null;
+        }
+
+        savePartieLienJoueur sauvegarde = chercherSauvegardeDansListe(saveGlobal.getSauvegardeLibre(), idUtilisateur);
+        if (sauvegarde != null) {
+            return sauvegarde;
+        }
+
+        return chercherSauvegardeDansListe(saveGlobal.getSauvegardeAventure(), idUtilisateur);
+    }
+
+    private savePartieLienJoueur chercherSauvegardeDansListe(List<savePartieLienJoueur> sauvegardes, int idUtilisateur) {
+        if (sauvegardes == null) {
+            return null;
+        }
+
+        for (savePartieLienJoueur sauvegarde : sauvegardes) {
+            if (sauvegarde != null && sauvegarde.getId() != null && sauvegarde.getId() == idUtilisateur) {
+                return sauvegarde;
+            }
+        }
+        return null;
     }
 
 

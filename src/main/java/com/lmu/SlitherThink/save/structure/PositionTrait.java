@@ -45,4 +45,13 @@ public class PositionTrait {
     public List<Integer> getEtatTrait() {
         return etat;
     }
+
+    @Override
+    public String toString() {
+        return 
+        "PositionTrait{" +
+            "position=" + position +
+            ", etat=" + etat +
+        '}';
+    }
 }

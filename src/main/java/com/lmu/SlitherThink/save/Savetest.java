@@ -6,6 +6,8 @@ import com.lmu.SlitherThink.save.structure.PositionTrait;
 import com.lmu.SlitherThink.save.structure.SaveGlobal;
 import com.lmu.SlitherThink.save.structure.SaveTechnique;
 import com.lmu.SlitherThink.save.structure.languageContenue;
+import com.lmu.SlitherThink.save.csvScore.structure.StructureCSV;
+import com.lmu.SlitherThink.save.csvScore.SaveCSV;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,6 +45,24 @@ public class Savetest {
         System.out.println("- Traits d'une grille: save.getListeTrait(\"nomGrille\")");
         System.out.println("- Sauvegardes aventure: save.getSaveGlobal().getSauvegardeAventure()");
         System.out.println("- Sauvegardes libre: save.getSaveGlobal().getSauvegardeLibre()");
+
+        afficherHeader("5b) AFFICHER UTILISATEUR ID 153");
+        save.afficherContenuUtilisateurParId(153);
+
+        afficherHeader("6) loader CSV");
+        List<StructureCSV> scores = save.getScores();
+        System.out.println("Scores chargés: " + scores.size());
+        if (!scores.isEmpty()) {
+            StructureCSV premier = scores.get(0);
+            System.out.println("Premier score -> pseudo: " + premier.getPseudo() + ", grille: " + premier.getCheminGrille() + ", nbAide: " + premier.getNbAide() + ", chrono: " + premier.getChrono());
+        }
+
+        afficherHeader("7)Creer et save CSV");
+        List<StructureCSV> saveCSV = new ArrayList<>(scores);
+        saveCSV.add(new StructureCSV("alice", "grilleJeu3.json", 2, 150));
+        saveCSV.add(new StructureCSV("bob", "grilleJeu4.json", 1, 120));
+        SaveCSV.sauvegarder(saveCSV, basePath + "/save/Score.csv");
+        System.out.println("Scores ajoutés et sauvegardés dans: " + basePath + "/save/Score.csv");
     }
 
     private static void afficherHeader(String titre) {

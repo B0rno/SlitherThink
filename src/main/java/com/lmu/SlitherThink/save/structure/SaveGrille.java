@@ -47,4 +47,15 @@ public class SaveGrille {
     public List<PositionTrait> getListePositionTrait() {
         return liste_position_trait;
     }
+
+    @Override
+    public String toString() {
+        return 
+        "SaveGrille{" +
+            "nv_grille=" + nv_grille +
+            ", taille=" + taille +
+            ", numero_cases=" + numero_cases +
+            ", liste_position_trait=" + liste_position_trait +
+        '}';
+    }
 }

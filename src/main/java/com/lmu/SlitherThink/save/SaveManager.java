@@ -9,6 +9,7 @@ import com.google.gson.JsonSerializer;
 import com.lmu.SlitherThink.save.gestionDonnee.EcrireEnJson;
 import com.lmu.SlitherThink.save.gestionDonnee.LoadSaveSerializer;
 import com.lmu.SlitherThink.save.gestionDonnee.savePartieLienJoueur;
+import com.lmu.SlitherThink.save.csvScore.SaveCSV;
 import com.lmu.SlitherThink.save.structure.DetailleSavePartie;
 import com.lmu.SlitherThink.save.structure.SaveGlobal;
 import com.lmu.SlitherThink.save.structure.SaveGrille;
@@ -35,7 +36,7 @@ public class SaveManager {
      *
      * @param save L'instance de `LoadSave` contenant les données à sauvegarder.
      */
-    SaveManager(LoadSave save) {
+    public SaveManager(LoadSave save) {
         this.save = save;
         dossiersJson = new HashMap<>();
     }
@@ -135,6 +136,8 @@ public class SaveManager {
             String cheminFichier = determinerChemin(base, nomFichier);
             EcrireEnJson.ecrireJson(cheminFichier, contenuJson);
         });
+
+        SaveCSV.sauvegarder(save.getScores(), determinerCheminCsv(base));
     }
 
     /**
@@ -180,4 +183,13 @@ public class SaveManager {
 
         return prefixeSave + "autres/" + nomNettoye + ".json";
     }
+
+    private String determinerCheminCsv(String base) {
+        String baseNormalisee = base == null ? "" : base;
+        if (!baseNormalisee.isEmpty() && !baseNormalisee.endsWith("/")) {
+            baseNormalisee += "/";
+        }
+        return baseNormalisee + "save/Score.csv";
+    }
+
 }
