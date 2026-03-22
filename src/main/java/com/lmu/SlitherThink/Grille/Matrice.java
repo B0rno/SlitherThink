@@ -235,6 +235,9 @@ public class Matrice {
     }
 
     public void saveGrille(Integer id, String path, int l, int c, int direction){
+        if(this.getCase(l,c).getTrait(direction).getEtat() == ValeurTrait.CROIX)
+            return; //La sauvegarde des croix n'est pas implémenté dans les json
+
         LoadSave save = LoadSave.getInstance("");
 
         List<savePartieLienJoueur> saveJoueurs = save.getSaveGlobal().getSauvegardeLibre();
