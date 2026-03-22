@@ -6,8 +6,10 @@ import com.lmu.SlitherThink.save.structure.PositionTrait;
 import com.lmu.SlitherThink.save.structure.positionGrille;
 import com.lmu.SlitherThink.save.gestionDonnee.savePartieLienJoueur;
 import com.lmu.SlitherThink.save.structure.DetailleSavePartie;
+import com.lmu.SlitherThink.save.SaveManager;
 
 import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Représente une matrice de cases pour le jeu SlitherLink.
@@ -210,10 +212,7 @@ public class Matrice {
         List<PositionTrait> detail = null;
 
         for(savePartieLienJoueur saveJoueur : saveJoueurs){
-            System.out.println(saveJoueur.getId());
-            System.out.println(saveJoueur.getPath());
             if(saveJoueur.getId().equals(id) && saveJoueur.getPath().equals(path)){
-                System.out.println("OK");
                 detail = saveJoueur.getDetailleSave().getEtatGrille();
                 break;
             }
@@ -228,10 +227,60 @@ public class Matrice {
                 int colonne = coord.get(1);
                 
                 for(Integer direction : etat){
-                    this.cliquer(ligne, colonne, direction);
+                    if(this.getCase(ligne,colonne).getTrait(direction).getEtat() == ValeurTrait.VIDE)
+                        this.cliquer(ligne, colonne, direction);
                 }
             }
         }
+    }
+
+    public void saveGrille(Integer id, String path, int l, int c, int direction){
+        LoadSave save = LoadSave.getInstance("");
+
+        List<savePartieLienJoueur> saveJoueurs = save.getSaveGlobal().getSauvegardeLibre();
+
+        List<PositionTrait> detail = null;
+
+        for(savePartieLienJoueur saveJoueur : saveJoueurs){
+            if(saveJoueur.getId().equals(id) && saveJoueur.getPath().equals(path)){
+                detail = saveJoueur.getDetailleSave().getEtatGrille();
+                break;
+            }
+        }
+
+        if(detail != null){
+            boolean caseExistante = false;
+            for(PositionTrait pos : detail){
+                List<Integer> coord = pos.getPositionTrait();
+                List<Integer> etat = pos.getEtatTrait();
+                
+                int ligne = coord.get(0);
+                int colonne = coord.get(1);
+                
+                if(ligne == l && colonne == c){
+                    if(etat.contains(direction))
+                        etat.remove(Integer.valueOf(direction));
+                    else
+                        etat.add(direction);
+                    caseExistante = true;
+                    break;
+                }
+            }
+
+            if(!caseExistante) {
+                List<Integer> positions = new ArrayList<>(2);
+                positions.add(l);
+                positions.add(c);
+                List<Integer> etats = new ArrayList<>(4);
+                etats.add(direction);
+                detail.add(PositionTrait.create(positions, etats));
+            }
+        }
+        SaveManager saveManager = new SaveManager(save);
+        saveManager.separerLesSauvegardes();
+        saveManager.sauvegarderJsonDansArborescence("");
+        System.out.println("Fichiers JSON générés: " + saveManager.getDossiersJson().keySet());
+        System.out.println("Ecriture terminée dans: /save");
     }
 
     /**

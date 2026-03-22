@@ -36,7 +36,7 @@ public class SaveManager {
      *
      * @param save L'instance de `LoadSave` contenant les données à sauvegarder.
      */
-    SaveManager(LoadSave save) {
+    public SaveManager(LoadSave save) {
         this.save = save;
         dossiersJson = new HashMap<>();
     }

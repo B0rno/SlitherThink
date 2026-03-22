@@ -6,6 +6,10 @@ public class GridTest {
     public static void main(String[] argv){
         Matrice mat = Matrice.loadGrille("grilleJeu1");
         mat.loadSave(150, "./save/saveGrille/grilleJeu1.json");
+        mat.cliquer(2,2,2);
+        mat.cliquer(0,0,3);
+        mat.saveGrille(150, "./save/saveGrille/grilleJeu1.json", 0, 0, 3);
+        mat.saveGrille(150, "./save/saveGrille/grilleJeu1.json", 2, 2, 2);
         System.out.println(mat);
     }
 }
