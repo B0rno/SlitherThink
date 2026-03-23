@@ -1,17 +1,20 @@
-package com.lmu.SlitherThink.save;
+package com.lmu.SlitherThink;
 
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
+import com.lmu.SlitherThink.save.LoadSave;
+import com.lmu.SlitherThink.save.SaveManager;
+import com.lmu.SlitherThink.save.csvScore.SaveCSV;
+import com.lmu.SlitherThink.save.csvScore.structure.StructureCSV;
 import com.lmu.SlitherThink.save.gestionDonnee.savePartieLienJoueur;
 import com.lmu.SlitherThink.save.structure.DetailleSavePartie;
 import com.lmu.SlitherThink.save.structure.PositionTrait;
 import com.lmu.SlitherThink.save.structure.SaveGlobal;
 import com.lmu.SlitherThink.save.structure.SaveTechnique;
 import com.lmu.SlitherThink.save.structure.languageContenue;
-import com.lmu.SlitherThink.save.csvScore.structure.StructureCSV;
-import com.lmu.SlitherThink.save.csvScore.SaveCSV;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
 
 public class Savetest {
     public static void main(String[] args) {
