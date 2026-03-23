@@ -10,21 +10,25 @@ import java.time.Duration;
  * @author Enzo Desfaudais (B0rno)
  * @version 1.0
  */
+
+//modif : une etoile pour une partie complétée, une étoile pour un temps respecté ou aides respectées, une étoile si tout est respecté
 public class Score {
     private Instant debutSession = null;
     private Duration dureeAccumulee = Duration.ZERO;
     private int nbCoups = 0;
     private int nbAidesUtilisees = 0;
+    private int nbAidexMax = 3; //3 aides max pour l'étoile
     private int etoiles = 0;
-    private long dureDeuxEtoile = 300; // 5 minutes pour 2 étoile
-    private long dureeTroisEtoiles = 120; // 2 minutes pour 3 étoiles
+    private long dureePourEtoile = 300; // 5 minutes pour l'étoile
 
     /**
      * Démarre le chronomètre.
      * Enregistre l'instant de début de la session de jeu.
      */
     public void demarrerChrono() {
-        debutSession = Instant.now();
+        if (debutSession == null) {
+            debutSession = Instant.now();
+        }
     }
 
     /**
@@ -32,7 +36,10 @@ public class Score {
      * Accumule le temps écoulé depuis le dernier démarrage.
      */
     public void pauseChrono() {
-        dureeAccumulee = dureeAccumulee.plus(Duration.between(debutSession, Instant.now()));
+        if (debutSession != null) {
+            dureeAccumulee = dureeAccumulee.plus(Duration.between(debutSession, Instant.now()));
+            debutSession = null;
+        }
     }
 
     /**
@@ -46,19 +53,6 @@ public class Score {
         }
     }
 
-    /**
-     * Incrémente le compteur d'aides utilisées.
-     */
-    public void utiliserAide() {
-        nbAidesUtilisees++;
-    }
-
-    /**
-     * Incrémente le compteur de coups joués.
-     */
-    public void incrementerCoups() {
-        nbCoups++;
-    }
 
     /**
      * Calcule le nombre d'étoiles obtenues.
@@ -67,9 +61,9 @@ public class Score {
      * 1 étoile : sinon.
      */
     public void calculerEtoiles() {
-        long secondes = dureeAccumulee.getSeconds();
-        if (secondes <= dureeTroisEtoiles && nbAidesUtilisees == 0) etoiles = 3;
-        else if (secondes <= dureDeuxEtoile && nbAidesUtilisees <= 2) etoiles = 2;
+        long secondes = getDureeEnSecondes();
+        if (secondes <= dureePourEtoile && nbAidesUtilisees == 0) etoiles = 3;
+        else if (secondes <= dureePourEtoile && nbAidesUtilisees <= nbAidexMax) etoiles = 2;
         else etoiles = 1;
     }
 
@@ -88,6 +82,9 @@ public class Score {
      * @return la durée en secondes
      */
     public long getDureeEnSecondes() {
+        if (debutSession != null) {
+            return dureeAccumulee.plus(Duration.between(debutSession, Instant.now())).getSeconds();
+        }
         return dureeAccumulee.getSeconds();
     }
 
@@ -107,5 +104,27 @@ public class Score {
      */
     public int getNbAidesUtilisees() {
         return nbAidesUtilisees;
+    }
+
+    public long getDureePourEtoile() {
+        return dureePourEtoile;
+    }
+
+    public int getNbAidexMax() {
+        return nbAidexMax;
+    }
+
+    /**
+     * Incrémente le compteur d'aides utilisées.
+     */
+    public void utiliserAide() {
+        nbAidesUtilisees++;
+    }
+
+    /**
+     * Incrémente le compteur de coups joués.
+     */
+    public void incrementerCoups() {
+        nbCoups++;
     }
 }

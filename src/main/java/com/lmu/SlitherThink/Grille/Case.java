@@ -18,7 +18,7 @@ package com.lmu.SlitherThink.Grille;
  */
 public class Case {
     /** Numéro unique identifiant cette case */
-    private final int numero_case;
+    private int numero_case;
     
     /** Tableau contenant l'état actuel du jeu pour les 4 traits */
     private Trait[] etatJeu;
@@ -50,6 +50,10 @@ public class Case {
      */
     public int getNumero() {
         return numero_case;
+    }
+
+    public void setNumero(int num){
+        this.numero_case = num;
     }
 
     /**

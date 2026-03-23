@@ -1,20 +1,36 @@
 JAVAC = javac
-SOURCE_DIR = src/main/java/com/lmu/SlitherThink/Grille
+SOURCE_BASE = src/main/java/com/lmu/SlitherThink
+SOURCE_DIR = $(SOURCE_BASE)/Grille
+SAVE_DIR = $(SOURCE_BASE)/save
 OUTPUT_DIR = temp_class
-SOURCES = $(SOURCE_DIR)/Test.java $(SOURCE_DIR)/Case.java $(SOURCE_DIR)/Trait.java $(SOURCE_DIR)/Matrice.java $(SOURCE_DIR)/ValeurTrait.java
-GRILLE_PACKAGE = $(OUTPUT_DIR)/com/lmu/SlitherThink/Grille
+
+SOURCES = \
+	$(SOURCE_DIR)/Test.java \
+	$(SOURCE_DIR)/Case.java \
+	$(SOURCE_DIR)/Trait.java \
+	$(SOURCE_DIR)/ValeurTrait.java \
+	$(SOURCE_DIR)/Matrice.java \
+	$(SAVE_DIR)/*.java
+
+OUTPUT_PACKAGE = $(OUTPUT_DIR)/com/lmu/SlitherThink
 
 .PHONY: all clean run
 
-all: $(OUTPUT_DIR)/Test.class
+all: $(OUTPUT_DIR)/com/lmu/SlitherThink/Grille/Test.class
 
-$(OUTPUT_DIR)/Test.class: $(SOURCES)
+$(OUTPUT_DIR)/com/lmu/SlitherThink/Grille/Test.class: $(SOURCES)
 	@mkdir -p $(OUTPUT_DIR)
 	$(JAVAC) -d $(OUTPUT_DIR) $(SOURCES)
 
-run: $(OUTPUT_DIR)/Test.class
-	java -cp $(OUTPUT_DIR) Test
+run: $(OUTPUT_DIR)/com/lmu/SlitherThink/Grille/Test.class
+	java -cp $(OUTPUT_DIR) com.lmu.SlitherThink.Grille.Test
 
 clean:
-	rm -rf $(OUTPUT_DIR)/*.class
-	rm -rf $(GRILLE_PACKAGE)/*.class
+	rm -rf $(OUTPUT_DIR)
+
+.PHONY: help
+help:
+	@echo "Targets disponibles:"
+	@echo "  make all   - Compile tous les fichiers"
+	@echo "  make run   - Exécute le programme"
+	@echo "  make clean - Supprime les fichiers compilés"

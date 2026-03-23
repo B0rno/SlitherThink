@@ -10,21 +10,38 @@ public class Pause extends ChangementFenetre{
 
     @FXML
     private void recommencer(ActionEvent event) {
+        //ne pas sauvegarder
         if("libre".equals(Partie.dernierMode)){
+            Partie controller = (Partie) GestionnaireVues.getController("partie");
+            if (controller != null) {
+                controller.initialiserPartie(Partie.getGrilleEnCours());
+            }
             changerFenetre(event, "partie");
         }
         else{
             PartieTimer controller = (PartieTimer) GestionnaireVues.getController("partieTimer");
             if (controller != null) {
-                controller.initialiserPartie(PartieTimer.getNumPartie());
+                if ("aventure".equals(Partie.dernierMode)){
+                    controller.initialiserPartie(PartieTimer.getNumPartie());
+                }
+
+                //tutoriel
+                else{
+                    controller.lancerTutoriel();
+                }
+                changerFenetre(event, "partieTimer");
             }
-            changerFenetre(event, "partieTimer");
+
+            else{
+                System.out.println("Erreur : Impossible de récupérer le controller de PartieTimer");    
+            }
         }
     }
 
     @FXML 
     private void abandonner(ActionEvent event) {
-        changerFenetre(event, "choixPartieAventure");
+        //ne pas faire de sauvegarde
+        changerFenetre(event, "menuAccueil");
     }
 
     @FXML
@@ -35,11 +52,13 @@ public class Pause extends ChangementFenetre{
 
     @FXML
     private void techniques(ActionEvent event) {
+        //TODO faire l'affichage des techniques
         System.out.println("Techniques");
     }
 
     @FXML
-    private void retour(ActionEvent event) {
+    private void menuPrincipal(ActionEvent event) {
+        //TODO faire sauvegarde
         changerFenetre(event, "menuAccueil");
     }
 
@@ -52,8 +71,7 @@ public class Pause extends ChangementFenetre{
         else{
             PartieTimer controller = (PartieTimer) GestionnaireVues.getController("partieTimer");
             if (controller != null) {
-                // 2. Appeler une méthode que vous créez dans PartieController pour relancer le timer
-                controller.relancerJeu(); 
+                controller.reprendrePartie(); 
             }
             changerFenetre(event, "partieTimer");
         }    

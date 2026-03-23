@@ -15,7 +15,6 @@ public class Pseudo extends ChangementFenetre{
         String pseudo = txtPseudo.getText().trim();
 
         if (!pseudo.isEmpty()) {
-            System.out.println("Pseudo : " + pseudo);
             changerFenetre(event, "menuAccueil");
         }
     }

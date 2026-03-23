@@ -1,5 +1,17 @@
 package com.lmu.SlitherThink.Grille;
 
+import com.lmu.SlitherThink.save.LoadSave;
+import com.lmu.SlitherThink.save.structure.SaveGrille;
+import com.lmu.SlitherThink.save.structure.PositionTrait;
+import com.lmu.SlitherThink.save.structure.positionGrille;
+import com.lmu.SlitherThink.save.gestionDonnee.savePartieLienJoueur;
+import com.lmu.SlitherThink.save.structure.DetailleSavePartie;
+import com.lmu.SlitherThink.save.SaveManager;
+
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Map;
+
 /**
  * Représente une matrice de cases pour le jeu SlitherLink.
  * 
@@ -88,7 +100,7 @@ public class Matrice {
         }
         
         // Créer les cases et assigner les traits partagés
-        int numero = 0;
+        int numero = -1;
         for (int i = 0; i < hauteur; i++) {
             for (int j = 0; j < largeur; j++) {
                 grille[i][j] = new Case(numero);
@@ -119,6 +131,14 @@ public class Matrice {
         return grille[ligne][colonne];
     }
 
+    public Trait getTraitHorizSolution(int ligne, int colonne) {
+        return this.traitsHorizontauxSol[ligne][colonne];
+    }
+
+    public Trait getTraitVertiSolution(int ligne, int colonne) {
+        return this.traitsVerticauxSol[ligne][colonne];
+    }
+
     /**
      * Retourne la hauteur de la matrice.
      * 
@@ -141,25 +161,145 @@ public class Matrice {
      * Charge la solution dans la matrice.
      * Définit les états des traits solution pour tous les traits.
      */
-    public void loadSolution(){
-        for (int i = 0; i <= hauteur; i++) {
-            for (int j = 0; j < largeur; j++) {
-                if (i < hauteur) {
-                    traitsHorizontauxSol[i][j].setTrait(ValeurTrait.PLEIN);
-                } else {
-                    traitsHorizontauxSol[i][j].setTrait(ValeurTrait.VIDE);
+    public static Matrice loadGrille(String key){
+        LoadSave save = LoadSave.getInstance(null);
+
+
+        Map<String, SaveGrille> toutesLesGrilles = save.getGrilles();
+    
+        if (toutesLesGrilles == null || !toutesLesGrilles.containsKey(key)) {
+            System.err.println("ERREUR : La grille '" + key + "' est introuvable.");
+            // Petit debug pour voir ce qui est chargé
+            if(toutesLesGrilles != null) System.out.println("Grilles dispos : " + toutesLesGrilles.keySet());
+            return null; 
+        }
+
+        SaveGrille grid = save.getGrilles().get(key);
+        if (grid == null) {
+            System.err.println("La grille '" + key + "' n'a pas été trouvée dans le dossier GrilleJson.");
+            return null; 
+        }
+        int hauteur = grid.getTailleGrille();
+
+        Matrice loadedMatrice = new Matrice(hauteur, hauteur);
+
+        for(positionGrille pos : grid.getNumeroCases()){
+            List<Integer> coord = pos.getPositionGrille();
+            loadedMatrice.getCase(coord.get(0), coord.get(1)).setNumero(pos.getValeurGrille());
+        }
+
+        for(PositionTrait pos : grid.getListePositionTrait()){
+            List<Integer> coord = pos.getPositionTrait();
+            List<Integer> etat = pos.getEtatTrait();
+            
+            int ligne = coord.get(0);
+            int colonne = coord.get(1);
+            
+            // Pour chaque direction qui fait partie de la solution
+            for(Integer direction : etat) {
+                switch(direction) {
+                    case 0: // Trait haut
+                        loadedMatrice.getTraitHorizSolution(ligne, colonne).setTrait(ValeurTrait.PLEIN);
+                        break;
+                    case 2: // Trait gauche
+                        loadedMatrice.getTraitVertiSolution(ligne, colonne).setTrait(ValeurTrait.PLEIN);
+                        break;
+                    case 1: // Trait droite
+                        loadedMatrice.getTraitVertiSolution(ligne, colonne + 1).setTrait(ValeurTrait.PLEIN);
+                        break;
+                    case 3: // Trait bas
+                        loadedMatrice.getTraitHorizSolution(ligne + 1, colonne).setTrait(ValeurTrait.PLEIN);
+                        break;
                 }
             }
         }
-        
-        for (int i = 0; i < hauteur; i++) {
-            for (int j = 0; j <= largeur; j++) {
-                traitsVerticauxSol[i][j].setTrait(ValeurTrait.VIDE);
+
+        loadedMatrice.compterTraitsValides();
+        return loadedMatrice;
+    }
+
+    public boolean loadSave(Integer id, String path){
+        LoadSave save = LoadSave.getInstance("");
+
+        List<savePartieLienJoueur> saveJoueurs = save.getSaveGlobal().getSauvegardeLibre();
+
+        List<PositionTrait> detail = null;
+
+        for(savePartieLienJoueur saveJoueur : saveJoueurs){
+            if(saveJoueur.getId().equals(id) && saveJoueur.getPath().equals(path)){
+                detail = saveJoueur.getDetailleSave().getEtatGrille();
+                break;
             }
         }
-        
-        this.cpt = this.compterTraitsValides();
-        this.completed = false;
+
+        if(detail != null){
+            for(PositionTrait pos : detail){
+                List<Integer> coord = pos.getPositionTrait();
+                List<Integer> etat = pos.getEtatTrait();
+                
+                int ligne = coord.get(0);
+                int colonne = coord.get(1);
+                
+                for(Integer direction : etat){
+                    if(this.getCase(ligne,colonne).getTrait(direction).getEtat() == ValeurTrait.VIDE)
+                        this.cliquer(ligne, colonne, direction);
+                }
+            }
+            return true;
+        }
+        return false;
+    }
+
+    public void saveGrille(Integer id, String path, int l, int c, int direction){
+        if(this.getCase(l,c).getTrait(direction).getEtat() == ValeurTrait.CROIX)
+            return; //La sauvegarde des croix n'est pas implémenté dans les json
+
+        LoadSave save = LoadSave.getInstance("");
+
+        List<savePartieLienJoueur> saveJoueurs = save.getSaveGlobal().getSauvegardeLibre();
+
+        List<PositionTrait> detail = null;
+
+        for(savePartieLienJoueur saveJoueur : saveJoueurs){
+            if(saveJoueur.getId().equals(id) && saveJoueur.getPath().equals(path)){
+                detail = saveJoueur.getDetailleSave().getEtatGrille();
+                break;
+            }
+        }
+
+        if(detail != null){
+            boolean caseExistante = false;
+            for(PositionTrait pos : detail){
+                List<Integer> coord = pos.getPositionTrait();
+                List<Integer> etat = pos.getEtatTrait();
+                
+                int ligne = coord.get(0);
+                int colonne = coord.get(1);
+                
+                if(ligne == l && colonne == c){
+                    if(etat.contains(direction))
+                        etat.remove(Integer.valueOf(direction));
+                    else
+                        etat.add(direction);
+                    caseExistante = true;
+                    break;
+                }
+            }
+
+            if(!caseExistante) {
+                List<Integer> positions = new ArrayList<>(2);
+                positions.add(l);
+                positions.add(c);
+                List<Integer> etats = new ArrayList<>(4);
+                etats.add(direction);
+                detail.add(PositionTrait.create(positions, etats));
+            }
+        }
+        SaveManager saveManager = new SaveManager(save);
+        saveManager.separerLesSauvegardes();
+        saveManager.sauvegarderJsonDansArborescence("");
+        System.out.println("Fichiers JSON générés: " + saveManager.getDossiersJson().keySet());
+        System.out.println("Ecriture terminée dans: /save");
     }
 
     /**
@@ -193,6 +333,7 @@ public class Matrice {
             }
         }
         
+        this.cpt = total;
         return total;
     }
 
@@ -242,7 +383,9 @@ public class Matrice {
             // Ligne des cases avec traits verticaux
             for (int j = 0; j < largeur; j++) {
                 sb.append(getStringOfTraitVertical(i, j, 1));   // trait gauche
-                sb.append(String.format("[%d]", grille[i][j].getNumero()));
+                if(grille[i][j].getNumero() != -1)
+                    sb.append(String.format("[%d]", grille[i][j].getNumero()));
+                else sb.append("[ ]");
             }
             sb.append(getStringOfTraitVertical(i,largeur-1,2)); // trait droit de la dernière case
             sb.append("\n");

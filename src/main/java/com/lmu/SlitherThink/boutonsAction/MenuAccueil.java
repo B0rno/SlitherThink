@@ -1,6 +1,9 @@
 package com.lmu.SlitherThink.boutonsAction;
 
 
+import com.lmu.SlitherThink.App;
+import com.lmu.SlitherThink.GestionnaireVues;
+
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -18,7 +21,16 @@ public class MenuAccueil extends ChangementFenetre{
 
     @FXML
     private void tutoriel(ActionEvent event) {
-        System.out.println("Tutoriel");
+
+        PartieTimer controller = (PartieTimer) GestionnaireVues.getController("partieTimer");
+    
+        if (controller != null) {
+            controller.lancerTutoriel();
+            App.changerVue("partieTimer");
+            
+        } else {
+            System.err.println("Erreur : Le contrôleur de la partie est introuvable !");
+        }
     }
 
     @FXML

@@ -1,0 +1,36 @@
+{
+  "SauvegardeLibre": [
+    {
+      "pseudo": "bertran",
+      "id": 150,
+      "path": "./save/saveGrille/grille12.json"
+    },
+    {
+      "pseudo": "gerome",
+      "id": 153,
+      "path": "./save/saveGrille/grilleJeu1.json"
+    },
+    {
+      "pseudo": "gerome",
+      "id": 155,
+      "path": "./save/saveGrille/grilleJeu1.json"
+    }
+  ],
+  "SauvegardeAventure": [
+    {
+      "pseudo": "bertran",
+      "id": 151,
+      "path": "./save/saveGrille/grille12.json"
+    },
+    {
+      "pseudo": "gerome",
+      "id": 152,
+      "path": "./save/saveGrille/grilleJeu1.json"
+    },
+    {
+      "pseudo": "gerome",
+      "id": 154,
+      "path": "./save/saveGrille/grilleJeu1.json"
+    }
+  ]
+}
