@@ -1,6 +1,11 @@
 /target/
 *.class
-.idea/
-.settings/
-.project
-.classpath
+/bin/
+/.idea/
+/.settings/
+/.project
+/.classpath
+
+/.vscode/
+*.log
+/tmp/
