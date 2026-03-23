@@ -10,6 +10,7 @@ import com.lmu.SlitherThink.save.SaveManager;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Map;
 
 /**
  * Représente une matrice de cases pour le jeu SlitherLink.
@@ -217,7 +218,7 @@ public class Matrice {
         return loadedMatrice;
     }
 
-    public void loadSave(Integer id, String path){
+    public boolean loadSave(Integer id, String path){
         LoadSave save = LoadSave.getInstance("");
 
         List<savePartieLienJoueur> saveJoueurs = save.getSaveGlobal().getSauvegardeLibre();
@@ -244,7 +245,9 @@ public class Matrice {
                         this.cliquer(ligne, colonne, direction);
                 }
             }
+            return true;
         }
+        return false;
     }
 
     public void saveGrille(Integer id, String path, int l, int c, int direction){
