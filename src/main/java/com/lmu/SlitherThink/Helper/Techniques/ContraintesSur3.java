@@ -9,8 +9,7 @@ import com.lmu.SlitherThink.Helper.StrategieAide;
 
 /**
  * Technique: Contraintes sur 3
- * Détecte les situations où un 3 est adjacent à un 0 et possède déjà un trait plein
- * du côté du 0. Cette configuration permet de déduire les autres traits autour du 3.
+ * Détecte les situations où un 3 est adjacent à un 0 et possède déjà un trait plein du côté du 0. Cette configuration permet de déduire les autres traits autour du 3.
  * Pattern de base de SlitherLink niveau basique.
  *
  * @author Enzo Desfaudais (B0rno)
