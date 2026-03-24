@@ -17,18 +17,18 @@ public class App extends Application {
     @Override
     public void start(Stage stage) throws Exception {
 
-        // Chargement des vues
-        GestionnaireVues.loadView("pseudo", "/fxml/pseudo.fxml");
-        GestionnaireVues.loadView("menuAccueil", "/fxml/menuAccueil.fxml");
-        GestionnaireVues.loadView("choixMode", "/fxml/choixMode.fxml");
-        GestionnaireVues.loadView("choixDifficulte", "/fxml/choixDifficulte.fxml");
-        GestionnaireVues.loadView("choixPartieAventure", "/fxml/choixPartieAventure.fxml");
-        GestionnaireVues.loadView("finPartieAventure", "/fxml/finPartieAventure.fxml");
-        GestionnaireVues.loadView("leaderboards", "/fxml/leaderboards.fxml");
-        GestionnaireVues.loadView("pause", "/fxml/pause.fxml");
-        GestionnaireVues.loadView("options", "/fxml/options.fxml");
-        GestionnaireVues.loadView("partie", "/fxml/partie.fxml");
-        GestionnaireVues.loadView("partieTimer", "/fxml/partieTimer.fxml");
+        // Enregistrement des vues (lazy loading - chargées uniquement quand nécessaire)
+        GestionnaireVues.registerView("pseudo", "/fxml/pseudo.fxml");
+        GestionnaireVues.registerView("menuAccueil", "/fxml/menuAccueil.fxml");
+        GestionnaireVues.registerView("choixMode", "/fxml/choixMode.fxml");
+        GestionnaireVues.registerView("choixDifficulte", "/fxml/choixDifficulte.fxml");
+        GestionnaireVues.registerView("choixPartieAventure", "/fxml/choixPartieAventure.fxml");
+        GestionnaireVues.registerView("finPartieAventure", "/fxml/finPartieAventure.fxml");
+        GestionnaireVues.registerView("leaderboards", "/fxml/leaderboards.fxml");
+        GestionnaireVues.registerView("pause", "/fxml/pause.fxml");
+        GestionnaireVues.registerView("options", "/fxml/options.fxml");
+        GestionnaireVues.registerView("partie", "/fxml/partie.fxml");
+        GestionnaireVues.registerView("partieTimer", "/fxml/partieTimer.fxml");
 
 
 
@@ -66,35 +66,12 @@ public class App extends Application {
         String css = this.getClass().getResource("/css/styles.css").toExternalForm();
         scene.getStylesheets().add(css);
 
-        // Passage en Plein Écran
-        
-
-        stage.show();
-
-        // On crée une vérification qui tourne jusqu'à ce que le plein écran soit effectif
-        javafx.animation.Timeline verificateur = new javafx.animation.Timeline(
-            new javafx.animation.KeyFrame(javafx.util.Duration.millis(100), e -> {
-                if (!stage.isFullScreen()) {
-                    stage.setFullScreen(true);
-                }
-            })
-        );
-        // On essaie 5 fois maximum (pendant 0.5 seconde)
-        verificateur.setCycleCount(5); 
-        verificateur.play();
-
+        // Configuration plein écran AVANT show()
         stage.setFullScreenExitHint("");
         stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
+        stage.setFullScreen(true);  // Active AVANT show()
 
-        /*
         stage.show();
-        
-        javafx.application.Platform.runLater(() -> {
-            stage.setFullScreen(true);
-            stage.setFullScreenExitHint("");
-        });
-        stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
-        */
     }
 
     // Méthode pour changer de page
