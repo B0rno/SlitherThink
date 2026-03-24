@@ -3,6 +3,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.lmu.SlitherThink.Grille.Matrice;
+import com.lmu.SlitherThink.Helper.GestionnaireAide;
+import com.lmu.SlitherThink.Helper.Aide;
+
 
 /**
  * Gère une partie de jeu SlitherLink.
@@ -24,6 +27,7 @@ public class Partie {
     private Score s; 
     private EtatPartie etat;
     private List<PartieObserver> observers;
+    private Aide aideEnCours; // Stocke l'aide actuelle pour la notifier aux observers
 
 
 
@@ -180,12 +184,24 @@ public class Partie {
         
         nbAides--;
         s.utiliserAide();
+
+        GestionnaireAide gestionnaire = new GestionnaireAide();
+        aideEnCours = gestionnaire.trouverAide(m);
+
         notifierAideUtilisee();
+
+        return aideEnCours != null;
         
-        // TODO : Appeler le Helper ici 
-        return true;
     }
 
+    /**
+     * Retourne l'aide en cours.
+     * 
+     * @return l'aide actuelle ou null si aucune aide n'est en cours
+     */
+    public Aide getAideEnCours() {
+        return aideEnCours;
+    }
 
     /**
      * Vérifie si tous les traits de la grille correspondent à la solution.

@@ -85,10 +85,17 @@
          </children>
       </VBox>
 
-      <VBox alignment="TOP_CENTER" maxHeight="380.0" maxWidth="200.0" spacing="10.0" style="-fx-border-color: black; -fx-border-width: 2; -fx-border-radius: 5; -fx-padding: 20;" StackPane.alignment="CENTER_RIGHT">
+      <VBox alignment="TOP_CENTER" maxHeight="380.0" maxWidth="200.0" 
+            spacing="10.0" style="-fx-border-color: black; -fx-border-width: 2; 
+            -fx-border-radius: 5; -fx-padding: 20;" StackPane.alignment="CENTER_RIGHT">
          <StackPane.margin>
             <Insets right="85.0" top="80.0" />
          </StackPane.margin>
+         <children>
+            <Label fx:id="labelAide" text="" wrapText="true" 
+                  style="-fx-font-size: 14; -fx-text-fill: #333;">
+            </Label>
+         </children>
       </VBox>
 
    </children>

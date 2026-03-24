@@ -39,13 +39,13 @@ public class LoadTechniqueJson {
 
     /**
      * Charge le fichier JSON contenant toutes les techniques et remplit la Map techniqueDescriptions.
-     * Le fichier doit se trouver dans /resources/techniques.json avec la structure :
+     * Le fichier doit se trouver dans /technique.json avec la structure :
      * stockage_langague > contenu > techniqueParsNv > techniques.
      * En cas d'erreur de lecture, la stacktrace est affichée.
      */
     private void chargerJson() {
         try (InputStreamReader reader = new InputStreamReader(getClass()
-                                            .getResourceAsStream("/resources/techniques.json"))) {
+                                            .getResourceAsStream("/technique.json"))) {
             Gson gson = new Gson();
             JsonObject root = gson.fromJson(reader, JsonObject.class);
             JsonArray stockage_langague = root.getAsJsonArray("stockage_langague");

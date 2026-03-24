@@ -34,19 +34,19 @@ public class ContraintesSur3 implements StrategieAide {
                 Case c = m.getCase(i, j);
                 if(c != null && c.getNumero() == 3) {
                     //Test Nord
-                    if(m.getCase(i-1, j) != null && m.getCase(i-1, j).getNumero() == 0 && m.getCase(i-1, j).getTrait(0).getEtat() == ValeurTrait.PLEIN) {
+                    if(m.getCase(i-1, j) != null && m.getCase(i-1, j).getNumero() == 0 && m.getCase(i, j).getTrait(0).getEtat() == ValeurTrait.PLEIN) {
                         return true;
                     }
                     //Test Sud
-                    if(m.getCase(i+1, j) != null && m.getCase(i+1, j).getNumero() == 0 && m.getCase(i+1, j).getTrait(3).getEtat() == ValeurTrait.PLEIN) {
+                    if(m.getCase(i+1, j) != null && m.getCase(i+1, j).getNumero() == 0 && m.getCase(i, j).getTrait(3).getEtat() == ValeurTrait.PLEIN) {
                         return true;
                     }
                     //Test Est
-                    if(m.getCase(i, j+1) != null && m.getCase(i, j+1).getNumero() == 0 && m.getCase(i, j+1).getTrait(2).getEtat() == ValeurTrait.PLEIN) {
+                    if(m.getCase(i, j+1) != null && m.getCase(i, j+1).getNumero() == 0 && m.getCase(i, j).getTrait(2).getEtat() == ValeurTrait.PLEIN) {
                         return true;
                     }
                     //Test Ouest
-                    if(m.getCase(i, j-1) != null && m.getCase(i, j-1).getNumero() == 0 && m.getCase(i, j-1).getTrait(1).getEtat() == ValeurTrait.PLEIN) {
+                    if(m.getCase(i, j-1) != null && m.getCase(i, j-1).getNumero() == 0 && m.getCase(i, j).getTrait(1).getEtat() == ValeurTrait.PLEIN) {
                         return true;
                     }
                 }

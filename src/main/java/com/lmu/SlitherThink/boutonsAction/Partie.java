@@ -17,6 +17,7 @@ import javafx.scene.shape.Line;
 import javafx.scene.Node;
 import com.lmu.SlitherThink.Grille.Matrice;
 import com.lmu.SlitherThink.Grille.Trait;
+import com.lmu.SlitherThink.Helper.Aide;
 import com.lmu.SlitherThink.Partie.EtatPartie;
 import com.lmu.SlitherThink.Partie.PartieObserver;
 import com.lmu.SlitherThink.Partie.Profil;
@@ -63,8 +64,22 @@ public class Partie extends ChangementFenetre implements PartieObserver {
     @Override
     public void onEtatChange(EtatPartie etat) {}
 
+
+    @FXML
+    protected Label labelAide;  
     @Override
-    public void onAideUtilisee() {}
+    public void onAideUtilisee() {
+        if (moteurJeu != null) {
+            Aide aide = moteurJeu.getAideEnCours();
+            if (aide != null) {
+                // Afficher nom + description
+                String texte = aide.getNom() + "\n\n" + aide.getTechniqueLiee();
+                labelAide.setText(texte);
+            } else {
+                labelAide.setText("Aucune aide disponible");
+            }
+        }
+    }
 
     @FXML
     public void menuPause(ActionEvent event) {
@@ -73,7 +88,9 @@ public class Partie extends ChangementFenetre implements PartieObserver {
 
     @FXML
     private void aide(ActionEvent event) {
-        onAideUtilisee();
+        if(moteurJeu != null) {
+            moteurJeu.utiliserAide();
+        }
     }
 
     public void initialiserPartie(String grille) {
