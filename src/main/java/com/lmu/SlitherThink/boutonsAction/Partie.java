@@ -73,7 +73,7 @@ public class Partie extends ChangementFenetre implements PartieObserver {
             Aide aide = moteurJeu.getAideEnCours();
             if (aide != null) {
                 // Afficher nom + description
-                String texte = aide.getNom() + "\n\n" + aide.getTechniqueLiee();
+                String texte = aide.getTechniqueLiee();
                 labelAide.setText(texte);
             } else {
                 labelAide.setText("Aucune aide disponible");
