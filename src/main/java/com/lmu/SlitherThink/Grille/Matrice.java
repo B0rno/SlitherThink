@@ -218,10 +218,12 @@ public class Matrice {
         return loadedMatrice;
     }
 
-    public boolean loadSave(Integer id, String path){
+    public boolean loadSave(Integer id, String path, boolean saveAventure){
         LoadSave save = LoadSave.getInstance("");
 
         List<savePartieLienJoueur> saveJoueurs = save.getSaveGlobal().getSauvegardeLibre();
+        if(saveAventure)
+            saveJoueurs = save.getSaveGlobal().getSauvegardeAventure();
 
         List<PositionTrait> detail = null;
 
@@ -250,13 +252,15 @@ public class Matrice {
         return false;
     }
 
-    public void saveGrille(Integer id, String path, int l, int c, int direction){
+    public void saveGrille(Integer id, String path, boolean saveAventure, int l, int c, int direction){
         if(this.getCase(l,c).getTrait(direction).getEtat() == ValeurTrait.CROIX)
             return; //La sauvegarde des croix n'est pas implémenté dans les json
 
         LoadSave save = LoadSave.getInstance("");
 
         List<savePartieLienJoueur> saveJoueurs = save.getSaveGlobal().getSauvegardeLibre();
+        if(saveAventure)
+            saveJoueurs = save.getSaveGlobal().getSauvegardeAventure();
 
         List<PositionTrait> detail = null;
 
@@ -296,8 +300,7 @@ public class Matrice {
             }
         }
         SaveManager saveManager = new SaveManager(save);
-        saveManager.separerLesSauvegardes();
-        saveManager.sauvegarderJsonDansArborescence("");
+        saveManager.updateSaveFichierId(id);
         System.out.println("Fichiers JSON générés: " + saveManager.getDossiersJson().keySet());
         System.out.println("Ecriture terminée dans: /save");
     }
