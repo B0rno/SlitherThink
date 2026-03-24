@@ -10,6 +10,7 @@ import com.lmu.SlitherThink.save.gestionDonnee.EcrireEnJson;
 import com.lmu.SlitherThink.save.gestionDonnee.LoadSaveSerializer;
 import com.lmu.SlitherThink.save.gestionDonnee.savePartieLienJoueur;
 import com.lmu.SlitherThink.save.csvScore.SaveCSV;
+import com.lmu.SlitherThink.save.csvScore.structure.StructureCSV;
 import com.lmu.SlitherThink.save.structure.DetailleSavePartie;
 import com.lmu.SlitherThink.save.structure.SaveGlobal;
 import com.lmu.SlitherThink.save.structure.SaveGrille;
@@ -19,6 +20,7 @@ import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.ArrayList;
 
 /**
  * Classe responsable de la gestion des sauvegardes.
@@ -213,7 +215,14 @@ public class SaveManager {
         String nomFichier = String.valueOf(id);
         dossiersJson.remove(nomFichier);
         EcrireEnJson.supprimerJson(determinerChemin(base, nomFichier));
-        //System.out.println("Fichier JSON supprimé: save/saveJoueur/" + nomFichier + ".json");
+
+        boolean globalModifie = retirerReferenceSaveGlobale(id);
+        if (globalModifie) {
+            Gson gsonBasique = new GsonBuilder().setPrettyPrinting().create();
+            String saveGlobalJson = gsonBasique.toJson(save.getSaveGlobal());
+            dossiersJson.put("SaveGlobal", saveGlobalJson);
+            EcrireEnJson.ecrireJson(determinerChemin(base, "SaveGlobal"), saveGlobalJson);
+        }
     }
     
 
@@ -234,6 +243,37 @@ public class SaveManager {
 
         dossiersJson.put(nomFichier, contenuJson);
         EcrireEnJson.ecrireJson(determinerChemin(base, nomFichier), contenuJson);
+    }
+
+    public void sauvegarderCsv(String base) {
+        SaveCSV.sauvegarder(save.getScores(), determinerCheminCsv(base));
+    }
+
+    public void ajouterScoreEtSauvegarderCsv(StructureCSV score, String base) {
+        if (save == null || score == null) {
+            return;
+        }
+        save.ajouterScore(score);
+        sauvegarderCsv(base);
+    }
+
+    private boolean retirerReferenceSaveGlobale(int id) {
+        SaveGlobal saveGlobal = save.getSaveGlobal();
+        boolean modifie = false;
+
+        if (saveGlobal.getSauvegardeLibre() != null) {
+            modifie |= saveGlobal.getSauvegardeLibre().removeIf(
+                sp -> sp != null && sp.getId() != null && sp.getId().equals(id)
+            );
+        }
+
+        if (saveGlobal.getSauvegardeAventure() != null) {
+            modifie |= saveGlobal.getSauvegardeAventure().removeIf(
+                sp -> sp != null && sp.getId() != null && sp.getId().equals(id)
+            );
+        }
+
+        return modifie;
     }
 
     private DetailleSavePartie trouverSaveParId(int id) {

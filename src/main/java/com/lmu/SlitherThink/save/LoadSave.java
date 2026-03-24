@@ -1,19 +1,5 @@
 package com.lmu.SlitherThink.save;
 
-import com.google.gson.Gson;
-import com.lmu.SlitherThink.save.gestionDonnee.savePartieLienJoueur;
-import com.lmu.SlitherThink.save.structure.SaveGlobal;
-import com.lmu.SlitherThink.save.structure.SaveGrille;
-import com.lmu.SlitherThink.save.structure.SaveTechnique;
-import com.lmu.SlitherThink.save.structure.contenuTechnique;
-import com.lmu.SlitherThink.save.structure.languageContenue;
-import com.lmu.SlitherThink.save.structure.positionGrille;
-import com.lmu.SlitherThink.save.structure.stockageTechnique;
-import com.lmu.SlitherThink.save.structure.PositionTrait;
-import com.lmu.SlitherThink.save.csvScore.structure.StructureCSV;
-import com.lmu.SlitherThink.save.csvScore.LoadCSV;
-
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -23,13 +9,26 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Comparator;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import com.google.gson.Gson;
+import com.lmu.SlitherThink.save.csvScore.LoadCSV;
+import com.lmu.SlitherThink.save.csvScore.structure.StructureCSV;
+import com.lmu.SlitherThink.save.gestionDonnee.savePartieLienJoueur;
+import com.lmu.SlitherThink.save.structure.PositionTrait;
+import com.lmu.SlitherThink.save.structure.SaveGlobal;
+import com.lmu.SlitherThink.save.structure.SaveGrille;
+import com.lmu.SlitherThink.save.structure.SaveTechnique;
+import com.lmu.SlitherThink.save.structure.contenuTechnique;
+import com.lmu.SlitherThink.save.structure.languageContenue;
+import com.lmu.SlitherThink.save.structure.positionGrille;
+import com.lmu.SlitherThink.save.structure.stockageTechnique;
 
 public class LoadSave {
     private static LoadSave instance;
@@ -289,6 +288,16 @@ public class LoadSave {
         return scores == null ? Collections.emptyList() : scores;
     }
 
+    public void ajouterScore(StructureCSV score) {
+        if (score == null) {
+            return;
+        }
+        if (scores == null || scores == Collections.<StructureCSV>emptyList()) {
+            scores = new ArrayList<>();
+        }
+        scores.add(score);
+    }
+
     public void afficherContenuUtilisateurParId(int idUtilisateur) {
         savePartieLienJoueur partie = chercherSauvegardeParId(idUtilisateur);
         if (partie == null) {
@@ -342,7 +351,7 @@ public class LoadSave {
         }
 
         for (savePartieLienJoueur sauvegarde : sauvegardes) {
-            if (sauvegarde != null && sauvegarde.getId() != null && sauvegarde.getId() == idUtilisateur) {
+            if (sauvegarde != null && sauvegarde.getId() != null && sauvegarde.getId().equals(idUtilisateur)) {
                 return sauvegarde;
             }
         }
