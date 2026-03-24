@@ -26,7 +26,7 @@ public class App extends Application {
         GestionnaireVues.registerView("finPartieAventure", "/fxml/finPartieAventure.fxml");
         GestionnaireVues.registerView("leaderboards", "/fxml/leaderboards.fxml");
         GestionnaireVues.registerView("pause", "/fxml/pause.fxml");
-        GestionnaireVues.registerView("options", "/fxml/options.fxml");
+        GestionnaireVues.registerView("techniques", "/fxml/techniques.fxml");
         GestionnaireVues.registerView("partie", "/fxml/partie.fxml");
         GestionnaireVues.registerView("partieTimer", "/fxml/partieTimer.fxml");
 
