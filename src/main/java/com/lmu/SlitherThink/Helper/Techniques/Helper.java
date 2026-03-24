@@ -1,4 +1,4 @@
-package com.lmu.SlitherThink.Helper;
+package com.lmu.SlitherThink.Helper.Techniques;
 
 import com.lmu.SlitherThink.Grille.Case;
 import com.lmu.SlitherThink.Grille.Matrice;
@@ -319,4 +319,5 @@ public class Helper {
         return false;
     }
 
-}   
+
+}
