@@ -187,6 +187,11 @@ public class SaveManager {
             return prefixeSave + "saveGrille/" + nomNettoye + ".json";
         }
 
+        if (nomNettoye.toLowerCase().contains("tutoriel")) {
+            return prefixeSave + "saveGrille/" + nomNettoye + ".json";
+        }
+
+
         return prefixeSave + "autres/" + nomNettoye + ".json";
     }
 
