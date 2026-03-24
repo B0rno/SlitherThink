@@ -196,6 +196,27 @@ public class SaveManager {
         updateSaveFichierId(id, "");
     }
 
+    public void delFichierId(int id) {
+        delFichierId(id, "");
+    }
+
+    public void delFichierId(int id, String base) {
+        if (save == null || save.getSaveGlobal() == null) {
+            return;
+        }
+
+        DetailleSavePartie detailleSavePartie = trouverSaveParId(id);
+        if (detailleSavePartie == null) {
+            return;
+        }
+
+        String nomFichier = String.valueOf(id);
+        dossiersJson.remove(nomFichier);
+        EcrireEnJson.supprimerJson(determinerChemin(base, nomFichier));
+        //System.out.println("Fichier JSON supprimé: save/saveJoueur/" + nomFichier + ".json");
+    }
+    
+
     public void updateSaveFichierId(int id, String base) {
         if (save == null || save.getSaveGlobal() == null) {
             return;
@@ -218,7 +239,7 @@ public class SaveManager {
     private DetailleSavePartie trouverSaveParId(int id) {
         if (save.getSaveGlobal().getSauvegardeLibre() != null) {
             for (savePartieLienJoueur sp : save.getSaveGlobal().getSauvegardeLibre()) {
-                if (sp.getId() != null && sp.getId() == id && sp.getDetailleSave() != null) {
+                if (sp.getId() != null && sp.getId().equals(id) && sp.getDetailleSave() != null) {
                     return sp.getDetailleSave();
                 }
             }
@@ -226,7 +247,7 @@ public class SaveManager {
 
         if (save.getSaveGlobal().getSauvegardeAventure() != null) {
             for (savePartieLienJoueur sp : save.getSaveGlobal().getSauvegardeAventure()) {
-                if (sp.getId() != null && sp.getId() == id && sp.getDetailleSave() != null) {
+                if (sp.getId() != null && sp.getId().equals(id) && sp.getDetailleSave() != null) {
                     return sp.getDetailleSave();
                 }
             }
