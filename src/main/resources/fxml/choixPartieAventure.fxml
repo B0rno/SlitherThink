@@ -23,7 +23,7 @@
       <Button fx:id="btn5" onAction="#partie" maxHeight="60.0" maxWidth="169.0" minHeight="60.0" minWidth="169.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="169.0" text="PARTIE 5" translateX="-450.0" translateY="-80.0">
          <font><Font size="20.0" /></font>
       </Button>
-      <Button fx:id="btn9" onAction="#partie" maxHeight="60.0" maxWidth="170.0" minHeight="60.0" minWidth="170.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="170.0" text="PARTIE 6" translateX="-150.0" translateY="-80.0">
+      <Button fx:id="btn9" onAction="#partie" maxHeight="60.0" maxWidth="170.0" minHeight="60.0" minWidth="170.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="170.0" text="PARTIE 9" translateX="-150.0" translateY="-80.0">
          <font><Font size="20.0" /></font>
       </Button>
       <Button fx:id="btn7" onAction="#partie" maxHeight="60.0" maxWidth="169.0" minHeight="60.0" minWidth="169.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="169.0" text="PARTIE 7" translateX="150.0" translateY="-80.0">
@@ -32,7 +32,7 @@
       <Button fx:id="btn8" onAction="#partie" maxHeight="60.0" maxWidth="169.0" minHeight="60.0" minWidth="169.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="169.0" text="PARTIE 8" translateX="450.0" translateY="-80.0">
          <font><Font size="20.0" /></font>
       </Button>
-      <Button fx:id="btn6" onAction="#partie" maxHeight="60.0" maxWidth="170.0" minHeight="60.0" minWidth="160.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="170.0" text="PARTIE 9" translateX="-450.0" translateY="90.0">
+      <Button fx:id="btn6" onAction="#partie" maxHeight="60.0" maxWidth="170.0" minHeight="60.0" minWidth="160.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="170.0" text="PARTIE 6" translateX="-450.0" translateY="90.0">
          <font><Font size="20.0" /></font>
       </Button>
       <Button fx:id="btn10" onAction="#partie" maxHeight="60.0" maxWidth="170.0" minHeight="60.0" minWidth="170.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="170.0" text="PARTIE 10" translateX="-150.0" translateY="90.0">
