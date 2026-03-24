@@ -44,11 +44,6 @@ public class Pause extends ChangementFenetre{
         changerFenetre(event, "menuAccueil");
     }
 
-    @FXML
-    private void options(ActionEvent event) {
-        Options.setVuePrecedente("pause");
-        changerFenetre(event, "options");
-    }
 
     @FXML
     private void techniques(ActionEvent event) {
