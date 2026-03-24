@@ -39,9 +39,9 @@ public class MenuAccueil extends ChangementFenetre{
     }
 
     @FXML
-    private void options(ActionEvent event) {
-        Options.setVuePrecedente("menuAccueil");
-        changerFenetre(event, "options"); 
+    private void techniques(ActionEvent event) {
+        Techniques.setVuePrecedente("menuAccueil");
+        changerFenetre(event, "techniques");
     }
 
     @FXML

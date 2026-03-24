@@ -53,7 +53,8 @@ public class Pause extends ChangementFenetre{
     @FXML
     private void techniques(ActionEvent event) {
         //TODO faire l'affichage des techniques
-        System.out.println("Techniques");
+        Techniques.setVuePrecedente("menuAccueil");
+        changerFenetre(event, "techniques");
     }
 
     @FXML

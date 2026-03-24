@@ -6,25 +6,13 @@ import javafx.scene.control.MenuButton;
 
 import javafx.scene.control.MenuItem;
 
-public class Options extends ChangementFenetre{
+public class Techniques extends ChangementFenetre{
 
     private static String vuePrecedente = "menuAccueil";
 
 
     public static void setVuePrecedente(String vue) {
         vuePrecedente = vue;
-    }
-
-    @FXML
-    private MenuButton languageMenuButton;
-
-    @FXML
-    private void changerLangue(ActionEvent event) {
-        MenuItem itemSelectionne = (MenuItem) event.getSource();
-        
-        String nouvelleLangue = itemSelectionne.getText();
-        
-        languageMenuButton.setText(nouvelleLangue);
     }
 
     @FXML
