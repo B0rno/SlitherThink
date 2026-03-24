@@ -1,19 +1,7 @@
 package com.lmu.SlitherThink.Helper;
 
 import com.lmu.SlitherThink.Grille.Matrice;
-import com.lmu.SlitherThink.Helper.Techniques.Adjacents0Et3;
-import com.lmu.SlitherThink.Helper.Techniques.AucuneLigneAutourDe0;
-import com.lmu.SlitherThink.Helper.Techniques.ContraintesSur3;
-import com.lmu.SlitherThink.Helper.Techniques.Deux3Adjacents;
-import com.lmu.SlitherThink.Helper.Techniques.Deux3EnDiagonale;
-import com.lmu.SlitherThink.Helper.Techniques.Diagonale0Et3;
-import com.lmu.SlitherThink.Helper.Techniques.NimporteQuelNumeroDansUnCoin;
-import com.lmu.SlitherThink.Helper.Techniques.TechniqueAvancee1;
-import com.lmu.SlitherThink.Helper.Techniques.TechniqueAvancee2;
-import com.lmu.SlitherThink.Helper.Techniques.TechniqueAvancee3;
-import com.lmu.SlitherThink.Helper.Techniques.TechniqueAvancee4;
-import com.lmu.SlitherThink.Helper.Techniques.TechniqueAvancee5;
-import com.lmu.SlitherThink.Helper.Techniques.TechniqueAvancee6;
+import com.lmu.SlitherThink.Helper.Techniques.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,8 +35,12 @@ public class GestionnaireAide {
 
         // Aide basique :
         strategies.add(new ContraintesSur3());
+        strategies.add(new BoucleSur3());
+        strategies.add(new BoucleSur1());
+        strategies.add(new ContraintesSur2());
+        strategies.add(new EviterBoucleSeparee());
 
-        //Aide confirme 
+        //Aide confirme
         strategies.add(new TechniqueAvancee1());
         strategies.add(new TechniqueAvancee2());
         strategies.add(new TechniqueAvancee3());
