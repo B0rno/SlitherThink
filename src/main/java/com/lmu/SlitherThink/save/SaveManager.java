@@ -20,7 +20,6 @@ import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.ArrayList;
 
 /**
  * Classe responsable de la gestion des sauvegardes.
@@ -142,6 +141,20 @@ public class SaveManager {
         SaveCSV.sauvegarder(save.getScores(), determinerCheminCsv(base));
     }
 
+    public void actualiserSaveGlobal(){
+        if (save == null || save.getSaveGlobal() == null) {
+            return;
+        }
+        dossiersJson.clear();
+        separerLesSauvegardes();
+
+        String jsonGlobal = dossiersJson.get("SaveGlobal");
+        if (jsonGlobal != null && !jsonGlobal.isBlank()) {
+            EcrireEnJson.ecrireJson(determinerChemin("", "SaveGlobal"), jsonGlobal);
+        }
+        
+    }
+
     /**
      * Détermine le chemin complet pour un fichier JSON donné.
      *
@@ -239,6 +252,7 @@ public class SaveManager {
         if (save == null || save.getSaveGlobal() == null) {
             return;
         }
+        actualiserSaveGlobal();
 
         DetailleSavePartie detailleSavePartie = trouverSaveParId(id);
         if (detailleSavePartie == null) {
@@ -251,7 +265,7 @@ public class SaveManager {
         String nomFichier = String.valueOf(id);
 
         dossiersJson.put(nomFichier, contenuJson);
-        EcrireEnJson.ecrireJson(determinerChemin(base, nomFichier), contenuJson);
+        EcrireEnJson.ecrireJson(determinerChemin(base, nomFichier), contenuJson);        
     }
 
     public void sauvegarderCsv(String base) {
@@ -264,6 +278,49 @@ public class SaveManager {
         }
         save.ajouterScore(score);
         sauvegarderCsv(base);
+    }
+
+    public Integer trouverIdSauvegardeParPseudoEtPath(String pseudo, String pathGrille) {
+        if (save == null || save.getSaveGlobal() == null || pseudo == null || pathGrille == null) {
+            return null;
+        }
+
+        String pseudoNormalise = pseudo.trim();
+        String pathNormalise = normaliserChemin(pathGrille);
+
+        Integer id = trouverIdDansListe(save.getSaveGlobal().getSauvegardeLibre(), pseudoNormalise, pathNormalise);
+        if (id != null) {
+            return id;
+        }
+
+        return trouverIdDansListe(save.getSaveGlobal().getSauvegardeAventure(), pseudoNormalise, pathNormalise);
+    }
+
+    private Integer trouverIdDansListe(List<savePartieLienJoueur> sauvegardes, String pseudo, String pathNormalise) {
+        if (sauvegardes == null) {
+            return null;
+        }
+
+        for (savePartieLienJoueur sp : sauvegardes) {
+            if (sp == null || sp.getId() == null || sp.getPseudo() == null || sp.getPath() == null) {
+                continue;
+            }
+
+            if (sp.getPseudo().trim().equalsIgnoreCase(pseudo)
+                && normaliserChemin(sp.getPath()).equals(pathNormalise)) {
+                return sp.getId();
+            }
+        }
+
+        return null;
+    }
+
+    private String normaliserChemin(String path) {
+        String normalise = path.replace('\\', '/').trim();
+        while (normalise.startsWith("./")) {
+            normalise = normalise.substring(2);
+        }
+        return normalise.toLowerCase();
     }
 
     private boolean retirerReferenceSaveGlobale(int id) {
