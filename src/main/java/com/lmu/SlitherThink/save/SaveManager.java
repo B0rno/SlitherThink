@@ -192,4 +192,47 @@ public class SaveManager {
         return baseNormalisee + "save/Score.csv";
     }
 
+    public void updateSaveFichierId(int id){
+        updateSaveFichierId(id, "");
+    }
+
+    public void updateSaveFichierId(int id, String base) {
+        if (save == null || save.getSaveGlobal() == null) {
+            return;
+        }
+
+        DetailleSavePartie detailleSavePartie = trouverSaveParId(id);
+        if (detailleSavePartie == null) {
+            return;
+        }
+
+        detailleSavePartie.setNameClass(String.valueOf(id));
+        Gson gsonBasique = new GsonBuilder().setPrettyPrinting().create();
+        String contenuJson = gsonBasique.toJson(detailleSavePartie);
+        String nomFichier = String.valueOf(id);
+
+        dossiersJson.put(nomFichier, contenuJson);
+        EcrireEnJson.ecrireJson(determinerChemin(base, nomFichier), contenuJson);
+    }
+
+    private DetailleSavePartie trouverSaveParId(int id) {
+        if (save.getSaveGlobal().getSauvegardeLibre() != null) {
+            for (savePartieLienJoueur sp : save.getSaveGlobal().getSauvegardeLibre()) {
+                if (sp.getId() != null && sp.getId() == id && sp.getDetailleSave() != null) {
+                    return sp.getDetailleSave();
+                }
+            }
+        }
+
+        if (save.getSaveGlobal().getSauvegardeAventure() != null) {
+            for (savePartieLienJoueur sp : save.getSaveGlobal().getSauvegardeAventure()) {
+                if (sp.getId() != null && sp.getId() == id && sp.getDetailleSave() != null) {
+                    return sp.getDetailleSave();
+                }
+            }
+        }
+
+        return null;
+    }
+
 }
