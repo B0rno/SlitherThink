@@ -22,13 +22,16 @@ import com.lmu.SlitherThink.Partie.PartieObserver;
 import com.lmu.SlitherThink.Partie.Profil;
 import com.lmu.SlitherThink.Partie.Score;
 
+import com.lmu.SlitherThink.save.LoadSave;
+
 import javafx.event.ActionEvent;
 
 public class Partie extends ChangementFenetre implements PartieObserver {
     protected com.lmu.SlitherThink.Partie.Partie moteurJeu;
 
     public static String dernierMode = "libre";
-    private static String grilleEnCours = null; 
+    private static String grilleEnCours = null;
+    public static String nomGrille = "tutoriel";
 
     @FXML
     private VBox zoneJeu; 
@@ -86,7 +89,16 @@ public class Partie extends ChangementFenetre implements PartieObserver {
             return; 
         }
 
-        this.moteurJeu = new com.lmu.SlitherThink.Partie.Partie(new Profil("Joueur"), mat, 3, new Score());
+        // Lecture de la sauvegarde ici, si elle n'est pas lu, créer la sauvegarde
+        Partie.nomGrille = grille;
+        boolean loaded = mat.loadSave(Pseudo.nomJoueur, "./save/saveGrille/" + grille + ".json", false);
+        if(!loaded){
+            // Creer la référence de sauvegarde ici
+            SaveHelper saveHelper = SaveHelper.getInstance();
+            saveHelper.ajouterPartieLibre(LoadSave.getInstance(""), Pseudo.nomJoueur, grille);
+        }
+
+        this.moteurJeu = new com.lmu.SlitherThink.Partie.Partie(new Profil(Pseudo.nomJoueur), mat, 3, new Score());
         this.moteurJeu.ajouterObserver(this);
         chargerMatrice(mat);
         this.moteurJeu.demarrer();

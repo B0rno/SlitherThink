@@ -9,6 +9,9 @@ import javafx.scene.input.KeyCombination;
 import javafx.stage.Stage;
 import javafx.scene.transform.Scale;
 
+import com.lmu.SlitherThink.save.SaveManager;
+import com.lmu.SlitherThink.save.LoadSave;
+
 public class App extends Application {
 
     // Conteneur GLOBAL qui va garder le zoom en permanence
@@ -16,6 +19,12 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
+        // Chargement de la save
+        SaveManager saveManager = new SaveManager(LoadSave.getInstance(""));
+        saveManager.separerLesSauvegardes();
+        saveManager.sauvegarderJsonDansArborescence("");
+        System.out.println("Fichiers JSON générés: " + saveManager.getDossiersJson().keySet());
+        System.out.println("Ecriture terminée dans: /save");
 
         // Chargement des vues
         GestionnaireVues.loadView("pseudo", "/fxml/pseudo.fxml");

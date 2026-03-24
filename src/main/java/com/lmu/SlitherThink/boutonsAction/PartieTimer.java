@@ -5,6 +5,8 @@ import com.lmu.SlitherThink.Partie.EtatPartie;
 import com.lmu.SlitherThink.Partie.Score;
 import com.lmu.SlitherThink.Partie.Profil;
 
+import com.lmu.SlitherThink.save.LoadSave;
+
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
@@ -103,11 +105,22 @@ public class PartieTimer extends Partie {
             return;
         }
 
-        this.moteurJeu = new com.lmu.SlitherThink.Partie.Partie(new Profil("Joueur"), mat, 3, new Score());
+        // Lecture de la sauvegarde ici, si elle n'est pas lu, créer la sauvegarde
+        Partie.nomGrille = "partie" + numero;
+        boolean loaded = mat.loadSave(Pseudo.nomJoueur, "./save/saveGrille/partie" + numero + ".json", true);
+        if(!loaded){
+            // Creer la référence de sauvegarde ici
+            SaveHelper saveHelper = SaveHelper.getInstance();
+            saveHelper.ajouterPartieAventure(LoadSave.getInstance(""), Pseudo.nomJoueur, "partie" + numero);
+        }
+
+        this.moteurJeu = new com.lmu.SlitherThink.Partie.Partie(new Profil(Pseudo.nomJoueur), mat, 3, new Score());
         this.moteurJeu.ajouterObserver(this);
         
         chargerMatrice(mat);
         actualiseChrono();
+
+        System.out.println(mat);
         
         this.moteurJeu.demarrer(); 
         chronometre.play();

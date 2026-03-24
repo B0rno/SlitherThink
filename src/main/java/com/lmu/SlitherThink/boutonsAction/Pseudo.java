@@ -9,12 +9,14 @@ public class Pseudo extends ChangementFenetre{
     @FXML private TextField txtPseudo;
     @FXML private Button btnConfirmer;
 
+    public static String nomJoueur = null;
 
     @FXML
     private void confirmer(ActionEvent event) {
         String pseudo = txtPseudo.getText().trim();
 
         if (!pseudo.isEmpty()) {
+            Pseudo.nomJoueur = pseudo;
             changerFenetre(event, "menuAccueil");
         }
     }
