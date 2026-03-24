@@ -47,25 +47,31 @@ public class SaveHelper {
     }
 
     public static void ajouterPartieAventure(LoadSave save, String pseudo, String nomGrille) {
+        Integer id = SaveHelper.prochainId(save.getSaveGlobal());
         savePartieLienJoueur partie = savePartieLienJoueur.create(
             pseudo,
-            SaveHelper.prochainId(save.getSaveGlobal()),
+            id,
             "./save/saveGrille/" + nomGrille + ".json"
         );
         partie.setDetailleSave(SaveHelper.buildDetail());
         save.getSaveGlobal().addSauvegardeAventure(partie);
         System.out.println("Ajout aventure -> pseudo=" + pseudo + ", id=");
+        SaveManager saveManager = new SaveManager(save);
+        saveManager.updateSaveFichierId(id);
     }
 
     public static void ajouterPartieLibre(LoadSave save, String pseudo, String nomGrille) {
+        Integer id = SaveHelper.prochainId(save.getSaveGlobal());
         savePartieLienJoueur partie = savePartieLienJoueur.create(
             pseudo,
-            SaveHelper.prochainId(save.getSaveGlobal()),
+            id,
             "./save/saveGrille/" + nomGrille + ".json"
         );
         partie.setDetailleSave(SaveHelper.buildDetail());
         save.getSaveGlobal().addSauvegardeLibre(partie);
         System.out.println("Ajout libre -> pseudo=" + pseudo + ", id=");
+        SaveManager saveManager = new SaveManager(save);
+        saveManager.updateSaveFichierId(id);
     }
 
     private static DetailleSavePartie buildDetail() {
