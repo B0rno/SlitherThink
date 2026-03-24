@@ -9,6 +9,7 @@ import com.lmu.SlitherThink.save.SaveManager;
 import com.lmu.SlitherThink.save.csvScore.structure.StructureCSV;
 
 import com.lmu.SlitherThink.save.LoadSave;
+import com.lmu.SlitherThink.save.SaveManager;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -145,6 +146,8 @@ public class PartieTimer extends Partie {
             // Creer la référence de sauvegarde ici
             SaveHelper saveHelper = SaveHelper.getInstance();
             saveHelper.ajouterPartieAventure(LoadSave.getInstance(""), Pseudo.nomJoueur, "partie" + numero);
+            SaveManager saveManager = new SaveManager(LoadSave.getInstance(""));
+            saveManager.actualiserSaveGlobal();
         }
 
         this.moteurJeu = new com.lmu.SlitherThink.Partie.Partie(new Profil(Pseudo.nomJoueur), mat, 3, new Score());

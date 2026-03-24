@@ -23,6 +23,7 @@ import com.lmu.SlitherThink.Partie.Profil;
 import com.lmu.SlitherThink.Partie.Score;
 
 import com.lmu.SlitherThink.save.LoadSave;
+import com.lmu.SlitherThink.save.SaveManager;
 
 import javafx.event.ActionEvent;
 
@@ -96,6 +97,8 @@ public class Partie extends ChangementFenetre implements PartieObserver {
             // Creer la référence de sauvegarde ici
             SaveHelper saveHelper = SaveHelper.getInstance();
             saveHelper.ajouterPartieLibre(LoadSave.getInstance(""), Pseudo.nomJoueur, grille);
+            SaveManager saveManager = new SaveManager(LoadSave.getInstance(""));
+            saveManager.actualiserSaveGlobal();
         }
 
         this.moteurJeu = new com.lmu.SlitherThink.Partie.Partie(new Profil(Pseudo.nomJoueur), mat, 3, new Score());
