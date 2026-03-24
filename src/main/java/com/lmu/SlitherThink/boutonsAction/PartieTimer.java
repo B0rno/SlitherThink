@@ -2,8 +2,11 @@ package com.lmu.SlitherThink.boutonsAction;
 
 import com.lmu.SlitherThink.Grille.Matrice;
 import com.lmu.SlitherThink.Partie.EtatPartie;
-import com.lmu.SlitherThink.Partie.Score;
 import com.lmu.SlitherThink.Partie.Profil;
+import com.lmu.SlitherThink.Partie.Score;
+import com.lmu.SlitherThink.save.LoadSave;
+import com.lmu.SlitherThink.save.SaveManager;
+import com.lmu.SlitherThink.save.csvScore.structure.StructureCSV;
 
 import com.lmu.SlitherThink.save.LoadSave;
 
@@ -29,7 +32,7 @@ public class PartieTimer extends Partie {
     public void onVictoire(Score score) {
         //TODO sauvegarder le score
 
-
+        saveScore(score);
         // Arrêter le chrono visuel 
         if (chronometre != null) chronometre.stop();
         
@@ -45,6 +48,36 @@ public class PartieTimer extends Partie {
         String tempsMaxEtoile = formatTime((int) score.getDureePourEtoile());
 
         changerVueFinPartie(aidesUtilisees, aidesMax, tempsFinal, tempsMaxEtoile, true);
+    }
+
+    private void saveScore(Score score) {
+        String grille = Partie.getGrilleEnCours();
+        if (grille == null || grille.isBlank()) {
+            grille = numPartie > 0 ? "partie" + numPartie : "tutoriel";
+        }
+
+        if ("tutoriel".equalsIgnoreCase(grille) || "tutoriel".equalsIgnoreCase(Partie.getDernierMode())) {
+            return;
+        }
+
+        String pseudo = this.moteurJeu.getProfil().getPseudo();
+        int nbAide = score.getNbAidesUtilisees();
+        int chrono = (int) score.getDureeEnSecondes();
+
+        LoadSave save = LoadSave.getInstance("");
+        SaveManager saveManager = new SaveManager(save);
+
+        saveManager.ajouterScoreEtSauvegarderCsv(
+            new StructureCSV(pseudo, grille, nbAide, chrono),
+            ""
+        );
+
+        String pathGrille = "./save/saveGrille/" + grille + ".json";
+        Integer idFichier = saveManager.trouverIdSauvegardeParPseudoEtPath(pseudo, pathGrille);
+        if (idFichier != null) {
+            saveManager.delFichierId(idFichier);
+        }
+
     }
 
     @Override
