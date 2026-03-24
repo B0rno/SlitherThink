@@ -104,7 +104,7 @@ public class Partie extends ChangementFenetre implements PartieObserver {
         this.moteurJeu.demarrer();
     }
 
-    private void genererPlateau(int taille) {
+    private void genererPlateau(Matrice mat, int taille) {
         this.matriceCases = new StackPane[taille][taille];
         zoneJeu.getChildren().clear();
 
@@ -115,7 +115,17 @@ public class Partie extends ChangementFenetre implements PartieObserver {
         double tailleGrilleSouhaitee = 600.0; 
         double tailleUnite = tailleGrilleSouhaitee / (taille * 1.5);
 
+        int currentHorizontalDir = 0; // 0 = NORD
+        int currentVerticalDir = 1;   // 1 = OUEST
+
         for (int l = 0; l < nbCellulesFX; l++) {
+            // Changement horizontal UNIQUEMENT quand l change et est pair
+            if (l % 2 == 0 && l != 0) {
+                currentHorizontalDir = (currentHorizontalDir == 0) ? 3 : 0;
+            }
+
+            // Reset vertical à chaque nouvelle ligne
+            currentVerticalDir = 1;
             for (int c = 0; c < nbCellulesFX; c++) {
                 if (l % 2 != 0 && c % 2 != 0) {
                     // Case à chiffre
@@ -128,7 +138,46 @@ public class Partie extends ChangementFenetre implements PartieObserver {
                 } else if ((l % 2 == 0 && c % 2 != 0) || (l % 2 != 0 && c % 2 == 0)) {
                     // Trait (Horizontal ou Vertical)
                     boolean estHorizontal = (l % 2 == 0);
+
+                    int ligneCase;
+                    int colonneCase;
+                    int direction;
+
+                    if (estHorizontal) {
+                        direction = currentHorizontalDir;
+
+                        colonneCase = (c - 1) / 2;
+
+                        if (direction == 0) {
+                            // NORD → case en dessous
+                            ligneCase = l / 2;
+                        } else {
+                            // SUD → case au dessus
+                            ligneCase = (l / 2) - 1;
+                        }
+
+                        if (ligneCase < 0 || ligneCase >= taille) continue;
+
+                    } else {
+                        direction = currentVerticalDir;
+
+                        // alternance verticale à CHAQUE trait
+                        currentVerticalDir = (currentVerticalDir == 1) ? 2 : 1;
+
+                        ligneCase = (l - 1) / 2;
+
+                        if (direction == 1) {
+                            // OUEST → case à droite
+                            colonneCase = c / 2;
+                        } else {
+                            // EST → case à gauche
+                            colonneCase = (c / 2) - 1;
+                        }
+
+                        if (colonneCase < 0 || colonneCase >= taille) continue;
+                    }
                     Trait traitLogique = new Trait();
+                    traitLogique.setTrait(mat.getCase(ligneCase, colonneCase).getTrait(direction).getEtat());
                     
                     // On récupère le StackPane contenant le rectangle + la croix
                     Node traitGraphique = creerTraitGraphique(estHorizontal, traitLogique, tailleUnite, l, c);
@@ -211,6 +260,7 @@ public class Partie extends ChangementFenetre implements PartieObserver {
                 communiquerAuMoteur(l, c, horizontal);
             }
         });
+        rafraichirVisuel.run();
         return conteneur;
     }
     
@@ -234,7 +284,7 @@ public class Partie extends ChangementFenetre implements PartieObserver {
 
     public Matrice chargerMatrice(Matrice mat){
         int taille = mat.getHauteur();
-        genererPlateau(taille);
+        genererPlateau(mat, taille);
         for (int ligne = 0; ligne < taille; ligne++) {
             for (int col = 0; col < taille; col++) {
                 int valeur = mat.getCase(ligne, col).getNumero();
