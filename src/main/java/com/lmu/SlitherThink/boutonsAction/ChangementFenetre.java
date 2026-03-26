@@ -27,7 +27,7 @@ public abstract class ChangementFenetre {
         PartieTimer controller = (PartieTimer) GestionnaireVues.getController("partieTimer");
         if (controller != null) {
             int numero = Integer.parseInt(numPartie);
-            controller.initialiserPartie(numero);
+            controller.initialiserPartie(numero, false);
             App.changerVue("partieTimer");
         } else {
             System.err.println("Erreur : Le contrôleur de la partie est introuvable !");

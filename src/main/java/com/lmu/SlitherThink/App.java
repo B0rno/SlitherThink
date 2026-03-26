@@ -23,8 +23,7 @@ public class App extends Application {
         SaveManager saveManager = new SaveManager(LoadSave.getInstance(""));
         saveManager.separerLesSauvegardes();
         saveManager.sauvegarderJsonDansArborescence("");
-        System.out.println("Fichiers JSON générés: " + saveManager.getDossiersJson().keySet());
-        System.out.println("Ecriture terminée dans: /save");
+        
 
         // Chargement des vues
         GestionnaireVues.loadView("pseudo", "/fxml/pseudo.fxml");

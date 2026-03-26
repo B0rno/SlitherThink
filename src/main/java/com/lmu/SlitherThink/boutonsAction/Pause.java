@@ -9,7 +9,7 @@ import javafx.fxml.FXML;
 public class Pause extends ChangementFenetre{
 
     @FXML
-    private void recommencer(ActionEvent event) {
+    public void recommencer(ActionEvent event) {
         //ne pas sauvegarder
         if("libre".equals(Partie.dernierMode)){
             Partie controller = (Partie) GestionnaireVues.getController("partie");
@@ -22,7 +22,8 @@ public class Pause extends ChangementFenetre{
             PartieTimer controller = (PartieTimer) GestionnaireVues.getController("partieTimer");
             if (controller != null) {
                 if ("aventure".equals(Partie.dernierMode)){
-                    controller.initialiserPartie(PartieTimer.getNumPartie());
+                    
+                    controller.initialiserPartie(PartieTimer.getNumPartie(), true);
                 }
 
                 //tutoriel

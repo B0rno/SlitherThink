@@ -305,8 +305,7 @@ public class Matrice {
         }
         SaveManager saveManager = new SaveManager(save);
         saveManager.updateSaveFichierId(id);
-        System.out.println("Fichiers JSON générés: " + saveManager.getDossiersJson().keySet());
-        System.out.println("Ecriture terminée dans: /save");
+        
     }
 
     /**
