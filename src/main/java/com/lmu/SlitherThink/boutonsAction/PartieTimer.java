@@ -7,9 +7,7 @@ import com.lmu.SlitherThink.Partie.Score;
 import com.lmu.SlitherThink.save.LoadSave;
 import com.lmu.SlitherThink.save.SaveManager;
 import com.lmu.SlitherThink.save.csvScore.structure.StructureCSV;
-
-import com.lmu.SlitherThink.save.LoadSave;
-import com.lmu.SlitherThink.save.SaveManager;
+import com.lmu.SlitherThink.save.gestionDonnee.rechercheSave;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -30,7 +28,6 @@ public class PartieTimer extends Partie {
 
     @Override
     public void onVictoire(Score score) {
-        //TODO sauvegarder le score
 
         saveScore(score);
         // Arrêter le chrono visuel 
@@ -140,6 +137,7 @@ public class PartieTimer extends Partie {
 
         // Lecture de la sauvegarde ici, si elle n'est pas lu, créer la sauvegarde
         Partie.nomGrille = "partie" + numero;
+        Score score = new Score();
         if(!recommencer){
             boolean loaded = mat.loadSave(Pseudo.nomJoueur, "./save/saveGrille/partie" + numero + ".json", true);
             if(!loaded){
@@ -148,11 +146,28 @@ public class PartieTimer extends Partie {
                 saveHelper.ajouterPartieAventure(LoadSave.getInstance(""), Pseudo.nomJoueur, "partie" + numero);
                 SaveManager saveManager = new SaveManager(LoadSave.getInstance(""));
                 saveManager.actualiserSaveGlobal();
+            } else {
+                var sauvegarde = rechercheSave.trouverSauvegardeParPseudoEtPath(
+                    Pseudo.nomJoueur,
+                    "./save/saveGrille/partie" + numero + ".json"
+                );
+
+                if (sauvegarde != null && sauvegarde.getDetailleSave() != null) {
+                    Integer chronoInt = sauvegarde.getDetailleSave().getChronometre();
+                    if (chronoInt != null) {
+                        score.setDureeAccumulee(java.time.Duration.ofSeconds(chronoInt.longValue()));
+                    }
+
+                    Integer nbAides = sauvegarde.getDetailleSave().getNbAides();
+                    if (nbAides != null) {
+                        score.setNbAidesUtilisees(nbAides);
+                    }
+                }
             }
         }
         
 
-        this.moteurJeu = new com.lmu.SlitherThink.Partie.Partie(new Profil(Pseudo.nomJoueur), mat, 3, new Score());
+        this.moteurJeu = new com.lmu.SlitherThink.Partie.Partie(new Profil(Pseudo.nomJoueur), mat, 3, score);
         this.moteurJeu.ajouterObserver(this);
         
         chargerMatrice(mat);

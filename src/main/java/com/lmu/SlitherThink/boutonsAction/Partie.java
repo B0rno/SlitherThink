@@ -1,21 +1,5 @@
 package com.lmu.SlitherThink.boutonsAction;
 
-import javafx.fxml.FXML;
-import javafx.geometry.Pos;
-import javafx.scene.Node;
-import javafx.scene.control.Label;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.Group;
-import javafx.scene.shape.Line;
-import javafx.scene.Node;
-
 import com.lmu.SlitherThink.App;
 import com.lmu.SlitherThink.Grille.Matrice;
 import com.lmu.SlitherThink.Grille.Trait;
@@ -24,11 +8,24 @@ import com.lmu.SlitherThink.Partie.EtatPartie;
 import com.lmu.SlitherThink.Partie.PartieObserver;
 import com.lmu.SlitherThink.Partie.Profil;
 import com.lmu.SlitherThink.Partie.Score;
-
 import com.lmu.SlitherThink.save.LoadSave;
 import com.lmu.SlitherThink.save.SaveManager;
+import com.lmu.SlitherThink.save.gestionDonnee.rechercheSave;
+import com.lmu.SlitherThink.save.structure.DetailleSavePartie;
 
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.geometry.Pos;
+import javafx.scene.Group;
+import javafx.scene.Node;
+import javafx.scene.control.Label;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.Line;
+import javafx.scene.shape.Rectangle;
 
 public class Partie extends ChangementFenetre implements PartieObserver {
     protected com.lmu.SlitherThink.Partie.Partie moteurJeu;
@@ -124,6 +121,66 @@ public class Partie extends ChangementFenetre implements PartieObserver {
         this.moteurJeu.ajouterObserver(this);
         chargerMatrice(mat);
         this.moteurJeu.demarrer();
+    }
+
+    public void sauvegarderProgressionCourante() {
+        if (moteurJeu == null || moteurJeu.getScore() == null) {
+            return;
+        }
+
+        if ("tutoriel".equalsIgnoreCase(getDernierMode())) {
+            return;
+        }
+
+        String grille = getGrilleEnCours();
+        if (grille == null || grille.isBlank()) {
+            grille = nomGrille;
+        }
+        if (grille == null || grille.isBlank()) {
+            return;
+        }
+
+        String pseudo = moteurJeu.getProfil() != null ? moteurJeu.getProfil().getPseudo() : Pseudo.nomJoueur;
+        if (pseudo == null || pseudo.isBlank()) {
+            return;
+        }
+
+        int chrono = (int) moteurJeu.getScore().getDureeEnSecondes();
+        int nbAides = moteurJeu.getScore().getNbAidesUtilisees();
+        String pathGrille = "./save/saveGrille/" + grille + ".json";
+
+        LoadSave save = LoadSave.getInstance("");
+        SaveManager saveManager = new SaveManager(save);
+
+        var sauvegarde = rechercheSave.trouverSauvegardeParPseudoEtPath(pseudo, pathGrille);
+
+        if (sauvegarde == null) {
+            if ("aventure".equalsIgnoreCase(getDernierMode())) {
+                SaveHelper.ajouterPartieAventure(save, pseudo, grille);
+            } else {
+                SaveHelper.ajouterPartieLibre(save, pseudo, grille);
+            }
+            sauvegarde = rechercheSave.trouverSauvegardeParPseudoEtPath(pseudo, pathGrille);
+        }
+
+        if (sauvegarde == null || sauvegarde.getDetailleSave() == null) {
+            return;
+        }
+
+        DetailleSavePartie ancienDetail = sauvegarde.getDetailleSave();
+        DetailleSavePartie nouveauDetail = DetailleSavePartie.create(
+            ancienDetail.getEtatGrille(),
+            chrono,
+            nbAides
+        );
+        nouveauDetail.setNameClass(ancienDetail.getNameClass());
+        sauvegarde.setDetailleSave(nouveauDetail);
+
+        Integer id = sauvegarde.getId();
+        if (id != null) {
+            saveManager.updateSaveFichierId(id);
+            saveManager.actualiserSaveGlobal();
+        }
     }
 
     private void genererPlateau(Matrice mat, int taille) {

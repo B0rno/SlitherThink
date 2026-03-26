@@ -54,7 +54,18 @@ public class Pause extends ChangementFenetre{
 
     @FXML
     private void menuPrincipal(ActionEvent event) {
-        //TODO faire sauvegarde
+        if ("libre".equals(Partie.dernierMode)) {
+            Partie controller = (Partie) GestionnaireVues.getController("partie");
+            if (controller != null) {
+                controller.sauvegarderProgressionCourante();
+            }
+        } else {
+            PartieTimer controller = (PartieTimer) GestionnaireVues.getController("partieTimer");
+            if (controller != null) {
+                controller.sauvegarderProgressionCourante();
+            }
+        }
+
         changerFenetre(event, "menuAccueil");
     }
 

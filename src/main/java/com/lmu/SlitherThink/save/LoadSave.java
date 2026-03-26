@@ -20,6 +20,7 @@ import java.util.Set;
 import com.google.gson.Gson;
 import com.lmu.SlitherThink.save.csvScore.LoadCSV;
 import com.lmu.SlitherThink.save.csvScore.structure.StructureCSV;
+import com.lmu.SlitherThink.save.gestionDonnee.rechercheSave;
 import com.lmu.SlitherThink.save.gestionDonnee.savePartieLienJoueur;
 import com.lmu.SlitherThink.save.structure.PositionTrait;
 import com.lmu.SlitherThink.save.structure.SaveGlobal;
@@ -53,6 +54,7 @@ public class LoadSave {
         Gson gson = new Gson();
         technique = lireJson("/save/technique.json", cheminFichier("save/technique.json"), SaveTechnique.class, gson);
         saveGlobal = lireJson("/save/saveGlobal.json", cheminFichier("save/saveGlobal.json"), SaveGlobal.class, gson);
+        rechercheSave.setSaveGlobalCourant(saveGlobal);
 
         grilles = chargerGrilles(gson);
         grille = choisirGrilleParDefaut();
@@ -332,30 +334,8 @@ public class LoadSave {
         }
     }
 
-    private savePartieLienJoueur chercherSauvegardeParId(int idUtilisateur) {
-        if (saveGlobal == null) {
-            return null;
-        }
-
-        savePartieLienJoueur sauvegarde = chercherSauvegardeDansListe(saveGlobal.getSauvegardeLibre(), idUtilisateur);
-        if (sauvegarde != null) {
-            return sauvegarde;
-        }
-
-        return chercherSauvegardeDansListe(saveGlobal.getSauvegardeAventure(), idUtilisateur);
-    }
-
-    private savePartieLienJoueur chercherSauvegardeDansListe(List<savePartieLienJoueur> sauvegardes, int idUtilisateur) {
-        if (sauvegardes == null) {
-            return null;
-        }
-
-        for (savePartieLienJoueur sauvegarde : sauvegardes) {
-            if (sauvegarde != null && sauvegarde.getId() != null && sauvegarde.getId().equals(idUtilisateur)) {
-                return sauvegarde;
-            }
-        }
-        return null;
+    public savePartieLienJoueur chercherSauvegardeParId(int idUtilisateur) {
+        return rechercheSave.chercherSauvegardeParId(saveGlobal, idUtilisateur);
     }
 
 

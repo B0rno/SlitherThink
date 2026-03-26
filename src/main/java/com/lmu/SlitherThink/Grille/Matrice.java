@@ -1,16 +1,17 @@
 package com.lmu.SlitherThink.Grille;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 import com.lmu.SlitherThink.save.LoadSave;
-import com.lmu.SlitherThink.save.structure.SaveGrille;
-import com.lmu.SlitherThink.save.structure.PositionTrait;
-import com.lmu.SlitherThink.save.structure.positionGrille;
+import com.lmu.SlitherThink.save.SaveManager;
+import com.lmu.SlitherThink.save.gestionDonnee.rechercheSave;
 import com.lmu.SlitherThink.save.gestionDonnee.savePartieLienJoueur;
 import com.lmu.SlitherThink.save.structure.DetailleSavePartie;
-import com.lmu.SlitherThink.save.SaveManager;
-
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Map;
+import com.lmu.SlitherThink.save.structure.PositionTrait;
+import com.lmu.SlitherThink.save.structure.SaveGrille;
+import com.lmu.SlitherThink.save.structure.positionGrille;
 
 /**
  * Représente une matrice de cases pour le jeu SlitherLink.
@@ -219,18 +220,16 @@ public class Matrice {
     public boolean loadSave(String pseudo, String path, boolean saveAventure){
         LoadSave save = LoadSave.getInstance("");
 
-        List<savePartieLienJoueur> saveJoueurs = save.getSaveGlobal().getSauvegardeLibre();
-        if(saveAventure)
-            saveJoueurs = save.getSaveGlobal().getSauvegardeAventure();
+        savePartieLienJoueur saveJoueur = rechercheSave.trouverSauvegardeParPseudoEtPath(
+            save.getSaveGlobal(),
+            pseudo,
+            path
+        );
 
         List<PositionTrait> detail = null;
-
-        for(savePartieLienJoueur saveJoueur : saveJoueurs){
-            if(saveJoueur.getPseudo().equals(pseudo) && saveJoueur.getPath().equals(path)){
-                detail = saveJoueur.getDetailleSave().getEtatGrille();
-                System.out.println("Save trouvé : " + pseudo + " " + path + " " + saveJoueur.getId() + "\n" + detail);
-                break;
-            }
+        if (saveJoueur != null && saveJoueur.getDetailleSave() != null) {
+            detail = saveJoueur.getDetailleSave().getEtatGrille();
+            System.out.println("Save trouvé : " + pseudo + " " + path + " " + saveJoueur.getId() + "\n" + detail);
         }
 
         if(detail != null){
@@ -260,19 +259,38 @@ public class Matrice {
 
         LoadSave save = LoadSave.getInstance("");
 
-        List<savePartieLienJoueur> saveJoueurs = save.getSaveGlobal().getSauvegardeLibre();
-        if(saveAventure)
-            saveJoueurs = save.getSaveGlobal().getSauvegardeAventure();
+        savePartieLienJoueur saveJoueur = rechercheSave.trouverSauvegardeParPseudoEtPath(
+            save.getSaveGlobal(),
+            pseudo,
+            path
+        );
+        if (saveJoueur == null) {
+            System.err.println("Aucune sauvegarde trouvée pour pseudo/path: " + pseudo + " / " + path);
+            return;
+        }
 
-        List<PositionTrait> detail = null;
-        Integer id = null;
+        Integer id = saveJoueur.getId();
+        if (id == null) {
+            System.err.println("Sauvegarde trouvée sans id: " + pseudo + " / " + path);
+            return;
+        }
 
-        for(savePartieLienJoueur saveJoueur : saveJoueurs){
-            if(saveJoueur.getPseudo().equals(pseudo) && saveJoueur.getPath().equals(path)){
-                detail = saveJoueur.getDetailleSave().getEtatGrille();
-                id = saveJoueur.getId();
-                break;
-            }
+        DetailleSavePartie detailSave = saveJoueur.getDetailleSave();
+        if (detailSave == null) {
+            detailSave = DetailleSavePartie.create(new ArrayList<>(), 0, 0);
+            saveJoueur.setDetailleSave(detailSave);
+        }
+
+        List<PositionTrait> detail = detailSave.getEtatGrille();
+        if (detail == null) {
+            detail = new ArrayList<>();
+            DetailleSavePartie nouveauDetail = DetailleSavePartie.create(
+                detail,
+                detailSave.getChronometre(),
+                detailSave.getNbAides()
+            );
+            nouveauDetail.setNameClass(detailSave.getNameClass());
+            saveJoueur.setDetailleSave(nouveauDetail);
         }
 
         if(detail != null){

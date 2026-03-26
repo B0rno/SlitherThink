@@ -8,6 +8,7 @@ import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 import com.lmu.SlitherThink.save.gestionDonnee.EcrireEnJson;
 import com.lmu.SlitherThink.save.gestionDonnee.LoadSaveSerializer;
+import com.lmu.SlitherThink.save.gestionDonnee.rechercheSave;
 import com.lmu.SlitherThink.save.gestionDonnee.savePartieLienJoueur;
 import com.lmu.SlitherThink.save.csvScore.SaveCSV;
 import com.lmu.SlitherThink.save.csvScore.structure.StructureCSV;
@@ -39,6 +40,7 @@ public class SaveManager {
      */
     public SaveManager(LoadSave save) {
         this.save = save;
+        rechercheSave.setSaveGlobalCourant(save != null ? save.getSaveGlobal() : null);
         dossiersJson = new HashMap<>();
     }
 
@@ -281,46 +283,10 @@ public class SaveManager {
     }
 
     public Integer trouverIdSauvegardeParPseudoEtPath(String pseudo, String pathGrille) {
-        if (save == null || save.getSaveGlobal() == null || pseudo == null || pathGrille == null) {
+        if (save == null) {
             return null;
         }
-
-        String pseudoNormalise = pseudo.trim();
-        String pathNormalise = normaliserChemin(pathGrille);
-
-        Integer id = trouverIdDansListe(save.getSaveGlobal().getSauvegardeLibre(), pseudoNormalise, pathNormalise);
-        if (id != null) {
-            return id;
-        }
-
-        return trouverIdDansListe(save.getSaveGlobal().getSauvegardeAventure(), pseudoNormalise, pathNormalise);
-    }
-
-    private Integer trouverIdDansListe(List<savePartieLienJoueur> sauvegardes, String pseudo, String pathNormalise) {
-        if (sauvegardes == null) {
-            return null;
-        }
-
-        for (savePartieLienJoueur sp : sauvegardes) {
-            if (sp == null || sp.getId() == null || sp.getPseudo() == null || sp.getPath() == null) {
-                continue;
-            }
-
-            if (sp.getPseudo().trim().equalsIgnoreCase(pseudo)
-                && normaliserChemin(sp.getPath()).equals(pathNormalise)) {
-                return sp.getId();
-            }
-        }
-
-        return null;
-    }
-
-    private String normaliserChemin(String path) {
-        String normalise = path.replace('\\', '/').trim();
-        while (normalise.startsWith("./")) {
-            normalise = normalise.substring(2);
-        }
-        return normalise.toLowerCase();
+        return rechercheSave.trouverIdSauvegardeParPseudoEtPath(save.getSaveGlobal(), pseudo, pathGrille);
     }
 
     private boolean retirerReferenceSaveGlobale(int id) {
@@ -343,23 +309,7 @@ public class SaveManager {
     }
 
     private DetailleSavePartie trouverSaveParId(int id) {
-        if (save.getSaveGlobal().getSauvegardeLibre() != null) {
-            for (savePartieLienJoueur sp : save.getSaveGlobal().getSauvegardeLibre()) {
-                if (sp.getId() != null && sp.getId().equals(id) && sp.getDetailleSave() != null) {
-                    return sp.getDetailleSave();
-                }
-            }
-        }
-
-        if (save.getSaveGlobal().getSauvegardeAventure() != null) {
-            for (savePartieLienJoueur sp : save.getSaveGlobal().getSauvegardeAventure()) {
-                if (sp.getId() != null && sp.getId().equals(id) && sp.getDetailleSave() != null) {
-                    return sp.getDetailleSave();
-                }
-            }
-        }
-
-        return null;
+        return rechercheSave.trouverDetailleSaveParId(save.getSaveGlobal(), id);
     }
 
 }
