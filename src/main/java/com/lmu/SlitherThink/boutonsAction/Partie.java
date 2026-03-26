@@ -250,17 +250,42 @@ public class Partie extends ChangementFenetre implements PartieObserver {
         };
     
         // Événements
+        // Événements
         conteneur.setOnMousePressed(event -> {
-            logique.etatSuivant();
-            rafraichirVisuel.run();
-            communiquerAuMoteur(l, c, horizontal);
+            if (event.getButton() == javafx.scene.input.MouseButton.PRIMARY) {
+                // Clic gauche : bascule entre VIDE ↔ PLEIN
+                if (logique.getEtat() == com.lmu.SlitherThink.Grille.ValeurTrait.PLEIN) {
+                    logique.setTrait(com.lmu.SlitherThink.Grille.ValeurTrait.VIDE);
+                } else {
+                    logique.setTrait(com.lmu.SlitherThink.Grille.ValeurTrait.PLEIN);
+                }
+                rafraichirVisuel.run();
+                communiquerAuMoteur(l, c, horizontal);
+            } else if (event.getButton() == javafx.scene.input.MouseButton.SECONDARY) {
+                // Clic droit : bascule entre VIDE ↔ CROIX
+                if (logique.getEtat() == com.lmu.SlitherThink.Grille.ValeurTrait.CROIX) {
+                    logique.setTrait(com.lmu.SlitherThink.Grille.ValeurTrait.VIDE);
+                } else {
+                    logique.setTrait(com.lmu.SlitherThink.Grille.ValeurTrait.CROIX);
+                }
+                rafraichirVisuel.run();
+                communiquerAuMoteur(l, c, horizontal);
+            }
         });
-    
-        conteneur.setOnDragDetected(event -> conteneur.startFullDrag());
-    
+
+        conteneur.setOnDragDetected(event -> {
+            conteneur.startFullDrag();
+        });
+
         conteneur.setOnMouseDragEntered(event -> {
-            if (logique.getEtat() == com.lmu.SlitherThink.Grille.ValeurTrait.VIDE) {
-                logique.etatSuivant();
+            if (event.getButton() == javafx.scene.input.MouseButton.PRIMARY
+                    && logique.getEtat() == com.lmu.SlitherThink.Grille.ValeurTrait.VIDE) {
+                logique.setTrait(com.lmu.SlitherThink.Grille.ValeurTrait.PLEIN);
+                rafraichirVisuel.run();
+                communiquerAuMoteur(l, c, horizontal);
+            } else if (event.getButton() == javafx.scene.input.MouseButton.SECONDARY
+                    && logique.getEtat() == com.lmu.SlitherThink.Grille.ValeurTrait.VIDE) {
+                logique.setTrait(com.lmu.SlitherThink.Grille.ValeurTrait.CROIX);
                 rafraichirVisuel.run();
                 communiquerAuMoteur(l, c, horizontal);
             }
