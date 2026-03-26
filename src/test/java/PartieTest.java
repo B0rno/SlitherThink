@@ -1,11 +1,16 @@
 package com.lmu.SlitherThink;
 
-import static org.junit.jupiter.api.Assertions.*;
-
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import com.lmu.SlitherThink.Partie.*;
+import com.lmu.SlitherThink.Partie.EtatPartie;
+import com.lmu.SlitherThink.Partie.Partie;
+import com.lmu.SlitherThink.Partie.PartieObserver;
+import com.lmu.SlitherThink.Partie.Profil;
+import com.lmu.SlitherThink.Partie.Score;
 
 /**
  * Tests unitaires pour le package Partie.
@@ -65,8 +70,8 @@ public class PartieTest {
             }
 
             @Override
-            public void onAideUtilisee(int restantes) {
-                assertTrue(restantes >= 0 && restantes <= 3);
+            public void onAideUtilisee() {
+                assertTrue(partie.getNbAides() >= 0 && partie.getNbAides() <= 3);
             }
         };
 
