@@ -76,4 +76,22 @@ public class DetailleSavePartie {
     public void setNameClass(String nameClass) {
         this.nameClass = nameClass;
     }
+
+    /**
+     * Définit le temps écoulé.
+     *
+     * @param chronometre Le temps en secondes.
+     */
+    public void setChronometre(Integer chronometre) {
+        this.Chronometre = chronometre;
+    }
+
+    /**
+     * Définit le nombre d'aides utilisées.
+     *
+     * @param nbAides Le nombre d'aides.
+     */
+    public void setNbAides(Integer nbAides) {
+        this.nbAides = nbAides;
+    }
 }

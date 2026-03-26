@@ -220,6 +220,9 @@ public class Matrice {
     public boolean loadSave(String pseudo, String path, boolean saveAventure){
         LoadSave save = LoadSave.getInstance("");
 
+        // Recharger le SaveGlobal depuis la mémoire pour récupérer les dernières modifications
+        save.rechargerSaveGlobal();
+
         savePartieLienJoueur saveJoueur = rechercheSave.trouverSauvegardeParPseudoEtPath(
             save.getSaveGlobal(),
             pseudo,
@@ -227,9 +230,13 @@ public class Matrice {
         );
 
         List<PositionTrait> detail = null;
-        if (saveJoueur != null && saveJoueur.getDetailleSave() != null) {
-            detail = saveJoueur.getDetailleSave().getEtatGrille();
-            System.out.println("Save trouvé : " + pseudo + " " + path + " " + saveJoueur.getId() + "\n" + detail);
+        if (saveJoueur != null) {
+            // Forcer le rechargement du détail depuis la mémoire
+            saveJoueur.reloadDetailleSave();
+
+            if (saveJoueur.getDetailleSave() != null) {
+                detail = saveJoueur.getDetailleSave().getEtatGrille();
+            }
         }
 
         if(detail != null){
@@ -258,6 +265,9 @@ public class Matrice {
             return; //La sauvegarde des croix n'est pas implémenté dans les json
 
         LoadSave save = LoadSave.getInstance("");
+
+        // Recharger SaveGlobal pour avoir les données à jour
+        save.rechargerSaveGlobal();
 
         savePartieLienJoueur saveJoueur = rechercheSave.trouverSauvegardeParPseudoEtPath(
             save.getSaveGlobal(),
@@ -322,8 +332,7 @@ public class Matrice {
             }
         }
         SaveManager saveManager = new SaveManager(save);
-        saveManager.updateSaveFichierId(id);
-        
+        saveManager.updateSaveFichierId(id); 
     }
 
     /**

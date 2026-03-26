@@ -13,6 +13,8 @@ import com.lmu.SlitherThink.save.SaveManager;
 import com.lmu.SlitherThink.save.gestionDonnee.rechercheSave;
 import com.lmu.SlitherThink.save.structure.DetailleSavePartie;
 
+import java.util.ArrayList;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
@@ -97,24 +99,52 @@ public class Partie extends ChangementFenetre implements PartieObserver {
     }
 
     public void initialiserPartie(String grille) {
-        setDernierMode("libre"); 
+        initialiserPartie(grille, false);
+    }
+
+    public void initialiserPartie(String grille, boolean recommencer) {
+        setDernierMode("libre");
         setGrilleEnCours(grille);
 
         Matrice mat = Matrice.loadGrille(grille);
         if (mat == null) {
             System.err.println("Erreur : la matrice n'a pas pu être chargée pour la grille " + grille);
-            return; 
+            return;
         }
 
         // Lecture de la sauvegarde ici, si elle n'est pas lu, créer la sauvegarde
         Partie.nomGrille = grille;
-        boolean loaded = mat.loadSave(Pseudo.nomJoueur, "./save/saveGrille/" + grille + ".json", false);
-        if(!loaded){
-            // Creer la référence de sauvegarde ici
-            SaveHelper saveHelper = SaveHelper.getInstance();
-            saveHelper.ajouterPartieLibre(LoadSave.getInstance(""), Pseudo.nomJoueur, grille);
-            SaveManager saveManager = new SaveManager(LoadSave.getInstance(""));
-            saveManager.actualiserSaveGlobal();
+        if (!recommencer) {
+            boolean loaded = mat.loadSave(Pseudo.nomJoueur, "./save/saveGrille/" + grille + ".json", false);
+            if(!loaded){
+                // Creer la référence de sauvegarde ici
+                SaveHelper saveHelper = SaveHelper.getInstance();
+                saveHelper.ajouterPartieLibre(LoadSave.getInstance(""), Pseudo.nomJoueur, grille);
+                SaveManager saveManager = new SaveManager(LoadSave.getInstance(""));
+                saveManager.actualiserSaveGlobal();
+            }
+        } else {
+            // Si on recommence, réinitialiser la sauvegarde existante
+            LoadSave save = LoadSave.getInstance("");
+            save.rechargerSaveGlobal();
+
+            var sauvegarde = rechercheSave.trouverSauvegardeParPseudoEtPath(
+                Pseudo.nomJoueur,
+                "./save/saveGrille/" + grille + ".json"
+            );
+
+            if (sauvegarde != null && sauvegarde.getId() != null) {
+                // Réinitialiser le détail de la sauvegarde
+                DetailleSavePartie nouveauDetail = DetailleSavePartie.create(new ArrayList<>(), 0, 0);
+                nouveauDetail.setNameClass(sauvegarde.getId().toString());
+                sauvegarde.setDetailleSave(nouveauDetail);
+
+                SaveManager saveManager = new SaveManager(save);
+                saveManager.updateSaveFichierId(sauvegarde.getId());
+                saveManager.actualiserSaveGlobal();
+
+                System.out.println("[DEBUG] Sauvegarde réinitialisée pour recommencer (mode libre)");
+            }
         }
 
         this.moteurJeu = new com.lmu.SlitherThink.Partie.Partie(new Profil(Pseudo.nomJoueur), mat, 3, new Score());
@@ -168,13 +198,11 @@ public class Partie extends ChangementFenetre implements PartieObserver {
         }
 
         DetailleSavePartie ancienDetail = sauvegarde.getDetailleSave();
-        DetailleSavePartie nouveauDetail = DetailleSavePartie.create(
-            ancienDetail.getEtatGrille(),
-            chrono,
-            nbAides
-        );
-        nouveauDetail.setNameClass(ancienDetail.getNameClass());
-        sauvegarde.setDetailleSave(nouveauDetail);
+
+        // Mise à jour uniquement du chrono et des aides
+        // L'état de la grille est déjà sauvegardé par Matrice.saveGrille() à chaque clic
+        ancienDetail.setChronometre(chrono);
+        ancienDetail.setNbAides(nbAides);
 
         Integer id = sauvegarde.getId();
         if (id != null) {

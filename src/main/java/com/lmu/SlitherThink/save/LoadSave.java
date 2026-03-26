@@ -207,6 +207,16 @@ public class LoadSave {
         }
     }
 
+    /**
+     * Recharge le SaveGlobal depuis le fichier JSON .
+     * Permet de récupérer les dernières modifications après une sauvegarde.
+     */
+    public void rechargerSaveGlobal() {
+        Gson gson = new Gson();
+        saveGlobal = lireJson("/save/saveGlobal.json", cheminFichier("save/saveGlobal.json"), SaveGlobal.class, gson);
+        rechercheSave.setSaveGlobalCourant(saveGlobal);
+    }
+
     public void afficherTechn() {
         if (technique != null && technique.getStockageLangague() != null) {
             for (languageContenue langcont : technique.getStockageLangague()) {

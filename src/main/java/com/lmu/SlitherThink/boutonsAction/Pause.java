@@ -14,7 +14,7 @@ public class Pause extends ChangementFenetre{
         if("libre".equals(Partie.dernierMode)){
             Partie controller = (Partie) GestionnaireVues.getController("partie");
             if (controller != null) {
-                controller.initialiserPartie(Partie.getGrilleEnCours());
+                controller.initialiserPartie(Partie.getGrilleEnCours(), true); // true = recommencer
             }
             changerFenetre(event, "partie");
         }

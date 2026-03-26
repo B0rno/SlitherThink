@@ -112,6 +112,15 @@ public class savePartieLienJoueur {
     }
 
     /**
+     * Force le rechargement des détails de la sauvegarde.
+     * Permet derécupérer les dernières modifications.
+     */
+    public void reloadDetailleSave() {
+        detailleSave = null;
+        loadDetailleSave();
+    }
+
+    /**
      * Retourne les détails de la sauvegarde associée.
      * Charge les détails si ce n'est pas encore fait.
      *

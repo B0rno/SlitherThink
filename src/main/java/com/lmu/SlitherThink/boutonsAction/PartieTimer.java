@@ -8,6 +8,9 @@ import com.lmu.SlitherThink.save.LoadSave;
 import com.lmu.SlitherThink.save.SaveManager;
 import com.lmu.SlitherThink.save.csvScore.structure.StructureCSV;
 import com.lmu.SlitherThink.save.gestionDonnee.rechercheSave;
+import com.lmu.SlitherThink.save.structure.DetailleSavePartie;
+
+import java.util.ArrayList;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -164,8 +167,28 @@ public class PartieTimer extends Partie {
                     }
                 }
             }
+        } else {
+            // Si on recommence, réinitialiser la sauvegarde existante
+            LoadSave save = LoadSave.getInstance("");
+            save.rechargerSaveGlobal();
+
+            var sauvegarde = rechercheSave.trouverSauvegardeParPseudoEtPath(
+                Pseudo.nomJoueur,
+                "./save/saveGrille/partie" + numero + ".json"
+            );
+
+            if (sauvegarde != null && sauvegarde.getId() != null) {
+                // Réinitialiser le détail de la sauvegarde (grille vide, chrono à 0, 0 aides)
+                DetailleSavePartie nouveauDetail = DetailleSavePartie.create(new ArrayList<>(), 0, 0);
+                nouveauDetail.setNameClass(sauvegarde.getId().toString());
+                sauvegarde.setDetailleSave(nouveauDetail);
+
+                SaveManager saveManager = new SaveManager(save);
+                saveManager.updateSaveFichierId(sauvegarde.getId());
+                saveManager.actualiserSaveGlobal();
+            }
         }
-        
+
 
         this.moteurJeu = new com.lmu.SlitherThink.Partie.Partie(new Profil(Pseudo.nomJoueur), mat, 3, score);
         this.moteurJeu.ajouterObserver(this);
