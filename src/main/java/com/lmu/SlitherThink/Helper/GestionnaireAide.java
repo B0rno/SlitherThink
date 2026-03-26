@@ -38,7 +38,6 @@ public class GestionnaireAide {
         strategies.add(new BoucleSur3());
         strategies.add(new BoucleSur1());
         strategies.add(new ContraintesSur2());
-        strategies.add(new EviterBoucleSeparee());
 
         //Aide confirme
         strategies.add(new TechniqueAvancee1());
@@ -47,6 +46,9 @@ public class GestionnaireAide {
         strategies.add(new TechniqueAvancee4());
         strategies.add(new TechniqueAvancee5());
         strategies.add(new TechniqueAvancee6());
+
+        //Aide fin de partie
+        strategies.add(new EviterBoucleSeparee());
 
 
     }
@@ -61,6 +63,7 @@ public class GestionnaireAide {
     public Aide trouverAide(Matrice m) {
         for (StrategieAide strategie : strategies) {
             if (strategie.estApplicable(m)) {
+                System.out.println("Aide trouvée : " + strategie.getNom()); // Debug : affiche le nom de la stratégie utilisée
                 return strategie.trouverAide(m);
             }
         }

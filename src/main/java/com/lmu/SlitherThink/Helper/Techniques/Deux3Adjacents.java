@@ -10,7 +10,7 @@ import com.lmu.SlitherThink.Helper.StrategieAide;
 /**
  * Technique: Deux 3 adjacents
  * Parcourt la matrice pour vérifier s'il y a deux '3' adjacents.
- * L'aide est applicable s'il manque encore des traits parallèles sur et à l'opposé de leur côté partagé.
+ * L'aide est applicable s'il manque encore des traits sur et à l'opposé de leur côté partagé.
  */
 public class Deux3Adjacents implements StrategieAide {
 
@@ -34,11 +34,15 @@ public class Deux3Adjacents implements StrategieAide {
                     Case cDroite = m.getCase(i, j + 1);
 
                     if ((cGauche != null && cGauche.getNumero() == 3) || (cDroite != null && cDroite.getNumero() == 3)) {
-                        if (c.getTrait(1).getEtat() == ValeurTrait.VIDE || c.getTrait(2).getEtat() == ValeurTrait.VIDE) 
+                        if (c.getTrait(1).getEtat() == (ValeurTrait.VIDE) || c.getTrait(2).getEtat() == ValeurTrait.VIDE) 
+                            return true;
+                        if (c.getTrait(1).getEtat() == (ValeurTrait.CROIX) || c.getTrait(2).getEtat() == ValeurTrait.CROIX) 
                             return true;
                     }
                     if ((cHaut != null && cHaut.getNumero() == 3) || (cBas != null && cBas.getNumero() == 3)) {
                         if (c.getTrait(0).getEtat() == ValeurTrait.VIDE || c.getTrait(3).getEtat() == ValeurTrait.VIDE) 
+                            return true;
+                        if (c.getTrait(0).getEtat() == ValeurTrait.CROIX || c.getTrait(3).getEtat() == ValeurTrait.CROIX) 
                             return true;
                     }
                 }

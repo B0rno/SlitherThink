@@ -29,9 +29,13 @@ public class NimporteQuelNumeroDansUnCoin implements StrategieAide {
         Case c1 = m.getCase(0, 0);
         if (c1 != null) {
             int num = c1.getNumero();
-            if (num == 1 || num == 3) {
+            if (num == 3) {
                 if (c1.getTrait(0).getEtat() == ValeurTrait.VIDE || c1.getTrait(1).getEtat() == ValeurTrait.VIDE) return true;
-            } else if (num == 2) {
+            }
+            else if(num == 1){
+                if (c1.getTrait(0).getEtat() == ValeurTrait.PLEIN || c1.getTrait(1).getEtat() == ValeurTrait.PLEIN) return true;
+            }
+            else if (num == 2) {
 
                 Case cDroite = m.getCase(0, 1);
                 Case cBas = m.getCase(1, 0);
@@ -45,9 +49,12 @@ public class NimporteQuelNumeroDansUnCoin implements StrategieAide {
         Case c2 = m.getCase(0, w - 1);
         if (c2 != null) {
             int num = c2.getNumero();
-            if (num == 1 || num == 3) {
+            if (num == 3) {
                 if (c2.getTrait(0).getEtat() == ValeurTrait.VIDE || c2.getTrait(2).getEtat() == ValeurTrait.VIDE) return true;
             } 
+            else if(num == 1){
+                if (c2.getTrait(0).getEtat() == ValeurTrait.PLEIN || c2.getTrait(2).getEtat() == ValeurTrait.PLEIN) return true;
+            }
             else if (num == 2) {
                 Case cGauche = m.getCase(0, w - 2);
                 Case cBas = m.getCase(1, w - 1);
@@ -61,10 +68,11 @@ public class NimporteQuelNumeroDansUnCoin implements StrategieAide {
         Case c3 = m.getCase(h - 1, 0);
         if (c3 != null) {
             int num = c3.getNumero();
-            if (num == 1 || num == 3) {
-
-                if (c3.getTrait(3).getEtat() == ValeurTrait.VIDE || c3.getTrait(1).getEtat() == ValeurTrait.VIDE) 
-                    return true;
+            if (num == 3) {
+                if (c3.getTrait(3).getEtat() == ValeurTrait.VIDE || c3.getTrait(1).getEtat() == ValeurTrait.VIDE) return true;
+            }
+            else if(num == 1){
+                if (c3.getTrait(3).getEtat() == ValeurTrait.PLEIN || c3.getTrait(1).getEtat() == ValeurTrait.PLEIN) return true;
             }
             else if (num == 2) {
                 Case cDroite = m.getCase(h - 1, 1);
@@ -80,10 +88,11 @@ public class NimporteQuelNumeroDansUnCoin implements StrategieAide {
         if (c4 != null) {
             int num = c4.getNumero();
             if (num == 1 || num == 3) {
-
-                if (c4.getTrait(3).getEtat() == ValeurTrait.VIDE || c4.getTrait(2).getEtat() == ValeurTrait.VIDE) 
-                    return true;
-            } 
+                if (c4.getTrait(3).getEtat() == ValeurTrait.VIDE || c4.getTrait(2).getEtat() == ValeurTrait.VIDE) return true;
+            }
+            else if(num == 1){
+                if (c4.getTrait(3).getEtat() == ValeurTrait.PLEIN || c4.getTrait(2).getEtat() == ValeurTrait.PLEIN) return true;
+            }
             else if (num == 2) {
                 Case cGauche = m.getCase(h - 1, w - 2);
                 Case cHaut = m.getCase(h - 2, w - 1);
