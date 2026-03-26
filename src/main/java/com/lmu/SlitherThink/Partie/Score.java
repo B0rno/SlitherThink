@@ -1,7 +1,7 @@
 package com.lmu.SlitherThink.Partie;
 
-import java.time.Instant;
 import java.time.Duration;
+import java.time.Instant;
 
 /**
  * Gère le score et le chronomètre d'une partie.
@@ -88,6 +88,10 @@ public class Score {
         return dureeAccumulee.getSeconds();
     }
 
+    public void setDureeAccumulee( Duration dureeAccumulee) {
+        this.dureeAccumulee = dureeAccumulee;
+    }
+
     /**
      * Retourne le nombre de coups joués.
      *
@@ -104,6 +108,10 @@ public class Score {
      */
     public int getNbAidesUtilisees() {
         return nbAidesUtilisees;
+    }
+
+    public void setNbAidesUtilisees(int nbAidesUtilisees) {
+        this.nbAidesUtilisees = nbAidesUtilisees;
     }
 
     public long getDureePourEtoile() {
