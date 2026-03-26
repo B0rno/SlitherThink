@@ -15,6 +15,8 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.Group;
 import javafx.scene.shape.Line;
 import javafx.scene.Node;
+
+import com.lmu.SlitherThink.App;
 import com.lmu.SlitherThink.Grille.Matrice;
 import com.lmu.SlitherThink.Grille.Trait;
 import com.lmu.SlitherThink.Helper.Aide;
@@ -23,13 +25,17 @@ import com.lmu.SlitherThink.Partie.PartieObserver;
 import com.lmu.SlitherThink.Partie.Profil;
 import com.lmu.SlitherThink.Partie.Score;
 
+import com.lmu.SlitherThink.save.LoadSave;
+import com.lmu.SlitherThink.save.SaveManager;
+
 import javafx.event.ActionEvent;
 
 public class Partie extends ChangementFenetre implements PartieObserver {
     protected com.lmu.SlitherThink.Partie.Partie moteurJeu;
 
     public static String dernierMode = "libre";
-    private static String grilleEnCours = null; 
+    private static String grilleEnCours = null;
+    public static String nomGrille = "tutoriel";
 
     @FXML
     private VBox zoneJeu; 
@@ -58,7 +64,7 @@ public class Partie extends ChangementFenetre implements PartieObserver {
 
     @Override
     public void onVictoire(Score score) {
-        // TODO: Transition vers écran de victoire
+        App.changerVue("finPartieLibre");
     }
 
     @Override
@@ -103,13 +109,24 @@ public class Partie extends ChangementFenetre implements PartieObserver {
             return; 
         }
 
-        this.moteurJeu = new com.lmu.SlitherThink.Partie.Partie(new Profil("Joueur"), mat, 3, new Score());
+        // Lecture de la sauvegarde ici, si elle n'est pas lu, créer la sauvegarde
+        Partie.nomGrille = grille;
+        boolean loaded = mat.loadSave(Pseudo.nomJoueur, "./save/saveGrille/" + grille + ".json", false);
+        if(!loaded){
+            // Creer la référence de sauvegarde ici
+            SaveHelper saveHelper = SaveHelper.getInstance();
+            saveHelper.ajouterPartieLibre(LoadSave.getInstance(""), Pseudo.nomJoueur, grille);
+            SaveManager saveManager = new SaveManager(LoadSave.getInstance(""));
+            saveManager.actualiserSaveGlobal();
+        }
+
+        this.moteurJeu = new com.lmu.SlitherThink.Partie.Partie(new Profil(Pseudo.nomJoueur), mat, 3, new Score());
         this.moteurJeu.ajouterObserver(this);
         chargerMatrice(mat);
         this.moteurJeu.demarrer();
     }
 
-    private void genererPlateau(int taille) {
+    private void genererPlateau(Matrice mat, int taille) {
         this.matriceCases = new StackPane[taille][taille];
         zoneJeu.getChildren().clear();
 
@@ -120,7 +137,17 @@ public class Partie extends ChangementFenetre implements PartieObserver {
         double tailleGrilleSouhaitee = 600.0; 
         double tailleUnite = tailleGrilleSouhaitee / (taille * 1.5);
 
+        int currentHorizontalDir = 0; // 0 = NORD
+        int currentVerticalDir = 1;   // 1 = OUEST
+
         for (int l = 0; l < nbCellulesFX; l++) {
+            // Changement horizontal UNIQUEMENT quand l change et est pair
+            if (l % 2 == 0 && l != 0) {
+                currentHorizontalDir = (currentHorizontalDir == 0) ? 3 : 0;
+            }
+
+            // Reset vertical à chaque nouvelle ligne
+            currentVerticalDir = 1;
             for (int c = 0; c < nbCellulesFX; c++) {
                 if (l % 2 != 0 && c % 2 != 0) {
                     // Case à chiffre
@@ -133,7 +160,46 @@ public class Partie extends ChangementFenetre implements PartieObserver {
                 } else if ((l % 2 == 0 && c % 2 != 0) || (l % 2 != 0 && c % 2 == 0)) {
                     // Trait (Horizontal ou Vertical)
                     boolean estHorizontal = (l % 2 == 0);
+
+                    int ligneCase;
+                    int colonneCase;
+                    int direction;
+
+                    if (estHorizontal) {
+                        direction = currentHorizontalDir;
+
+                        colonneCase = (c - 1) / 2;
+
+                        if (direction == 0) {
+                            // NORD → case en dessous
+                            ligneCase = l / 2;
+                        } else {
+                            // SUD → case au dessus
+                            ligneCase = (l / 2) - 1;
+                        }
+
+                        if (ligneCase < 0 || ligneCase >= taille) continue;
+
+                    } else {
+                        direction = currentVerticalDir;
+
+                        // alternance verticale à CHAQUE trait
+                        currentVerticalDir = (currentVerticalDir == 1) ? 2 : 1;
+
+                        ligneCase = (l - 1) / 2;
+
+                        if (direction == 1) {
+                            // OUEST → case à droite
+                            colonneCase = c / 2;
+                        } else {
+                            // EST → case à gauche
+                            colonneCase = (c / 2) - 1;
+                        }
+
+                        if (colonneCase < 0 || colonneCase >= taille) continue;
+                    }
                     Trait traitLogique = new Trait();
+                    traitLogique.setTrait(mat.getCase(ligneCase, colonneCase).getTrait(direction).getEtat());
                     
                     // On récupère le StackPane contenant le rectangle + la croix
                     Node traitGraphique = creerTraitGraphique(estHorizontal, traitLogique, tailleUnite, l, c);
@@ -201,21 +267,47 @@ public class Partie extends ChangementFenetre implements PartieObserver {
         };
     
         // Événements
+        // Événements
         conteneur.setOnMousePressed(event -> {
-            logique.etatSuivant();
-            rafraichirVisuel.run();
-            communiquerAuMoteur(l, c, horizontal);
-        });
-    
-        conteneur.setOnDragDetected(event -> conteneur.startFullDrag());
-    
-        conteneur.setOnMouseDragEntered(event -> {
-            if (logique.getEtat() == com.lmu.SlitherThink.Grille.ValeurTrait.VIDE) {
-                logique.etatSuivant();
+            if (event.getButton() == javafx.scene.input.MouseButton.PRIMARY) {
+                // Clic gauche : bascule entre VIDE ↔ PLEIN
+                if (logique.getEtat() == com.lmu.SlitherThink.Grille.ValeurTrait.PLEIN) {
+                    logique.setTrait(com.lmu.SlitherThink.Grille.ValeurTrait.VIDE);
+                } else {
+                    logique.setTrait(com.lmu.SlitherThink.Grille.ValeurTrait.PLEIN);
+                }
+                rafraichirVisuel.run();
+                communiquerAuMoteur(l, c, horizontal);
+            } else if (event.getButton() == javafx.scene.input.MouseButton.SECONDARY) {
+                // Clic droit : bascule entre VIDE ↔ CROIX
+                if (logique.getEtat() == com.lmu.SlitherThink.Grille.ValeurTrait.CROIX) {
+                    logique.setTrait(com.lmu.SlitherThink.Grille.ValeurTrait.VIDE);
+                } else {
+                    logique.setTrait(com.lmu.SlitherThink.Grille.ValeurTrait.CROIX);
+                }
                 rafraichirVisuel.run();
                 communiquerAuMoteur(l, c, horizontal);
             }
         });
+
+        conteneur.setOnDragDetected(event -> {
+            conteneur.startFullDrag();
+        });
+
+        conteneur.setOnMouseDragEntered(event -> {
+            if (event.getButton() == javafx.scene.input.MouseButton.PRIMARY
+                    && logique.getEtat() == com.lmu.SlitherThink.Grille.ValeurTrait.VIDE) {
+                logique.setTrait(com.lmu.SlitherThink.Grille.ValeurTrait.PLEIN);
+                rafraichirVisuel.run();
+                communiquerAuMoteur(l, c, horizontal);
+            } else if (event.getButton() == javafx.scene.input.MouseButton.SECONDARY
+                    && logique.getEtat() == com.lmu.SlitherThink.Grille.ValeurTrait.VIDE) {
+                logique.setTrait(com.lmu.SlitherThink.Grille.ValeurTrait.CROIX);
+                rafraichirVisuel.run();
+                communiquerAuMoteur(l, c, horizontal);
+            }
+        });
+        rafraichirVisuel.run();
         return conteneur;
     }
     
@@ -239,7 +331,7 @@ public class Partie extends ChangementFenetre implements PartieObserver {
 
     public Matrice chargerMatrice(Matrice mat){
         int taille = mat.getHauteur();
-        genererPlateau(taille);
+        genererPlateau(mat, taille);
         for (int ligne = 0; ligne < taille; ligne++) {
             for (int col = 0; col < taille; col++) {
                 int valeur = mat.getCase(ligne, col).getNumero();

@@ -29,8 +29,6 @@ import java.util.Map;
  * @version 1.0
  */
 
-/* TODO APPLIQUER LE DESIGN PATTERN SINGLETON ICI !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! */
-
 public class Matrice {
     /** Nombre de lignes de la matrice */
     private final int hauteur;
@@ -218,16 +216,19 @@ public class Matrice {
         return loadedMatrice;
     }
 
-    public boolean loadSave(Integer id, String path){
+    public boolean loadSave(String pseudo, String path, boolean saveAventure){
         LoadSave save = LoadSave.getInstance("");
 
         List<savePartieLienJoueur> saveJoueurs = save.getSaveGlobal().getSauvegardeLibre();
+        if(saveAventure)
+            saveJoueurs = save.getSaveGlobal().getSauvegardeAventure();
 
         List<PositionTrait> detail = null;
 
         for(savePartieLienJoueur saveJoueur : saveJoueurs){
-            if(saveJoueur.getId().equals(id) && saveJoueur.getPath().equals(path)){
+            if(saveJoueur.getPseudo().equals(pseudo) && saveJoueur.getPath().equals(path)){
                 detail = saveJoueur.getDetailleSave().getEtatGrille();
+                System.out.println("Save trouvé : " + pseudo + " " + path + " " + saveJoueur.getId() + "\n" + detail);
                 break;
             }
         }
@@ -239,10 +240,13 @@ public class Matrice {
                 
                 int ligne = coord.get(0);
                 int colonne = coord.get(1);
+                System.out.println("l:" + ligne + "c:" + colonne + "e:" + etat);
                 
                 for(Integer direction : etat){
-                    if(this.getCase(ligne,colonne).getTrait(direction).getEtat() == ValeurTrait.VIDE)
+                    if(this.getCase(ligne,colonne).getTrait(direction).getEtat() == ValeurTrait.VIDE){
                         this.cliquer(ligne, colonne, direction);
+                        System.out.println("ca marche !");
+                    }
                 }
             }
             return true;
@@ -250,19 +254,23 @@ public class Matrice {
         return false;
     }
 
-    public void saveGrille(Integer id, String path, int l, int c, int direction){
+    public void saveGrille(String pseudo, String path, boolean saveAventure, int l, int c, int direction){
         if(this.getCase(l,c).getTrait(direction).getEtat() == ValeurTrait.CROIX)
             return; //La sauvegarde des croix n'est pas implémenté dans les json
 
         LoadSave save = LoadSave.getInstance("");
 
         List<savePartieLienJoueur> saveJoueurs = save.getSaveGlobal().getSauvegardeLibre();
+        if(saveAventure)
+            saveJoueurs = save.getSaveGlobal().getSauvegardeAventure();
 
         List<PositionTrait> detail = null;
+        Integer id = null;
 
         for(savePartieLienJoueur saveJoueur : saveJoueurs){
-            if(saveJoueur.getId().equals(id) && saveJoueur.getPath().equals(path)){
+            if(saveJoueur.getPseudo().equals(pseudo) && saveJoueur.getPath().equals(path)){
                 detail = saveJoueur.getDetailleSave().getEtatGrille();
+                id = saveJoueur.getId();
                 break;
             }
         }
@@ -296,10 +304,8 @@ public class Matrice {
             }
         }
         SaveManager saveManager = new SaveManager(save);
-        saveManager.separerLesSauvegardes();
-        saveManager.sauvegarderJsonDansArborescence("");
-        System.out.println("Fichiers JSON générés: " + saveManager.getDossiersJson().keySet());
-        System.out.println("Ecriture terminée dans: /save");
+        saveManager.updateSaveFichierId(id);
+        
     }
 
     /**

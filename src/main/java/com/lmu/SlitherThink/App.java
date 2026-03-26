@@ -9,6 +9,9 @@ import javafx.scene.input.KeyCombination;
 import javafx.stage.Stage;
 import javafx.scene.transform.Scale;
 
+import com.lmu.SlitherThink.save.SaveManager;
+import com.lmu.SlitherThink.save.LoadSave;
+
 public class App extends Application {
 
     // Conteneur GLOBAL qui va garder le zoom en permanence
@@ -16,6 +19,11 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
+        // Chargement de la save
+        SaveManager saveManager = new SaveManager(LoadSave.getInstance(""));
+        saveManager.separerLesSauvegardes();
+        saveManager.sauvegarderJsonDansArborescence("");
+        
 
         // Enregistrement des vues (lazy loading - chargées uniquement quand nécessaire)
         GestionnaireVues.registerView("pseudo", "/fxml/pseudo.fxml");
@@ -30,10 +38,7 @@ public class App extends Application {
         GestionnaireVues.registerView("partie", "/fxml/partie.fxml");
         GestionnaireVues.registerView("partieTimer", "/fxml/partieTimer.fxml");
 
-
-
-
-        changerVue("pseudo");
+        changerVue("pseudo"); 
 
         // Création du fond noir de l'écran
         Pane root = new Pane();
@@ -77,6 +82,10 @@ public class App extends Application {
     // Méthode pour changer de page
     public static void changerVue(String nomVue) {
         Region nouvelleVue = (Region) GestionnaireVues.getView(nomVue);
+        if (nouvelleVue == null) {
+            System.err.println("Erreur : La vue " + nomVue + " est introuvable !");
+            return;
+        }
         conteneurVues.getChildren().setAll(nouvelleVue);
     }
 

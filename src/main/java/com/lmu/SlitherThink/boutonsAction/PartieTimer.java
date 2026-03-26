@@ -2,8 +2,14 @@ package com.lmu.SlitherThink.boutonsAction;
 
 import com.lmu.SlitherThink.Grille.Matrice;
 import com.lmu.SlitherThink.Partie.EtatPartie;
-import com.lmu.SlitherThink.Partie.Score;
 import com.lmu.SlitherThink.Partie.Profil;
+import com.lmu.SlitherThink.Partie.Score;
+import com.lmu.SlitherThink.save.LoadSave;
+import com.lmu.SlitherThink.save.SaveManager;
+import com.lmu.SlitherThink.save.csvScore.structure.StructureCSV;
+
+import com.lmu.SlitherThink.save.LoadSave;
+import com.lmu.SlitherThink.save.SaveManager;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -18,7 +24,6 @@ public class PartieTimer extends Partie {
     @FXML
     private Label timerLabel;
 
-    private int secondesEcoulees = 0;
 
     //chrono visuel
     private Timeline chronometre;
@@ -27,7 +32,7 @@ public class PartieTimer extends Partie {
     public void onVictoire(Score score) {
         //TODO sauvegarder le score
 
-
+        saveScore(score);
         // Arrêter le chrono visuel 
         if (chronometre != null) chronometre.stop();
         
@@ -41,8 +46,39 @@ public class PartieTimer extends Partie {
         
         String tempsFinal = formatTime((int) score.getDureeEnSecondes());
         String tempsMaxEtoile = formatTime((int) score.getDureePourEtoile());
+        System.out.println("fin de la partie");
 
         changerVueFinPartie(aidesUtilisees, aidesMax, tempsFinal, tempsMaxEtoile, true);
+    }
+
+    private void saveScore(Score score) {
+        String grille = Partie.getGrilleEnCours();
+        if (grille == null || grille.isBlank()) {
+            grille = numPartie > 0 ? "partie" + numPartie : "tutoriel";
+        }
+
+        if ("tutoriel".equalsIgnoreCase(grille) || "tutoriel".equalsIgnoreCase(Partie.getDernierMode())) {
+            return;
+        }
+
+        String pseudo = this.moteurJeu.getProfil().getPseudo();
+        int nbAide = score.getNbAidesUtilisees();
+        int chrono = (int) score.getDureeEnSecondes();
+
+        LoadSave save = LoadSave.getInstance("");
+        SaveManager saveManager = new SaveManager(save);
+
+        saveManager.ajouterScoreEtSauvegarderCsv(
+            new StructureCSV(pseudo, grille, nbAide, chrono),
+            ""
+        );
+
+        String pathGrille = "./save/saveGrille/" + grille + ".json";
+        Integer idFichier = saveManager.trouverIdSauvegardeParPseudoEtPath(pseudo, pathGrille);
+        if (idFichier != null) {
+            saveManager.delFichierId(idFichier);
+        }
+
     }
 
     @Override
@@ -92,9 +128,8 @@ public class PartieTimer extends Partie {
     }
 
     @FXML
-    public void initialiserPartie(int numero) {
+    public void initialiserPartie(int numero, boolean recommencer) {
         numPartie = numero;
-        secondesEcoulees = 0;
         Partie.setDernierMode("aventure"); 
 
         Matrice mat = Matrice.loadGrille("partie" + numero);
@@ -103,11 +138,27 @@ public class PartieTimer extends Partie {
             return;
         }
 
-        this.moteurJeu = new com.lmu.SlitherThink.Partie.Partie(new Profil("Joueur"), mat, 3, new Score());
+        // Lecture de la sauvegarde ici, si elle n'est pas lu, créer la sauvegarde
+        Partie.nomGrille = "partie" + numero;
+        if(!recommencer){
+            boolean loaded = mat.loadSave(Pseudo.nomJoueur, "./save/saveGrille/partie" + numero + ".json", true);
+            if(!loaded){
+                // Creer la référence de sauvegarde ici
+                SaveHelper saveHelper = SaveHelper.getInstance();
+                saveHelper.ajouterPartieAventure(LoadSave.getInstance(""), Pseudo.nomJoueur, "partie" + numero);
+                SaveManager saveManager = new SaveManager(LoadSave.getInstance(""));
+                saveManager.actualiserSaveGlobal();
+            }
+        }
+        
+
+        this.moteurJeu = new com.lmu.SlitherThink.Partie.Partie(new Profil(Pseudo.nomJoueur), mat, 3, new Score());
         this.moteurJeu.ajouterObserver(this);
         
         chargerMatrice(mat);
         actualiseChrono();
+
+        System.out.println(mat);
         
         this.moteurJeu.demarrer(); 
         chronometre.play();
@@ -116,7 +167,6 @@ public class PartieTimer extends Partie {
     @FXML 
     public void lancerTutoriel() {
         numPartie = -1; 
-        secondesEcoulees = 0;
         Partie.setDernierMode("tutoriel");
         
         Matrice mat = Matrice.loadGrille("tutoriel");

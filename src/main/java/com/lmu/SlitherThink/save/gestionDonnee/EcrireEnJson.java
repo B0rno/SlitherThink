@@ -48,4 +48,14 @@ public class EcrireEnJson {
             e.printStackTrace();
         }
     }
+
+    public static void supprimerJson(String nomFichier) {
+        Path chemin = Paths.get(nomFichier);
+        try {
+            Files.deleteIfExists(chemin);
+            System.out.println("Fichier supprimé: " + nomFichier);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

@@ -1,6 +1,9 @@
 package com.lmu.SlitherThink.boutonsAction;
 
 import javafx.fxml.FXML;
+
+import com.lmu.SlitherThink.GestionnaireVues;
+
 import javafx.event.ActionEvent;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -23,12 +26,20 @@ public class FinPartieAventure extends ChangementFenetre {
 
     @FXML
     private void partieSuivante(ActionEvent event) {
-        System.out.println("Partie suivante");
+        if (PartieTimer.getNumPartie() == 12){
+            changerFenetre(event, "choixPartieAventure");
+        }
+        else{
+            PartieTimer controller = (PartieTimer) GestionnaireVues.getController("partieTimer");
+            controller.initialiserPartie(PartieTimer.getNumPartie() + 1, false);
+            changerFenetre(event, "partieTimer");
+        }
     }
 
     @FXML
     private void recommencer(ActionEvent event) {
-        System.out.println("Recommencer");
+        Pause p = new Pause();
+        p.recommencer(event);
     }
 
     @FXML

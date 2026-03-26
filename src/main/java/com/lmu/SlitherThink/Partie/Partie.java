@@ -110,6 +110,14 @@ public class Partie {
     public boolean jouerCoup(int ligne, int colonne, int direction){
         if(!etat.peutJouer()) return false;
         m.cliquer(ligne, colonne, direction);
+        m.saveGrille(
+            p.getPseudo(),
+            "./save/saveGrille/" + com.lmu.SlitherThink.boutonsAction.Partie.nomGrille + ".json",
+            com.lmu.SlitherThink.boutonsAction.Partie.getDernierMode().equals("aventure"),
+            ligne,
+            colonne, 
+            direction
+        );
         s.incrementerCoups();
         if (verifierVictoire()) terminerPartie();
         return true;
