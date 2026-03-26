@@ -180,7 +180,7 @@ public class Partie {
      * @return true si la partie est en cours et qu'il reste des aides
      */
     public boolean peutUtiliserAide() {
-        return etat.peutJouer() && nbAides > 0;
+        return etat.peutJouer();
     }
     /**
      * Utilise une aide pour révéler un trait de la solution.
