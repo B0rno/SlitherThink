@@ -15,6 +15,8 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.Group;
 import javafx.scene.shape.Line;
 import javafx.scene.Node;
+
+import com.lmu.SlitherThink.App;
 import com.lmu.SlitherThink.Grille.Matrice;
 import com.lmu.SlitherThink.Grille.Trait;
 import com.lmu.SlitherThink.Partie.EtatPartie;
@@ -61,7 +63,7 @@ public class Partie extends ChangementFenetre implements PartieObserver {
 
     @Override
     public void onVictoire(Score score) {
-        // TODO: Transition vers écran de victoire
+        App.changerVue("finPartieLibre");
     }
 
     @Override

@@ -33,16 +33,15 @@ public class App extends Application {
         GestionnaireVues.loadView("choixDifficulte", "/fxml/choixDifficulte.fxml");
         GestionnaireVues.loadView("choixPartieAventure", "/fxml/choixPartieAventure.fxml");
         GestionnaireVues.loadView("finPartieAventure", "/fxml/finPartieAventure.fxml");
+        GestionnaireVues.loadView("finPartieLibre", "/fxml/finPartieLibre.fxml");
+
         GestionnaireVues.loadView("leaderboards", "/fxml/leaderboards.fxml");
         GestionnaireVues.loadView("pause", "/fxml/pause.fxml");
         GestionnaireVues.loadView("options", "/fxml/options.fxml");
         GestionnaireVues.loadView("partie", "/fxml/partie.fxml");
         GestionnaireVues.loadView("partieTimer", "/fxml/partieTimer.fxml");
 
-
-
-
-        changerVue("pseudo");
+        changerVue("pseudo"); 
 
         // Création du fond noir de l'écran
         Pane root = new Pane();
@@ -109,6 +108,10 @@ public class App extends Application {
     // Méthode pour changer de page
     public static void changerVue(String nomVue) {
         Region nouvelleVue = (Region) GestionnaireVues.getView(nomVue);
+        if (nouvelleVue == null) {
+            System.err.println("Erreur : La vue " + nomVue + " est introuvable !");
+            return;
+        }
         conteneurVues.getChildren().setAll(nouvelleVue);
     }
 
