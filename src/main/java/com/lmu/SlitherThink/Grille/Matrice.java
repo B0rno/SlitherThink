@@ -275,13 +275,13 @@ public class Matrice {
             path
         );
         if (saveJoueur == null) {
-            System.err.println("Aucune sauvegarde trouvée pour pseudo/path: " + pseudo + " / " + path);
+            //System.err.println("Aucune sauvegarde trouvée pour pseudo/path: " + pseudo + " / " + path);
             return;
         }
 
         Integer id = saveJoueur.getId();
         if (id == null) {
-            System.err.println("Sauvegarde trouvée sans id: " + pseudo + " / " + path);
+            //System.err.println("Sauvegarde trouvée sans id: " + pseudo + " / " + path);
             return;
         }
 
