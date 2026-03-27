@@ -82,6 +82,7 @@
   </dependencies>
 
   <build>
+    <finalName>SlitherThink</finalName>
     <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
       <plugins>
         <!-- clean lifecycle, see https://maven.apache.org/ref/current/maven-core/lifecycles.html#clean_Lifecycle -->
@@ -135,7 +136,7 @@
             <artifactId>javafx-maven-plugin</artifactId>
             <version>0.0.8</version>
             <configuration>
-                <mainClass>com.lmu.SlitherThink.App</mainClass>
+                <mainClass>com.lmu.SlitherThink.Main</mainClass>
             </configuration>
         </plugin>
 
