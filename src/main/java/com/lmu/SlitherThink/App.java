@@ -74,10 +74,22 @@ public class App extends Application {
         stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
         stage.show();
 
-        javafx.application.Platform.runLater(() -> {
-            stage.setFullScreen(true);
-            stage.setFullScreenExitHint("");
+        // Solution cross-platform 
+        javafx.animation.PauseTransition pause = new javafx.animation.PauseTransition(javafx.util.Duration.millis(250));
+        pause.setOnFinished(event -> {
+            // Demander le focus avant le plein écran 
+            stage.requestFocus();
+            stage.toFront();
+
+            // Petit délai supplémentaire après requestFocus
+            javafx.animation.PauseTransition pause2 = new javafx.animation.PauseTransition(javafx.util.Duration.millis(50));
+            pause2.setOnFinished(e -> {
+                stage.setFullScreen(true);
+                stage.setFullScreenExitHint("");
+            });
+            pause2.play();
         });
+        pause.play();
     }
 
     // Méthode pour changer de page
