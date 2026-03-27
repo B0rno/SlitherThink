@@ -263,7 +263,8 @@ public class Partie extends ChangementFenetre implements PartieObserver {
                             ligneCase = (l / 2) - 1;
                         }
 
-                        if (ligneCase < 0 || ligneCase >= taille) continue;
+                        if (ligneCase < 0) ligneCase = 0;
+                        if (ligneCase >= taille) ligneCase = taille - 1;
 
                     } else {
                         direction = currentVerticalDir;
@@ -281,7 +282,8 @@ public class Partie extends ChangementFenetre implements PartieObserver {
                             colonneCase = (c / 2) - 1;
                         }
 
-                        if (colonneCase < 0 || colonneCase >= taille) continue;
+                        if (colonneCase < 0) colonneCase = 0;
+                        if (colonneCase >= taille) colonneCase = taille - 1;
                     }
                     Trait traitLogique = new Trait();
                     traitLogique.setTrait(mat.getCase(ligneCase, colonneCase).getTrait(direction).getEtat());
