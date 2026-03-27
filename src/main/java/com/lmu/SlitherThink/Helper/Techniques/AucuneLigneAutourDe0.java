@@ -11,7 +11,7 @@ import com.lmu.SlitherThink.Helper.StrategieAide;
 /**
  * Technique: Aucune ligne autour de 0
  * Parcourt la matrice pour vérifier s'il y a des cases '0'.
- * L'aide est applicable s'il manque des croix sur les traits autour du '0'.
+ * L'aide est applicable s'il y a des traits autour du '0'.
  */
 public class AucuneLigneAutourDe0 implements StrategieAide {
 
@@ -34,7 +34,7 @@ public class AucuneLigneAutourDe0 implements StrategieAide {
 
                         Trait t = c.getTrait(x);
 
-                        if (t != null && t.getEtat() == ValeurTrait.VIDE && t.getEtat() == ValeurTrait.PLEIN) {
+                        if (t != null && t.getEtat() == ValeurTrait.PLEIN) {
                             return true;
                         }
                     }
