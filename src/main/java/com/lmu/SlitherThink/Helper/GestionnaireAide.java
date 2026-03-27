@@ -62,7 +62,6 @@ public class GestionnaireAide {
     public Aide trouverAide(Matrice m) {
         for (StrategieAide strategie : strategies) {
             if (strategie.estApplicable(m)) {
-                System.out.println("Aide trouvée : " + strategie.getNom()); // Debug : affiche le nom de la stratégie utilisée
                 return strategie.trouverAide(m);
             }
         }

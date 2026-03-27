@@ -8,23 +8,23 @@
           "techniqueParsNv": [
             {
               "name": "Contraintes sur 3",
-              "description": "Une case 3 nécessite 3 traits.\n\nSi l'un de ses côtés est bloqué par une croix (X), vous devez obligatoirement tracer un trait plein sur ses 3 autres côtés."
+              "description": "Une case 3 a besoin de 3 traits pleins autour d'elle. Si l'un de ses traits est déjà bloqué par une croix (X), les 3 autres traits doivent obligatoirement être pleins."
             },
             {
               "name": "Boucle atteignant un 3",
-              "description": "Si la boucle arrive sur l'un des coins d'un 3, elle doit le contourner.\n\nVous devez placer deux traits pleins sur les côtés de ce 3 situés à l'opposé du coin touché."
+              "description": "Quand la boucle arrive sur un coin d'une case 3, elle doit contourner cette case. Les 2 traits du 3 situés du côté opposé au coin touché doivent donc être pleins."
             },
             {
               "name": "Boucle atteignant un 1",
-              "description": "Si la boucle arrive directement sur le coin d'un 1, elle ne peut pas longer cette case.\n\nVous devez mettre des croix (X) sur les deux côtés du 1 formant ce coin."
+              "description": "Quand la boucle arrive sur un coin d'une case 1, elle ne peut pas longer cette case. Les 2 traits du 1 formant ce coin doivent recevoir une croix (X)."
             },
             {
               "name": "Contraintes sur un 2",
-              "description": "Le chiffre 2 force la boucle à le traverser.\n\nSi un trait arrive sur un coin, vous devez le faire ressortir par le coin opposé en diagonale."
+              "description": "Une case 2 force la boucle à la traverser en diagonale. Si un trait plein arrive sur un coin du 2, le trait doit ressortir par le coin opposé en diagonale."
             },
             {
               "name": "Éviter une boucle séparée",
-              "description": "La grille ne doit contenir qu'une seule boucle géante.\n\nSi l'ajout d'un trait referme une petite boucle isolée, c'est interdit : vous devez y placer une croix (X)."
+              "description": "La grille ne peut contenir qu'une seule boucle continue. Si tracer un trait referme prématurément une petite boucle isolée, ce trait ne peut pas être tracé : placez-y une croix (X)."
             }
           ]
         },
@@ -33,27 +33,27 @@
           "techniqueParsNv": [
             {
               "name": "Aucune ligne autour de 0",
-              "description": "Une case 0 ne doit être touchée par aucun trait.\n\nVous devez immédiatement placer une croix (X) sur ses 4 côtés."
+              "description": "Une case marquée 0 ne peut être touchée par aucun trait de la boucle. Placez donc une croix (X) sur chacun de ses 4 traits."
             },
             {
               "name": "Adjacents 0 et 3",
-              "description": "Lorsqu'un 3 est collé à un 0, le 3 ne peut rien tracer du côté du 0.\n\nVous devez donc tracer des traits pleins sur ses 3 autres côtés extérieurs."
+              "description": "Quand un 3 est directement collé à un 0, le trait commun ne peut pas être tracé. Les 3 autres traits du 3 (ceux qui ne touchent pas le 0) doivent donc tous être pleins."
             },
             {
               "name": "Diagonale 0 et 3",
-              "description": "Lorsqu'un 3 est en diagonale d'un 0, les côtés proches sont limités.\n\nVous devez obligatoirement tracer un trait plein sur les deux côtés du 3 opposés au 0."
+              "description": "Quand un 3 est placé en diagonale d’un 0, les 2 traits proches du 0 ne peuvent pas être tracés ensemble. Les 2 traits opposés au 0 doivent donc être pleins."
             },
             {
               "name": "Deux 3 adjacents",
-              "description": "Deux 3 placés côte à côte partagent forcément un trait plein entre eux.\n\nVous devez aussi tracer tous leurs côtés extérieurs parallèles (en haut/bas ou gauche/droite)."
+              "description": "Deux cases 3 placées côte à côte doivent partager un trait plein entre elles. De plus, tous leurs traits extérieurs parallèles (en haut/bas ou gauche/droite) doivent aussi être pleins."
             },
             {
               "name": "Deux 3 en diagonale",
-              "description": "Pour deux cases 3 placées en diagonale, les coins extérieurs sont forcés.\n\nVous devez obligatoirement tracer les bords extérieurs formant les coins opposés à leur contact."
+              "description": "Quand deux cases 3 sont placées en diagonale, leurs traits extérieurs formant les coins opposés à leur jonction doivent être pleins."
             },
             {
               "name": "N’importe quel numéro dans un coin",
-              "description": "Les bords du plateau limitent fortement les choix dans les coins.\n\nPour un 3, vous devez tracer 2 traits contre les bords.\nPour un 1, vous devez placer 2 croix (X)."
+              "description": "Dans un coin du plateau, les possibilités sont limitées par le bord.\nPour un 3 : les 2 traits le long du bord doivent être pleins.\nPour un 1 : les 2 traits le long du bord doivent avoir une croix (X)."
             }
           ]
         },
@@ -62,27 +62,27 @@
           "techniqueParsNv": [
             {
               "name": "Technique avancée 1 ",
-              "description": "La boucle ne doit jamais faire d'impasse.\n\nSi une intersection possède déjà 3 chemins bloqués par des croix, vous devez marquer le 4ème d'une croix."
+              "description": "La boucle doit toujours pouvoir continuer. Si une intersection a déjà un trait plein qui arrive et qu'un seul trait libre reste disponible, ce trait libre doit obligatoirement être plein pour permettre à la boucle de continuer."
             },
             {
               "name": "Technique avancée 2",
-              "description": "Observez les coins extérieurs des 3.\n\nS'ils sont bloqués par le bord ou des croix, la boucle ne peut pas s'y échapper. Vous devez longer l'intérieur de la case."
+              "description": "Observez les coins extérieurs d'une case 3. Si ces 2 coins sont bloqués (par le bord du plateau ou des croix), la boucle ne peut pas s'y échapper et doit longer l'intérieur de la case."
             },
             {
               "name": "Technique avancée 3",
-              "description": "Une case ne peut jamais avoir ses 4 côtés pleins (boucle interdite).\n\nSi une case a déjà 3 traits, vous devez placer une croix sur le dernier côté."
+              "description": "Une case ne peut jamais avoir ses 4 traits pleins, sinon la boucle y serait piégée. Si une case a déjà 3 traits pleins, le dernier trait doit recevoir une croix (X)."
             },
             {
               "name": "Technique avancée 4",
-              "description": "Deux cases 2 collées ont une symétrie parfaite.\n\nSi vous trouvez le côté extérieur du premier, vous devez reproduire le même état (trait ou croix) sur le bord opposé du second."
+              "description": "Deux cases 2 placées côte à côte forment une symétrie parfaite. Si vous tracez un trait extérieur sur le premier 2, le trait opposé du second 2 doit avoir le même état (plein ou croix)."
             },
             {
               "name": "Technique avancée 5",
-              "description": "Un 1 et un 3 en diagonale se contraignent fortement.\n\nVous devez tracer les 2 côtés extérieurs du 3, et vous devez placer des croix sur les 2 côtés extérieurs du 1."
+              "description": "Quand un 1 et un 3 sont placés en diagonale, ils se limitent mutuellement. Les 2 traits extérieurs du 3 (loin du 1) doivent être pleins, et les 2 traits extérieurs du 1 (loin du 3) doivent avoir une croix (X)."
             },
             {
               "name": "Technique avancée 6",
-              "description": "Si une ligne pointe tout droit sur le coin d'un 1, elle devra longer la case.\n\nVous devez donc placer des croix sur les deux côtés du 1 situés à l'opposé de ce coin."
+              "description": "Si un trait plein pointe directement sur un coin d'une case 1, la boucle devra longer cette case sans y entrer. Les 2 traits du 1 situés du côté opposé à ce coin doivent donc avoir une croix (X)."
             }
           ]
         }
