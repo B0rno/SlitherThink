@@ -12,7 +12,21 @@ import java.util.List;
 import com.opencsv.bean.StatefulBeanToCsv;
 import com.opencsv.bean.StatefulBeanToCsvBuilder;
 
+/**
+ * Utilitaire de sauvegarde de fichiers CSV.
+ * Permet de convertir une liste d'objets Java en fichier CSV.
+ * Crée automatiquement les répertoires parents si nécessaire.
+ */
 public class SaveCSV {
+
+    /**
+     * Sauvegarde une liste d'objets dans un fichier CSV.
+     * Crée les répertoires parents si nécessaire.
+     *
+     * @param <T> le type des objets à sauvegarder
+     * @param listToSave la liste d'objets à convertir en CSV
+     * @param fichier le chemin du fichier de destination
+     */
     public static <T> void sauvegarder(List<T> listToSave, String fichier) {
         Path path = Paths.get(fichier);
         try {
