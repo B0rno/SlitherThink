@@ -48,23 +48,12 @@ public class TechniqueAvancee1 implements StrategieAide {
                 for (Trait t : traitsDuPoint) {
                     if (t.getEtat() == ValeurTrait.PLEIN) nbPleins++;
                     else if (t.getEtat() == ValeurTrait.VIDE) nbVides++;
-                }
-
-                // Condition 1 : 0 trait plein et 1 seul chemin possible restant
-                // On ne peut pas emprunter ce trait vide car on y serait coincé sans sortie.
-                if (nbPleins == 0 && nbVides == 1) {
-                    return true;
+                    else if (t.getEtat() == ValeurTrait.CROIX) nbVides++; // On traite les croix comme des vides pour la continuité
                 }
 
                 // Condition 2 : 1 trait plein arrive et 1 seule sortie possible
                 // La boucle DOIT continuer, donc le trait vide restant devient forcément plein.
                 if (nbPleins == 1 && nbVides == 1) {
-                    return true;
-                }
-
-                // Condition 3 : 2 traits pleins sont deja la
-                // La boucle est passée par ce point, tous les autres traits vides DOIVENT être des croix.
-                if (nbPleins == 2 && nbVides > 0) {
                     return true;
                 }
             }
