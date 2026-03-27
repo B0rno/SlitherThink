@@ -190,7 +190,7 @@ public class PartieTimer extends Partie {
         }
 
 
-        this.moteurJeu = new com.lmu.SlitherThink.Partie.Partie(new Profil(Pseudo.nomJoueur), mat, 3, score);
+        this.moteurJeu = new com.lmu.SlitherThink.Partie.PartieHelper(new Profil(Pseudo.nomJoueur), mat, 3, score);
         this.moteurJeu.ajouterObserver(this);
         
         chargerMatrice(mat);
@@ -210,7 +210,7 @@ public class PartieTimer extends Partie {
         Matrice mat = Matrice.loadGrille("tutoriel");
         if (mat == null) return;
 
-        this.moteurJeu = new com.lmu.SlitherThink.Partie.Partie(new Profil("Apprenti"), mat, 99, new Score());
+        this.moteurJeu = new com.lmu.SlitherThink.Partie.PartieHelper(new Profil("Apprenti"), mat, 99, new Score());
         this.moteurJeu.ajouterObserver(this);
 
         chargerMatrice(mat);

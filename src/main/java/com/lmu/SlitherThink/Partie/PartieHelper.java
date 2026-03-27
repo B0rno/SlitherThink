@@ -19,7 +19,7 @@ import com.lmu.SlitherThink.Helper.Aide;
  * @see EtatPartie
  * @see Score
  */
-public class Partie {
+public class PartieHelper {
 
     private Profil p;
     private Matrice m;
@@ -39,7 +39,7 @@ public class Partie {
      * @param largeur Nombre de colonnes de la grille 
      * @throws IllegalArgumentException si p est null ou si hauteur/largeur ≤ 0
      */
-    public Partie(Profil p, int hauteur, int largeur){
+    public PartieHelper(Profil p, int hauteur, int largeur){
         this.p = p;
         this.m = new Matrice(hauteur, largeur);
         this.nbAides = 3; 
@@ -57,7 +57,7 @@ public class Partie {
      * @param s Le score restauré avec le chrono accumulé 
      * @throws IllegalArgumentException si un paramètre est null ou invalide
      */
-    public Partie(Profil p, Matrice m, int nbAides, Score s){
+    public PartieHelper(Profil p, Matrice m, int nbAides, Score s){
         this.p = p;
         this.m = m;
         this.nbAides = nbAides;

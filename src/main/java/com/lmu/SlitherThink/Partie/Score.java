@@ -1,6 +1,5 @@
 package com.lmu.SlitherThink.Partie;
 
-import java.time.Duration;
 import java.time.Instant;
 
 /**
@@ -14,7 +13,7 @@ import java.time.Instant;
 //modif : une etoile pour une partie complétée, une étoile pour un temps respecté ou aides respectées, une étoile si tout est respecté
 public class Score {
     private Instant debutSession = null;
-    private Duration dureeAccumulee = Duration.ZERO;
+    private java.time.Duration dureeAccumulee = java.time.Duration.ZERO;
     private int nbCoups = 0;
     private int nbAidesUtilisees = 0;
     private int nbAidexMax = 3; //3 aides max pour l'étoile
@@ -37,7 +36,7 @@ public class Score {
      */
     public void pauseChrono() {
         if (debutSession != null) {
-            dureeAccumulee = dureeAccumulee.plus(Duration.between(debutSession, Instant.now()));
+            dureeAccumulee = dureeAccumulee.plus(java.time.Duration.between(debutSession, Instant.now()));
             debutSession = null;
         }
     }
@@ -48,7 +47,7 @@ public class Score {
      */
     public void arreterChrono() {
         if (debutSession != null) {
-            dureeAccumulee = dureeAccumulee.plus(Duration.between(debutSession, Instant.now()));
+            dureeAccumulee = dureeAccumulee.plus(java.time.Duration.between(debutSession, Instant.now()));
             debutSession = null;
         }
     }
@@ -83,12 +82,12 @@ public class Score {
      */
     public long getDureeEnSecondes() {
         if (debutSession != null) {
-            return dureeAccumulee.plus(Duration.between(debutSession, Instant.now())).getSeconds();
+            return dureeAccumulee.plus(java.time.Duration.between(debutSession, Instant.now())).getSeconds();
         }
         return dureeAccumulee.getSeconds();
     }
 
-    public void setDureeAccumulee( Duration dureeAccumulee) {
+    public void setDureeAccumulee(java.time.Duration dureeAccumulee) {
         this.dureeAccumulee = dureeAccumulee;
     }
 
