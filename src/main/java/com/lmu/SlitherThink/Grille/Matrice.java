@@ -200,10 +200,10 @@ public class Matrice {
                     case 0: // Trait haut
                         loadedMatrice.getTraitHorizSolution(ligne, colonne).setTrait(ValeurTrait.PLEIN);
                         break;
-                    case 2: // Trait gauche
+                    case 1: // Trait gauche
                         loadedMatrice.getTraitVertiSolution(ligne, colonne).setTrait(ValeurTrait.PLEIN);
                         break;
-                    case 1: // Trait droite
+                    case 2: // Trait droite
                         loadedMatrice.getTraitVertiSolution(ligne, colonne + 1).setTrait(ValeurTrait.PLEIN);
                         break;
                     case 3: // Trait bas
