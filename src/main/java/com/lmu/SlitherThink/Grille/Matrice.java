@@ -195,18 +195,19 @@ public class Matrice {
             int colonne = coord.get(1);
             
             // Pour chaque direction qui fait partie de la solution
+            // Convention JSON : 0=haut, 1=droite, 2=gauche, 3=bas
             for(Integer direction : etat) {
                 switch(direction) {
-                    case 0: // Trait haut
+                    case 0: // JSON: haut
                         loadedMatrice.getTraitHorizSolution(ligne, colonne).setTrait(ValeurTrait.PLEIN);
                         break;
-                    case 1: // Trait gauche
-                        loadedMatrice.getTraitVertiSolution(ligne, colonne).setTrait(ValeurTrait.PLEIN);
-                        break;
-                    case 2: // Trait droite
+                    case 1: // JSON: droite
                         loadedMatrice.getTraitVertiSolution(ligne, colonne + 1).setTrait(ValeurTrait.PLEIN);
                         break;
-                    case 3: // Trait bas
+                    case 2: // JSON: gauche 
+                        loadedMatrice.getTraitVertiSolution(ligne, colonne).setTrait(ValeurTrait.PLEIN);
+                        break;
+                    case 3: // JSON: bas
                         loadedMatrice.getTraitHorizSolution(ligne + 1, colonne).setTrait(ValeurTrait.PLEIN);
                         break;
                 }
@@ -214,6 +215,25 @@ public class Matrice {
         }
 
         loadedMatrice.compterTraitsValides();
+
+        // DEBUG : Afficher le nombre de traits PLEINS dans la solution
+        int nbTraitsPleins = 0;
+        for (int i = 0; i <= loadedMatrice.hauteur; i++) {
+            for (int j = 0; j < loadedMatrice.largeur; j++) {
+                if (loadedMatrice.traitsHorizontauxSol[i][j].getEtat() == ValeurTrait.PLEIN) {
+                    nbTraitsPleins++;
+                }
+            }
+        }
+        for (int i = 0; i < loadedMatrice.hauteur; i++) {
+            for (int j = 0; j <= loadedMatrice.largeur; j++) {
+                if (loadedMatrice.traitsVerticauxSol[i][j].getEtat() == ValeurTrait.PLEIN) {
+                    nbTraitsPleins++;
+                }
+            }
+        }
+        System.out.println("DEBUG Solution chargée : " + nbTraitsPleins + " traits PLEINS attendus");
+
         return loadedMatrice;
     }
 
@@ -371,6 +391,50 @@ public class Matrice {
     }
 
     /**
+     * Vérifie si tous les traits PLEINS correspondent exactement à la solution.
+     * Le joueur n'est pas obligé de placer des croix sur les traits vides.
+     *
+     * @return true si tous les traits pleins sont corrects et complets
+     */
+    private boolean verifierTraitsPleins() {
+        // Vérifier les traits horizontaux
+        for (int i = 0; i <= hauteur; i++) {
+            for (int j = 0; j < largeur; j++) {
+                ValeurTrait actuel = traitsHorizontaux[i][j].getEtat();
+                ValeurTrait solution = traitsHorizontauxSol[i][j].getEtat();
+
+                // Si la solution est PLEIN, le trait actuel DOIT être PLEIN
+                if (solution == ValeurTrait.PLEIN && actuel != ValeurTrait.PLEIN) {
+                    return false;
+                }
+                // Si le trait actuel est PLEIN, la solution DOIT être PLEIN
+                if (actuel == ValeurTrait.PLEIN && solution != ValeurTrait.PLEIN) {
+                    return false;
+                }
+            }
+        }
+
+        // Vérifier les traits verticaux
+        for (int i = 0; i < hauteur; i++) {
+            for (int j = 0; j <= largeur; j++) {
+                ValeurTrait actuel = traitsVerticaux[i][j].getEtat();
+                ValeurTrait solution = traitsVerticauxSol[i][j].getEtat();
+
+                // Si la solution est PLEIN, le trait actuel DOIT être PLEIN
+                if (solution == ValeurTrait.PLEIN && actuel != ValeurTrait.PLEIN) {
+                    return false;
+                }
+                // Si le trait actuel est PLEIN, la solution DOIT être PLEIN
+                if (actuel == ValeurTrait.PLEIN && solution != ValeurTrait.PLEIN) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
+    /**
      * Modifie l'état d'un trait d'une case.
      * 
      * @param ligne l'indice de ligne de la case (0-indexed)
@@ -380,7 +444,9 @@ public class Matrice {
     public void cliquer(int ligne, int colonne, int direction){
         this.grille[ligne][colonne].updateTrait(direction);
         this.cpt = this.compterTraitsValides();
-        if(this.cpt == (hauteur + 1) * largeur + hauteur * (largeur + 1)) {
+
+        // Vérifier la victoire : tous les traits PLEINS doivent correspondre à la solution
+        if(verifierTraitsPleins()) {
             System.out.println("GAGNE !!!!!!!!!!!!!!!!!!!");
             this.completed = true;
         }

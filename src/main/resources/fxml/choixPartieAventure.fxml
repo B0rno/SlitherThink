@@ -51,10 +51,10 @@
 
       <!-- Ligne 1 : Parties 1 à 4 (Y: -185 / -175) -->
       <!-- Partie 1 (X: -450) -->
-      <ImageView fx:id="etoile_1_1" fitHeight="58.0" fitWidth="48.0" pickOnBounds="true" preserveRatio="true" translateX="-500.0" translateY="-175.0">
+      <ImageView fx:id="etoile_1_2" fitHeight="58.0" fitWidth="48.0" pickOnBounds="true" preserveRatio="true" translateX="-500.0" translateY="-175.0">
          <image><Image url="@../images/etoileVide.png" /></image>
       </ImageView>
-      <ImageView fx:id="etoile_1_2" fitHeight="70.0" fitWidth="86.0" pickOnBounds="true" preserveRatio="true" translateX="-450.0" translateY="-185.0">
+      <ImageView fx:id="etoile_1_1" fitHeight="70.0" fitWidth="86.0" pickOnBounds="true" preserveRatio="true" translateX="-450.0" translateY="-185.0">
          <image><Image url="@../images/etoileVide.png" /></image>
       </ImageView>
       <ImageView fx:id="etoile_1_3" fitHeight="58.0" fitWidth="48.0" pickOnBounds="true" preserveRatio="true" translateX="-400.0" translateY="-175.0">
@@ -62,10 +62,10 @@
       </ImageView>
 
       <!-- Partie 2 (X: -150) -->
-      <ImageView fx:id="etoile_2_1" fitHeight="58.0" fitWidth="48.0" pickOnBounds="true" preserveRatio="true" translateX="-200.0" translateY="-175.0">
+      <ImageView fx:id="etoile_2_2" fitHeight="58.0" fitWidth="48.0" pickOnBounds="true" preserveRatio="true" translateX="-200.0" translateY="-175.0">
          <image><Image url="@../images/etoileVide.png" /></image>
       </ImageView>
-      <ImageView fx:id="etoile_2_2" fitHeight="70.0" fitWidth="86.0" pickOnBounds="true" preserveRatio="true" translateX="-150.0" translateY="-185.0">
+      <ImageView fx:id="etoile_2_1" fitHeight="70.0" fitWidth="86.0" pickOnBounds="true" preserveRatio="true" translateX="-150.0" translateY="-185.0">
          <image><Image url="@../images/etoileVide.png" /></image>
       </ImageView>
       <ImageView fx:id="etoile_2_3" fitHeight="58.0" fitWidth="48.0" pickOnBounds="true" preserveRatio="true" translateX="-100.0" translateY="-175.0">
@@ -73,10 +73,10 @@
       </ImageView>
 
       <!-- Partie 3 (X: 150) -->
-      <ImageView fx:id="etoile_3_1" fitHeight="58.0" fitWidth="48.0" pickOnBounds="true" preserveRatio="true" translateX="100.0" translateY="-175.0">
+      <ImageView fx:id="etoile_3_2" fitHeight="58.0" fitWidth="48.0" pickOnBounds="true" preserveRatio="true" translateX="100.0" translateY="-175.0">
          <image><Image url="@../images/etoileVide.png" /></image>
       </ImageView>
-      <ImageView fx:id="etoile_3_2" fitHeight="70.0" fitWidth="86.0" pickOnBounds="true" preserveRatio="true" translateX="150.0" translateY="-185.0">
+      <ImageView fx:id="etoile_3_1" fitHeight="70.0" fitWidth="86.0" pickOnBounds="true" preserveRatio="true" translateX="150.0" translateY="-185.0">
          <image><Image url="@../images/etoileVide.png" /></image>
       </ImageView>
       <ImageView fx:id="etoile_3_3" fitHeight="58.0" fitWidth="48.0" pickOnBounds="true" preserveRatio="true" translateX="200.0" translateY="-175.0">
@@ -84,10 +84,10 @@
       </ImageView>
 
       <!-- Partie 4 (X: 450) -->
-      <ImageView fx:id="etoile_4_1" fitHeight="58.0" fitWidth="48.0" pickOnBounds="true" preserveRatio="true" translateX="400.0" translateY="-175.0">
+      <ImageView fx:id="etoile_4_2" fitHeight="58.0" fitWidth="48.0" pickOnBounds="true" preserveRatio="true" translateX="400.0" translateY="-175.0">
          <image><Image url="@../images/etoileVide.png" /></image>
       </ImageView>
-      <ImageView fx:id="etoile_4_2" fitHeight="70.0" fitWidth="86.0" pickOnBounds="true" preserveRatio="true" translateX="450.0" translateY="-185.0">
+      <ImageView fx:id="etoile_4_1" fitHeight="70.0" fitWidth="86.0" pickOnBounds="true" preserveRatio="true" translateX="450.0" translateY="-185.0">
          <image><Image url="@../images/etoileVide.png" /></image>
       </ImageView>
       <ImageView fx:id="etoile_4_3" fitHeight="58.0" fitWidth="48.0" pickOnBounds="true" preserveRatio="true" translateX="500.0" translateY="-175.0">
@@ -96,10 +96,10 @@
 
       <!-- Ligne 2 : Parties 5 à 8 (Y: -15 / -5) -->
       <!-- Partie 5 (X: -450) -->
-      <ImageView fx:id="etoile_5_1" fitHeight="58.0" fitWidth="48.0" pickOnBounds="true" preserveRatio="true" translateX="-500.0" translateY="-5.0">
+      <ImageView fx:id="etoile_5_2" fitHeight="58.0" fitWidth="48.0" pickOnBounds="true" preserveRatio="true" translateX="-500.0" translateY="-5.0">
          <image><Image url="@../images/etoileVide.png" /></image>
       </ImageView>
-      <ImageView fx:id="etoile_5_2" fitHeight="70.0" fitWidth="86.0" pickOnBounds="true" preserveRatio="true" translateX="-450.0" translateY="-15.0">
+      <ImageView fx:id="etoile_5_1" fitHeight="70.0" fitWidth="86.0" pickOnBounds="true" preserveRatio="true" translateX="-450.0" translateY="-15.0">
          <image><Image url="@../images/etoileVide.png" /></image>
       </ImageView>
       <ImageView fx:id="etoile_5_3" fitHeight="58.0" fitWidth="48.0" pickOnBounds="true" preserveRatio="true" translateX="-400.0" translateY="-5.0">
@@ -107,10 +107,10 @@
       </ImageView>
 
       <!-- Partie 6 (X: -150) -->
-      <ImageView fx:id="etoile_6_1" fitHeight="58.0" fitWidth="48.0" pickOnBounds="true" preserveRatio="true" translateX="-200.0" translateY="-5.0">
+      <ImageView fx:id="etoile_6_2" fitHeight="58.0" fitWidth="48.0" pickOnBounds="true" preserveRatio="true" translateX="-200.0" translateY="-5.0">
          <image><Image url="@../images/etoileVide.png" /></image>
       </ImageView>
-      <ImageView fx:id="etoile_6_2" fitHeight="70.0" fitWidth="86.0" pickOnBounds="true" preserveRatio="true" translateX="-150.0" translateY="-15.0">
+      <ImageView fx:id="etoile_6_1" fitHeight="70.0" fitWidth="86.0" pickOnBounds="true" preserveRatio="true" translateX="-150.0" translateY="-15.0">
          <image><Image url="@../images/etoileVide.png" /></image>
       </ImageView>
       <ImageView fx:id="etoile_6_3" fitHeight="58.0" fitWidth="48.0" pickOnBounds="true" preserveRatio="true" translateX="-100.0" translateY="-5.0">
@@ -118,10 +118,10 @@
       </ImageView>
 
       <!-- Partie 7 (X: 150) -->
-      <ImageView fx:id="etoile_7_1" fitHeight="58.0" fitWidth="48.0" pickOnBounds="true" preserveRatio="true" translateX="100.0" translateY="-5.0">
+      <ImageView fx:id="etoile_7_2" fitHeight="58.0" fitWidth="48.0" pickOnBounds="true" preserveRatio="true" translateX="100.0" translateY="-5.0">
          <image><Image url="@../images/etoileVide.png" /></image>
       </ImageView>
-      <ImageView fx:id="etoile_7_2" fitHeight="70.0" fitWidth="86.0" pickOnBounds="true" preserveRatio="true" translateX="150.0" translateY="-15.0">
+      <ImageView fx:id="etoile_7_1" fitHeight="70.0" fitWidth="86.0" pickOnBounds="true" preserveRatio="true" translateX="150.0" translateY="-15.0">
          <image><Image url="@../images/etoileVide.png" /></image>
       </ImageView>
       <ImageView fx:id="etoile_7_3" fitHeight="58.0" fitWidth="48.0" pickOnBounds="true" preserveRatio="true" translateX="200.0" translateY="-5.0">
@@ -129,10 +129,10 @@
       </ImageView>
 
       <!-- Partie 8 (X: 450) -->
-      <ImageView fx:id="etoile_8_1" fitHeight="58.0" fitWidth="48.0" pickOnBounds="true" preserveRatio="true" translateX="400.0" translateY="-5.0">
+      <ImageView fx:id="etoile_8_2" fitHeight="58.0" fitWidth="48.0" pickOnBounds="true" preserveRatio="true" translateX="400.0" translateY="-5.0">
          <image><Image url="@../images/etoileVide.png" /></image>
       </ImageView>
-      <ImageView fx:id="etoile_8_2" fitHeight="70.0" fitWidth="86.0" pickOnBounds="true" preserveRatio="true" translateX="450.0" translateY="-15.0">
+      <ImageView fx:id="etoile_8_1" fitHeight="70.0" fitWidth="86.0" pickOnBounds="true" preserveRatio="true" translateX="450.0" translateY="-15.0">
          <image><Image url="@../images/etoileVide.png" /></image>
       </ImageView>
       <ImageView fx:id="etoile_8_3" fitHeight="58.0" fitWidth="48.0" pickOnBounds="true" preserveRatio="true" translateX="500.0" translateY="-5.0">
@@ -141,10 +141,10 @@
 
       <!-- Ligne 3 : Parties 9 à 12 (Y: 155 / 165) -->
       <!-- Partie 9 (X: -450) -->
-      <ImageView fx:id="etoile_9_1" fitHeight="58.0" fitWidth="48.0" pickOnBounds="true" preserveRatio="true" translateX="-500.0" translateY="165.0">
+      <ImageView fx:id="etoile_9_2" fitHeight="58.0" fitWidth="48.0" pickOnBounds="true" preserveRatio="true" translateX="-500.0" translateY="165.0">
          <image><Image url="@../images/etoileVide.png" /></image>
       </ImageView>
-      <ImageView fx:id="etoile_9_2" fitHeight="70.0" fitWidth="86.0" pickOnBounds="true" preserveRatio="true" translateX="-450.0" translateY="155.0">
+      <ImageView fx:id="etoile_9_1" fitHeight="70.0" fitWidth="86.0" pickOnBounds="true" preserveRatio="true" translateX="-450.0" translateY="155.0">
          <image><Image url="@../images/etoileVide.png" /></image>
       </ImageView>
       <ImageView fx:id="etoile_9_3" fitHeight="58.0" fitWidth="48.0" pickOnBounds="true" preserveRatio="true" translateX="-400.0" translateY="165.0">
@@ -152,10 +152,10 @@
       </ImageView>
 
       <!-- Partie 10 (X: -150) -->
-      <ImageView fx:id="etoile_10_1" fitHeight="58.0" fitWidth="48.0" pickOnBounds="true" preserveRatio="true" translateX="-200.0" translateY="165.0">
+      <ImageView fx:id="etoile_10_2" fitHeight="58.0" fitWidth="48.0" pickOnBounds="true" preserveRatio="true" translateX="-200.0" translateY="165.0">
          <image><Image url="@../images/etoileVide.png" /></image>
       </ImageView>
-      <ImageView fx:id="etoile_10_2" fitHeight="70.0" fitWidth="86.0" pickOnBounds="true" preserveRatio="true" translateX="-150.0" translateY="155.0">
+      <ImageView fx:id="etoile_10_1" fitHeight="70.0" fitWidth="86.0" pickOnBounds="true" preserveRatio="true" translateX="-150.0" translateY="155.0">
          <image><Image url="@../images/etoileVide.png" /></image>
       </ImageView>
       <ImageView fx:id="etoile_10_3" fitHeight="58.0" fitWidth="48.0" pickOnBounds="true" preserveRatio="true" translateX="-100.0" translateY="165.0">
@@ -163,10 +163,10 @@
       </ImageView>
 
       <!-- Partie 11 (X: 150) -->
-      <ImageView fx:id="etoile_11_1" fitHeight="58.0" fitWidth="48.0" pickOnBounds="true" preserveRatio="true" translateX="100.0" translateY="165.0">
+      <ImageView fx:id="etoile_11_2" fitHeight="58.0" fitWidth="48.0" pickOnBounds="true" preserveRatio="true" translateX="100.0" translateY="165.0">
          <image><Image url="@../images/etoileVide.png" /></image>
       </ImageView>
-      <ImageView fx:id="etoile_11_2" fitHeight="70.0" fitWidth="86.0" pickOnBounds="true" preserveRatio="true" translateX="150.0" translateY="155.0">
+      <ImageView fx:id="etoile_11_1" fitHeight="70.0" fitWidth="86.0" pickOnBounds="true" preserveRatio="true" translateX="150.0" translateY="155.0">
          <image><Image url="@../images/etoileVide.png" /></image>
       </ImageView>
       <ImageView fx:id="etoile_11_3" fitHeight="58.0" fitWidth="48.0" pickOnBounds="true" preserveRatio="true" translateX="200.0" translateY="165.0">
@@ -174,10 +174,10 @@
       </ImageView>
 
       <!-- Partie 12 (X: 450) -->
-      <ImageView fx:id="etoile_12_1" fitHeight="58.0" fitWidth="48.0" pickOnBounds="true" preserveRatio="true" translateX="400.0" translateY="165.0">
+      <ImageView fx:id="etoile_12_2" fitHeight="58.0" fitWidth="48.0" pickOnBounds="true" preserveRatio="true" translateX="400.0" translateY="165.0">
          <image><Image url="@../images/etoileVide.png" /></image>
       </ImageView>
-      <ImageView fx:id="etoile_12_2" fitHeight="70.0" fitWidth="86.0" pickOnBounds="true" preserveRatio="true" translateX="450.0" translateY="155.0">
+      <ImageView fx:id="etoile_12_1" fitHeight="70.0" fitWidth="86.0" pickOnBounds="true" preserveRatio="true" translateX="450.0" translateY="155.0">
          <image><Image url="@../images/etoileVide.png" /></image>
       </ImageView>
       <ImageView fx:id="etoile_12_3" fitHeight="58.0" fitWidth="48.0" pickOnBounds="true" preserveRatio="true" translateX="500.0" translateY="165.0">

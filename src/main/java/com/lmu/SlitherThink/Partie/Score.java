@@ -1,6 +1,7 @@
 package com.lmu.SlitherThink.Partie;
 
 import java.time.Instant;
+import java.time.Duration;
 
 /**
  * Gère le score et le chronomètre d'une partie.
@@ -64,6 +65,17 @@ public class Score {
         if (secondes <= dureePourEtoile && nbAidesUtilisees == 0) etoiles = 3;
         else if (secondes <= dureePourEtoile && nbAidesUtilisees <= nbAidexMax) etoiles = 2;
         else etoiles = 1;
+    }
+
+    /**
+     * Initialise les valeurs pour la reconstruction d'une partie sauvegardée.
+     *
+     * @param chronoEnSecondes la durée accumulée en secondes
+     * @param aidesUtilisees le nombre d'aides utilisées
+     */
+    public void setReconstructionSave(long chronoEnSecondes, int aidesUtilisees) {
+        this.dureeAccumulee = Duration.ofSeconds(chronoEnSecondes);
+        this.nbAidesUtilisees = aidesUtilisees;
     }
 
     /**

@@ -7,7 +7,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import com.lmu.SlitherThink.Partie.EtatPartie;
-import com.lmu.SlitherThink.Partie.Partie;
+import com.lmu.SlitherThink.Partie.PartieHelper;
 import com.lmu.SlitherThink.Partie.PartieObserver;
 import com.lmu.SlitherThink.Partie.Profil;
 import com.lmu.SlitherThink.Partie.Score;
@@ -18,12 +18,12 @@ import com.lmu.SlitherThink.Partie.Score;
 public class PartieTest {
 
     private Profil profil;
-    private Partie partie;
+    private PartieHelper partie;
 
     @BeforeEach
     public void setUp() {
         profil = new Profil("TestUser");
-        partie = new Partie(profil, 5, 5);
+        partie = new PartieHelper(profil, 5, 5);
     }
 
     @Test
