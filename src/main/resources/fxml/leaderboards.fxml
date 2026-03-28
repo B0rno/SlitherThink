@@ -40,20 +40,21 @@
                   <MenuItem onAction="#modifChamp" mnemonicParsing="false" text="Partie 12" />
                </items>
             </MenuButton>
-            <StackPane maxHeight="400.0" maxWidth="200.0" minHeight="350.0" minWidth="200.0" prefHeight="150.0" prefWidth="200.0" translateY="-100.0">
+            <VBox alignment="CENTER" spacing="5.0" maxWidth="400.0" translateY="-100.0">
                <children>
-                  <ScrollPane hbarPolicy="NEVER" prefHeight="200.0" prefWidth="200.0" vbarPolicy="ALWAYS">
-                    <content>
-                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
-                    </content>
-                  </ScrollPane>
-                  <Label alignment="CENTER" prefHeight="85.0" prefWidth="867.0" text="High Score" textAlignment="CENTER" translateY="-140.0">
+                  <Label alignment="CENTER" prefHeight="40.0" prefWidth="867.0" text="High Score" textAlignment="CENTER">
                      <font>
                         <Font size="24.0" />
                      </font>
                   </Label>
-                  <Separator prefHeight="6.0" prefWidth="200.0" translateY="-110.0" />
-               </children></StackPane>
+                  <Separator prefHeight="6.0" prefWidth="200.0" />
+                  <ScrollPane fx:id="scrollPaneScores" hbarPolicy="NEVER" prefHeight="300.0" prefWidth="400.0" vbarPolicy="ALWAYS">
+                    <content>
+                      <VBox fx:id="contentPane" minHeight="0.0" minWidth="0.0" prefWidth="380.0" spacing="10.0" style="-fx-padding: 10;" />
+                    </content>
+                  </ScrollPane>
+               </children>
+            </VBox>
             <Button onAction="#retour" maxHeight="30.0" maxWidth="100.0" minHeight="60.0" minWidth="200.0" mnemonicParsing="false" prefWidth="30.0" text="RETOUR" translateY="-100.0">
                <font>
                   <Font size="20.0" />
