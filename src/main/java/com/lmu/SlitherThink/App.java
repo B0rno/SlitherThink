@@ -9,6 +9,7 @@ import javafx.scene.input.KeyCombination;
 import javafx.stage.Stage;
 import javafx.scene.transform.Scale;
 
+import com.lmu.SlitherThink.boutonsAction.ChoixPartieAventure;
 import com.lmu.SlitherThink.save.SaveManager;
 import com.lmu.SlitherThink.save.LoadSave;
 
@@ -87,6 +88,14 @@ public class App extends Application {
             return;
         }
         conteneurVues.getChildren().setAll(nouvelleVue);
+
+        // Rafraichissement specifique pour les vues mises en cache qui en ont besoin.
+        if ("choixPartieAventure".equals(nomVue)) {
+            Object controller = GestionnaireVues.getController(nomVue);
+            if (controller instanceof ChoixPartieAventure choixPartieAventureController) {
+                choixPartieAventureController.onViewShown();
+            }
+        }
     }
 
     public static void main(String[] args) {

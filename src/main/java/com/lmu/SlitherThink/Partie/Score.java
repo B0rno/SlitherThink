@@ -68,6 +68,17 @@ public class Score {
     }
 
     /**
+     * Initialise les valeurs pour la reconstruction d'une partie sauvegardée.
+     *
+     * @param chronoEnSecondes la durée accumulée en secondes
+     * @param aidesUtilisees le nombre d'aides utilisées
+     */
+    public void setReconstructionSave(long chronoEnSecondes, int aidesUtilisees) {
+        this.dureeAccumulee = Duration.ofSeconds(chronoEnSecondes);
+        this.nbAidesUtilisees = aidesUtilisees;
+    }
+
+    /**
      * Retourne le nombre d'étoiles obtenues.
      *
      * @return le nombre d'étoiles (entre 0 et 3)
