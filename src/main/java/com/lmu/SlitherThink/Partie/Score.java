@@ -1,6 +1,7 @@
 package com.lmu.SlitherThink.Partie;
 
 import java.time.Instant;
+import java.time.Duration;
 
 /**
  * Gère le score et le chronomètre d'une partie.
