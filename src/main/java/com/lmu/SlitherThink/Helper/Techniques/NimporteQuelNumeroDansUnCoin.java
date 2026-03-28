@@ -35,14 +35,6 @@ public class NimporteQuelNumeroDansUnCoin implements StrategieAide {
             else if(num == 1){
                 if (c1.getTrait(0).getEtat() == ValeurTrait.PLEIN || c1.getTrait(1).getEtat() == ValeurTrait.PLEIN) return true;
             }
-            else if (num == 2) {
-
-                Case cDroite = m.getCase(0, 1);
-                Case cBas = m.getCase(1, 0);
-
-                if ((cDroite != null && cDroite.getTrait(0).getEtat() == ValeurTrait.VIDE) || (cBas != null && cBas.getTrait(1).getEtat() == ValeurTrait.VIDE))
-                    return true;
-            }
         }
 
         // Coin Haut-Droite
@@ -54,13 +46,6 @@ public class NimporteQuelNumeroDansUnCoin implements StrategieAide {
             } 
             else if(num == 1){
                 if (c2.getTrait(0).getEtat() == ValeurTrait.PLEIN || c2.getTrait(2).getEtat() == ValeurTrait.PLEIN) return true;
-            }
-            else if (num == 2) {
-                Case cGauche = m.getCase(0, w - 2);
-                Case cBas = m.getCase(1, w - 1);
-
-                if ((cGauche != null && cGauche.getTrait(0).getEtat() == ValeurTrait.VIDE) || (cBas != null && cBas.getTrait(2).getEtat() == ValeurTrait.VIDE)) 
-                    return true;
             }
         }
 
@@ -74,13 +59,6 @@ public class NimporteQuelNumeroDansUnCoin implements StrategieAide {
             else if(num == 1){
                 if (c3.getTrait(3).getEtat() == ValeurTrait.PLEIN || c3.getTrait(1).getEtat() == ValeurTrait.PLEIN) return true;
             }
-            else if (num == 2) {
-                Case cDroite = m.getCase(h - 1, 1);
-                Case cHaut = m.getCase(h - 2, 0);
-
-                if ((cDroite != null && cDroite.getTrait(3).getEtat() == ValeurTrait.VIDE) || (cHaut != null && cHaut.getTrait(1).getEtat() == ValeurTrait.VIDE))
-                    return true;
-            }
         }
 
         // Coin Bas-Droite
@@ -92,13 +70,6 @@ public class NimporteQuelNumeroDansUnCoin implements StrategieAide {
             }
             else if(num == 1){
                 if (c4.getTrait(3).getEtat() == ValeurTrait.PLEIN || c4.getTrait(2).getEtat() == ValeurTrait.PLEIN) return true;
-            }
-            else if (num == 2) {
-                Case cGauche = m.getCase(h - 1, w - 2);
-                Case cHaut = m.getCase(h - 2, w - 1);
-
-                if ((cGauche != null && cGauche.getTrait(3).getEtat() == ValeurTrait.VIDE) || (cHaut != null && cHaut.getTrait(2).getEtat() == ValeurTrait.VIDE)) 
-                    return true;
             }
         }
 
