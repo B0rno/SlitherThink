@@ -122,7 +122,7 @@ public class BoucleSur1 implements StrategieAide {
     /**
      * Retourne le nom de cette technique.
      *
-     * @return le nom "Boucle atteignant un 3"
+     * @return le nom "Boucle atteignant un 1"
      */
     @Override
     public String getNom() {
