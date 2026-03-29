@@ -83,13 +83,13 @@
                            <font> <Font size="28.0" /> </font>
                            <VBox.margin> <Insets bottom="10.0" /> </VBox.margin>
                         </Label>
-                        <Label maxWidth="1.7976931348623157E308" style="-fx-border-color: grey; -fx-padding: 5;" text="1:  Ibrahim  : 1:22">
+                        <Label fx:id="highScore1" maxWidth="1.7976931348623157E308" style="-fx-border-color: grey; -fx-padding: 5;" text="1:  ---  : --:--">
                            <font> <Font size="16.0" /> </font>
                         </Label>
-                        <Label maxWidth="1.7976931348623157E308" style="-fx-border-color: grey; -fx-padding: 5;" text="2:  Nathan   : 2:54">
+                        <Label fx:id="highScore2" maxWidth="1.7976931348623157E308" style="-fx-border-color: grey; -fx-padding: 5;" text="2:  ---  : --:--">
                            <font> <Font size="16.0" /> </font>
                         </Label>
-                        <Label maxWidth="1.7976931348623157E308" style="-fx-border-color: grey; -fx-padding: 5;" text="3:  Enzo       : 3:11">
+                        <Label fx:id="highScore3" maxWidth="1.7976931348623157E308" style="-fx-border-color: grey; -fx-padding: 5;" text="3:  ---  : --:--">
                            <font> <Font size="16.0" /> </font>
                         </Label>
                      </children>
