@@ -122,10 +122,18 @@ public class FinPartieAventure extends ChangementFenetre {
             StructureCSV.class
         );
 
-        // Filtrer par partie et trier par chrono (meilleurs temps en premier)
+        // Filtrer par partie et trier par étoiles (décroissant) puis chrono (croissant)
         List<StructureCSV> top3 = tousLesScores.stream()
             .filter(score -> score.getCheminGrille().contains(nomPartie))
-            .sorted((s1, s2) -> Integer.compare(s1.getChrono(), s2.getChrono()))
+            .sorted((s1, s2) -> {
+                int etoiles1 = calculerEtoiles(s1.getChrono(), s1.getNbAide());
+                int etoiles2 = calculerEtoiles(s2.getChrono(), s2.getNbAide());
+                // Trier par étoiles décroissant 
+                int compareEtoiles = Integer.compare(etoiles2, etoiles1);
+                if (compareEtoiles != 0) return compareEtoiles;
+                // Si même nombre d'étoiles, trier par chrono croissant
+                return Integer.compare(s1.getChrono(), s2.getChrono());
+            })
             .limit(3)
             .collect(Collectors.toList());
 
@@ -134,8 +142,10 @@ public class FinPartieAventure extends ChangementFenetre {
         for (int i = 0; i < labels.length; i++) {
             if (i < top3.size()) {
                 StructureCSV score = top3.get(i);
+                int nbEtoiles = calculerEtoiles(score.getChrono(), score.getNbAide());
+                String etoiles = afficherEtoiles(nbEtoiles);
                 String temps = formatTime(score.getChrono());
-                labels[i].setText((i + 1) + ":  " + score.getPseudo() + "  :  " + temps);
+                labels[i].setText((i + 1) + ":  " + score.getPseudo() + "  " + etoiles + "  " + temps);
             } else {
                 labels[i].setText((i + 1) + ":  ---  :  --:--");
             }
@@ -152,5 +162,38 @@ public class FinPartieAventure extends ChangementFenetre {
         int minutes = secondes / 60;
         int sec = secondes % 60;
         return String.format("%d:%02d", minutes, sec);
+    }
+
+    /**
+     * Calcule le nombre d'étoiles obtenues selon le temps et les aides utilisées.
+     * Logique identique à Score.calculerEtoiles().
+     *
+     * @param chrono le temps en secondes
+     * @param nbAides le nombre d'aides utilisées
+     * @return le nombre d'étoiles (1 à 3)
+     */
+    private int calculerEtoiles(int chrono, int nbAides) {
+        final int DUREE_POUR_ETOILE = 300; // 5 minutes
+        final int NB_AIDES_MAX = 3;
+
+        if (chrono <= DUREE_POUR_ETOILE && nbAides == 0) return 3;
+        else if (chrono <= DUREE_POUR_ETOILE && nbAides <= NB_AIDES_MAX) return 2;
+        else return 1;
+    }
+
+    /**
+     * Formate l'affichage des étoiles.
+     *
+     * @param nbEtoiles le nombre d'étoiles (1 à 3)
+     * @return une chaîne avec des étoiles pleines et vides (ex: "★★☆")
+     */
+    private String afficherEtoiles(int nbEtoiles) {
+        String etoilePleine = "★";
+        String etoileVide = "☆";
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < 3; i++) {
+            sb.append(i < nbEtoiles ? etoilePleine : etoileVide);
+        }
+        return sb.toString();
     }
 }

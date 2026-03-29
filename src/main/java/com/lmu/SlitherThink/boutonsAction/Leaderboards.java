@@ -92,10 +92,18 @@ public class Leaderboards extends ChangementFenetre {
             return;
         }
 
-        // Filtrer par partie et trier par chrono (temps croissant = meilleurs scores)
+        // Filtrer par partie et trier par étoiles (décroissant) puis chrono (croissant)
         List<StructureCSV> scoresFiltres = tousLesScores.stream()
             .filter(score -> score.getCheminGrille().contains(nomPartie))
-            .sorted((s1, s2) -> Integer.compare(s1.getChrono(), s2.getChrono()))
+            .sorted((s1, s2) -> {
+                int etoiles1 = calculerEtoiles(s1.getChrono(), s1.getNbAide());
+                int etoiles2 = calculerEtoiles(s2.getChrono(), s2.getNbAide());
+                // Trier par étoiles décroissant (3 avant 2 avant 1)
+                int compareEtoiles = Integer.compare(etoiles2, etoiles1);
+                if (compareEtoiles != 0) return compareEtoiles;
+                // Si même nombre d'étoiles, trier par chrono croissant
+                return Integer.compare(s1.getChrono(), s2.getChrono());
+            })
             .limit(10) // Top 10
             .collect(Collectors.toList());
 
@@ -122,7 +130,7 @@ public class Leaderboards extends ChangementFenetre {
      *
      * @param rang le rang du joueur (1 = premier)
      * @param score le score à afficher
-     * @return un HBox contenant le rang, pseudo, temps et aides
+     * @return un HBox contenant le rang, pseudo, étoiles, temps et aides
      */
     private HBox creerLigneScore(int rang, StructureCSV score) {
         HBox box = new HBox(10);
@@ -142,6 +150,13 @@ public class Leaderboards extends ChangementFenetre {
         labelPseudo.setMinWidth(80);
         labelPseudo.setFont(Font.font(14));
 
+        // Étoiles
+        int nbEtoiles = calculerEtoiles(score.getChrono(), score.getNbAide());
+        Label labelEtoiles = new Label(afficherEtoiles(nbEtoiles));
+        labelEtoiles.setMinWidth(60);
+        labelEtoiles.setFont(Font.font(14));
+        labelEtoiles.setStyle("-fx-text-fill: #FFD700;");
+
         // Temps (en format MM:SS)
         int secondes = score.getChrono();
         int minutes = secondes / 60;
@@ -157,7 +172,7 @@ public class Leaderboards extends ChangementFenetre {
         labelAides.setFont(Font.font(11));
         labelAides.setStyle("-fx-text-fill: gray;");
 
-        box.getChildren().addAll(labelRang, labelPseudo, labelTemps, labelAides);
+        box.getChildren().addAll(labelRang, labelPseudo, labelEtoiles, labelTemps, labelAides);
         return box;
     }
 
@@ -167,5 +182,38 @@ public class Leaderboards extends ChangementFenetre {
     @FXML
     private void retour(ActionEvent event) {
         changerFenetre(event, "menuAccueil");
+    }
+
+    /**
+     * Calcule le nombre d'étoiles obtenues selon le temps et les aides utilisées.
+     * Logique identique à Score.calculerEtoiles().
+     *
+     * @param chrono le temps en secondes
+     * @param nbAides le nombre d'aides utilisées
+     * @return le nombre d'étoiles (1 à 3)
+     */
+    private int calculerEtoiles(int chrono, int nbAides) {
+        final int DUREE_POUR_ETOILE = 300; // 5 minutes
+        final int NB_AIDES_MAX = 3;
+
+        if (chrono <= DUREE_POUR_ETOILE && nbAides == 0) return 3;
+        else if (chrono <= DUREE_POUR_ETOILE && nbAides <= NB_AIDES_MAX) return 2;
+        else return 1;
+    }
+
+    /**
+     * Formate l'affichage des étoiles.
+     *
+     * @param nbEtoiles le nombre d'étoiles (1 à 3)
+     * @return une chaîne avec des étoiles pleines et vides (ex: "★★☆")
+     */
+    private String afficherEtoiles(int nbEtoiles) {
+        String etoilePleine = "★";
+        String etoileVide = "☆";
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < 3; i++) {
+            sb.append(i < nbEtoiles ? etoilePleine : etoileVide);
+        }
+        return sb.toString();
     }
 }
