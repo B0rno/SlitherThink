@@ -35,7 +35,13 @@ public class MenuAccueil extends ChangementFenetre{
 
     @FXML
     private void leaderboards(ActionEvent event) {
-        changerFenetre(event, "leaderboards");  
+        Leaderboards controller = (Leaderboards) GestionnaireVues.getController("leaderboards");
+        if (controller != null) {
+            controller.rafraichirDonnees();
+            App.changerVue("leaderboards");
+        } else {
+            System.err.println("Erreur : Le contrôleur leaderboards est introuvable !");
+        }
     }
 
     @FXML

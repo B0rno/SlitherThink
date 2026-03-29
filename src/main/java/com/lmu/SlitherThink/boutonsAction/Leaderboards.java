@@ -48,6 +48,15 @@ public class Leaderboards extends ChangementFenetre {
     }
 
     /**
+     * Rafraîchit les données du leaderboard depuis Score.csv.
+     * Appelée à chaque ouverture de la page pour afficher les scores les plus récents.
+     */
+    public void rafraichirDonnees() {
+        chargerScores();
+        afficherScores(partieSelectionnee);
+    }
+
+    /**
      * Charge tous les scores depuis le fichier CSV.
      */
     private void chargerScores() {
@@ -202,7 +211,7 @@ public class Leaderboards extends ChangementFenetre {
     }
 
     /**
-     * Formate l'affichage des étoiles.
+     * Formate l'affichage des étoiles, les emojis sont utilisés pour une meilleure lisibilité.
      *
      * @param nbEtoiles le nombre d'étoiles (1 à 3)
      * @return une chaîne avec des étoiles pleines et vides (ex: "★★☆")
