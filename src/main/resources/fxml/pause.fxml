@@ -1,1 +1,50 @@
-<?xml version="1.0" encoding="UTF-8"?> <?import javafx.geometry.Insets?> <?import javafx.scene.control.Button?> <?import javafx.scene.control.Label?> <?import javafx.scene.layout.StackPane?> <?import javafx.scene.layout.VBox?> <?import javafx.scene.text.Font?> <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.lmu.SlitherThink.Main$Pause">  <children>  <VBox alignment="CENTER" spacing="20.0" StackPane.alignment="CENTER">  <children>  <Label alignment="CENTER" text="PAUSE" textAlignment="CENTER">  <font>  <Font size="80.0" />  </font>  <VBox.margin>  <Insets bottom="50.0" />  </VBox.margin>  </Label>  <Button layoutX="500.0" layoutY="273.0" minHeight="60.0" mnemonicParsing="false" onAction="#reprendre" prefWidth="300.0" text="Reprendre">  <font>  <Font size="20.0" />  </font>  </Button>  <Button minHeight="60.0" mnemonicParsing="false" onAction="#recommencer" prefWidth="300.0" text="Recommencer">  <font>  <Font size="20.0" />  </font>  </Button>  <Button minHeight="60.0" mnemonicParsing="false" onAction="#abandonner" prefWidth="300.0" text="Abandonner">  <font>  <Font size="20.0" />  </font>  </Button>  <Button minHeight="60.0" mnemonicParsing="false" onAction="#techniques" prefWidth="300.0" text="Les Techniques">  <font>  <Font size="20.0" />  </font>  </Button>  <Button minHeight="60.0" mnemonicParsing="false" onAction="#menuPrincipal" prefWidth="300.0" text="Menu principal">  <font>  <Font size="20.0" />  </font>  </Button>  </children>  </VBox>  </children> </StackPane> 
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.lmu.SlitherThink.boutonsAction.Pause">
+   <children>
+      <VBox alignment="CENTER" spacing="20.0" StackPane.alignment="CENTER">
+         <children>
+            <Label alignment="CENTER" text="PAUSE" textAlignment="CENTER">
+               <font>
+                  <Font size="80.0" />
+               </font>
+               <VBox.margin>
+                  <Insets bottom="50.0" />
+               </VBox.margin>
+            </Label>
+            <Button layoutX="500.0" layoutY="273.0" minHeight="60.0" mnemonicParsing="false" onAction="#reprendre" prefWidth="300.0" text="Reprendre">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Button>
+            <Button minHeight="60.0" mnemonicParsing="false" onAction="#recommencer" prefWidth="300.0" text="Recommencer">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Button>
+            <Button minHeight="60.0" mnemonicParsing="false" onAction="#abandonner" prefWidth="300.0" text="Abandonner">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Button>
+            <Button minHeight="60.0" mnemonicParsing="false" onAction="#techniques" prefWidth="300.0" text="Les Techniques">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Button>
+            <Button minHeight="60.0" mnemonicParsing="false" onAction="#menuPrincipal" prefWidth="300.0" text="Menu principal">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Button>
+         </children>
+      </VBox>
+   </children>
+</StackPane>

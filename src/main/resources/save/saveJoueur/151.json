@@ -1,1 +1,18 @@
-{  "etatgrille": [  {  "position": [  0,  1  ]  },  {  "position": [  0,  1  ]  }  ],  "Chronometre": 0,  "nbAides": 0 }
+{
+  "etatgrille": [
+    {
+      "position": [
+        0,
+        1
+      ]
+    },
+    {
+      "position": [
+        0,
+        1
+      ]
+    }
+  ],
+  "Chronometre": 0,
+  "nbAides": 0
+}
