@@ -36,6 +36,12 @@ public class BoucleSur1 implements StrategieAide {
                 Case c = m.getCase(i, j);
                 // On cible uniquement les cases contenant un 1
                 if (c != null && c.getNumero() == 1) {
+                    if (c.getTrait(0).getEtat() == ValeurTrait.PLEIN || 
+                        c.getTrait(1).getEtat() == ValeurTrait.PLEIN || 
+                        c.getTrait(2).getEtat() == ValeurTrait.PLEIN || 
+                        c.getTrait(3).getEtat() == ValeurTrait.PLEIN) {
+                        return false; // Si un trait est déjà plein, on ne peut pas appliquer cette technique
+                    }
 
                     // Test coin haut-gauche (Nord-Ouest)
                     // Si un trait arrive de la gauche ou du haut vers ce coin

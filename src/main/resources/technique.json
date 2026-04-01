@@ -16,8 +16,7 @@
             },
             {
               "name": "Boucle atteignant un 1",
-              "description": "Quand la boucle arrive sur un coin d'une case 1, elle ne peut pas longer cette case. Les 2 traits du 1 formant ce coin doivent recevoir une croix (X)."
-            },
+              "description": "La boucle ne peut jamais former un angle droit sur le coin d'une case 1 (cela utiliserait 2 traits). Quand un trait arrive sur le coin d'un 1, elle peut longer un seul côté ou passer son chemin, mais les 2 traits du 1 formant ce coin ne pourront jamais être pleins simultanément."            },
             {
               "name": "Contraintes sur un 2",
               "description": "Une case 2 force la boucle à la traverser en diagonale. Si un trait plein arrive sur un coin du 2, le trait doit ressortir par le coin opposé en diagonale."
@@ -48,6 +47,10 @@
               "description": "Deux cases 3 placées côte à côte doivent partager un trait plein entre elles. De plus, tous leurs traits extérieurs parallèles (en haut/bas ou gauche/droite) doivent aussi être pleins."
             },
             {
+              "name": "1 et 3 adjacents",
+              "description": "Lorsqu'une case 1 et une case 3 sont placées côte à côte, le trait de la case 3 qui se situe à l'exact opposé de la case 1 doit obligatoirement être plein."
+            },
+            {
               "name": "Deux 3 en diagonale",
               "description": "Quand deux cases 3 sont placées en diagonale, leurs traits extérieurs formant les coins opposés à leur jonction doivent être pleins."
             },
@@ -73,16 +76,12 @@
               "description": "Une case ne peut jamais avoir ses 4 traits pleins, sinon la boucle y serait piégée. Si une case a déjà 3 traits pleins, le dernier trait doit recevoir une croix (X)."
             },
             {
-              "name": "Technique avancée 4",
-              "description": "Deux cases 2 placées côte à côte forment une symétrie parfaite. Si vous tracez un trait extérieur sur le premier 2, le trait opposé du second 2 doit avoir le même état (plein ou croix)."
+              "name": "La Symétrie des 2 Adjacents",
+              "description": "Deux cases 2 placées côte à côte forment une symétrie parfaite. Si vous tracez un trait extérieur sur le premier 2, le trait symétrique du second 2 doit avoir le même état (plein ou croix)."
             },
             {
               "name": "Technique avancée 5",
               "description": "Quand un 1 et un 3 sont placés en diagonale, ils se limitent mutuellement. Les 2 traits extérieurs du 3 (loin du 1) doivent être pleins, et les 2 traits extérieurs du 1 (loin du 3) doivent avoir une croix (X)."
-            },
-            {
-              "name": "Technique avancée 6",
-              "description": "Si un trait plein pointe directement sur un coin d'une case 1, la boucle devra longer cette case sans y entrer. Les 2 traits du 1 situés du côté opposé à ce coin doivent donc avoir une croix (X)."
             }
           ]
         }
