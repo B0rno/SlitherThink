@@ -72,6 +72,13 @@ public class Partie extends ChangementFenetre implements PartieObserver {
 
     @FXML
     protected Label labelAide;  
+
+    protected void reinitialiserAffichageAide() {
+        if (labelAide != null) {
+            labelAide.setText("");
+        }
+    }
+
     @Override
     public void onAideUtilisee() {
         if (moteurJeu != null) {
@@ -105,6 +112,7 @@ public class Partie extends ChangementFenetre implements PartieObserver {
     public void initialiserPartie(String grille, boolean recommencer) {
         setDernierMode("libre");
         setGrilleEnCours(grille);
+        reinitialiserAffichageAide();
 
         Matrice mat = Matrice.loadGrille(grille);
         if (mat == null) {

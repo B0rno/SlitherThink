@@ -131,6 +131,7 @@ public class PartieTimer extends Partie {
     public void initialiserPartie(int numero, boolean recommencer) {
         numPartie = numero;
         Partie.setDernierMode("aventure"); 
+        reinitialiserAffichageAide();
 
         Matrice mat = Matrice.loadGrille("partie" + numero);
         if (mat == null) {
@@ -206,6 +207,7 @@ public class PartieTimer extends Partie {
     public void lancerTutoriel() {
         numPartie = -1; 
         Partie.setDernierMode("tutoriel");
+        reinitialiserAffichageAide();
         
         Matrice mat = Matrice.loadGrille("tutoriel");
         if (mat == null) return;
