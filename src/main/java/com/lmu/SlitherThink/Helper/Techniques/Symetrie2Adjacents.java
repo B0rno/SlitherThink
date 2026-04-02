@@ -40,16 +40,16 @@ public class Symetrie2Adjacents implements StrategieAide {
                             Trait traitBasCurr = currentCase.getTrait(3);
 
                             // Si on connaît l'état du côté gauche, le côté droit doit être identique et inversement
-                            if (traitGaucheCurr.getEtat() != ValeurTrait.VIDE && traitDroiteExt.getEtat() == ValeurTrait.VIDE ||
-                                traitDroiteExt.getEtat() != ValeurTrait.VIDE && traitGaucheCurr.getEtat() == ValeurTrait.VIDE) {
+                            if (traitGaucheCurr.getEtat() != ValeurTrait.VIDE && traitDroiteExt.getEtat() != ValeurTrait.PLEIN ||
+                                traitDroiteExt.getEtat() != ValeurTrait.VIDE && traitGaucheCurr.getEtat() != ValeurTrait.PLEIN) {
                                 return true;
                             } //Si 
-                            if (traitHautExt.getEtat() != ValeurTrait.VIDE && traitHautCurr.getEtat() == ValeurTrait.VIDE ||
-                                traitHautCurr.getEtat() != ValeurTrait.VIDE && traitHautExt.getEtat() == ValeurTrait.VIDE) {
+                            if (traitHautExt.getEtat() != ValeurTrait.VIDE && traitHautCurr.getEtat() != ValeurTrait.PLEIN ||
+                                traitHautCurr.getEtat() != ValeurTrait.VIDE && traitHautExt.getEtat() != ValeurTrait.PLEIN) {
                                 return true;
                             }
-                            if (traitBasExt.getEtat() != ValeurTrait.VIDE && traitBasCurr.getEtat() == ValeurTrait.VIDE ||
-                                traitBasCurr.getEtat() != ValeurTrait.VIDE && traitBasExt.getEtat() == ValeurTrait.VIDE) {
+                            if (traitBasExt.getEtat() != ValeurTrait.VIDE && traitBasCurr.getEtat() != ValeurTrait.PLEIN ||
+                                traitBasCurr.getEtat() != ValeurTrait.VIDE && traitBasExt.getEtat() != ValeurTrait.PLEIN) {
                                 return true;
                             }
                         }
@@ -69,16 +69,16 @@ public class Symetrie2Adjacents implements StrategieAide {
 
 
                             // Si on connaît l'état du côté haut, le côté bas doit être identique et inversement
-                            if (traitHautCurr.getEtat() != ValeurTrait.VIDE && traitBasExt.getEtat() == ValeurTrait.VIDE ||
-                                traitBasExt.getEtat() != ValeurTrait.VIDE && traitHautCurr.getEtat() == ValeurTrait.VIDE) {
+                            if (traitHautCurr.getEtat() != ValeurTrait.VIDE && traitBasExt.getEtat() != ValeurTrait.PLEIN ||
+                                traitBasExt.getEtat() != ValeurTrait.VIDE && traitHautCurr.getEtat() != ValeurTrait.PLEIN) {
                                 return true;
                             } // Si on connaît l'état du côté droit, le côté gauche doit être identique et inversement
-                            else if (traitDroiteCurr.getEtat() != ValeurTrait.VIDE && traitDroiteExt.getEtat() == ValeurTrait.VIDE ||
-                                     traitDroiteExt.getEtat() != ValeurTrait.VIDE && traitDroiteCurr.getEtat() == ValeurTrait.VIDE) {
+                            else if (traitDroiteCurr.getEtat() != ValeurTrait.VIDE && traitDroiteExt.getEtat() != ValeurTrait.PLEIN ||
+                                     traitDroiteExt.getEtat() != ValeurTrait.VIDE && traitDroiteCurr.getEtat() != ValeurTrait.PLEIN) {
                                 return true;
                             } // Si on connaît l'état du côté gauche, le côté droit doit être identique et inversement
-                            else if (traitGaucheCurr.getEtat() != ValeurTrait.VIDE && traitGaucheExt.getEtat() == ValeurTrait.VIDE ||
-                                     traitGaucheExt.getEtat() != ValeurTrait.VIDE && traitGaucheCurr.getEtat() == ValeurTrait.VIDE) {
+                            else if (traitGaucheCurr.getEtat() != ValeurTrait.VIDE && traitGaucheExt.getEtat() != ValeurTrait.PLEIN ||
+                                     traitGaucheExt.getEtat() != ValeurTrait.VIDE && traitGaucheCurr.getEtat() != ValeurTrait.PLEIN) {
                                 return true;
                             }
                         }

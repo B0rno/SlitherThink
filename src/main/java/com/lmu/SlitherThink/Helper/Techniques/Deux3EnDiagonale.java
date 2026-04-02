@@ -38,10 +38,10 @@ public class Deux3EnDiagonale implements StrategieAide {
 
                         // Pour la case (i,j), les traits Haut (0) et Gauche (1) doivent être pleins
                         // Pour la case en Bas-Droite, les traits Bas (3) et Droite (2) doivent être pleins
-                        if (c.getTrait(0).getEtat() == ValeurTrait.VIDE || 
-                            c.getTrait(1).getEtat() == ValeurTrait.VIDE ||
-                            cDiagBD.getTrait(3).getEtat() == ValeurTrait.VIDE ||
-                            cDiagBD.getTrait(2).getEtat() == ValeurTrait.VIDE) {
+                        if (c.getTrait(0).getEtat() != ValeurTrait.PLEIN || 
+                            c.getTrait(1).getEtat() != ValeurTrait.PLEIN ||
+                            cDiagBD.getTrait(3).getEtat() != ValeurTrait.PLEIN ||
+                            cDiagBD.getTrait(2).getEtat() != ValeurTrait.PLEIN) {
                                 return true;
                         }
                     }
@@ -53,10 +53,10 @@ public class Deux3EnDiagonale implements StrategieAide {
 
                         // Pour la case (i,j), les traits Haut (0) et Droite (2) doivent être pleins
                         // Pour la case en Bas-Gauche, les traits Bas (3) et Gauche (1) doivent être pleins
-                        if (c.getTrait(0).getEtat() == ValeurTrait.VIDE || 
-                            c.getTrait(2).getEtat() == ValeurTrait.VIDE ||
-                            cDiagBG.getTrait(3).getEtat() == ValeurTrait.VIDE ||
-                            cDiagBG.getTrait(1).getEtat() == ValeurTrait.VIDE) {
+                        if (c.getTrait(0).getEtat() != ValeurTrait.PLEIN || 
+                            c.getTrait(2).getEtat() != ValeurTrait.PLEIN ||
+                            cDiagBG.getTrait(3).getEtat() != ValeurTrait.PLEIN ||
+                            cDiagBG.getTrait(1).getEtat() != ValeurTrait.PLEIN) {
                                 return true;
                         }
                     }

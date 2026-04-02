@@ -32,13 +32,13 @@ public class TechniqueAvancee5 implements StrategieAide {
                     if (caseHG != null && caseHG.getNumero() == 1) {
 
                         // Extérieurs du 3 (Bas et Droite) -> Doivent être PLEINS
-                        if (currentCase.getTrait(3).getEtat() == ValeurTrait.VIDE || 
-                            currentCase.getTrait(2).getEtat() == ValeurTrait.VIDE) 
+                        if (currentCase.getTrait(3).getEtat() != ValeurTrait.PLEIN || 
+                            currentCase.getTrait(2).getEtat() != ValeurTrait.PLEIN) 
                             return true;
 
                         // Extérieurs du 1 (Haut et Gauche) -> Doivent être des CROIX
-                        if (caseHG.getTrait(0).getEtat() == ValeurTrait.VIDE || 
-                            caseHG.getTrait(1).getEtat() == ValeurTrait.VIDE) 
+                        if (caseHG.getTrait(0).getEtat() != ValeurTrait.PLEIN || 
+                            caseHG.getTrait(1).getEtat() != ValeurTrait.PLEIN) 
                             return true;
                     }
 
@@ -47,13 +47,13 @@ public class TechniqueAvancee5 implements StrategieAide {
                     if (caseHD != null && caseHD.getNumero() == 1) {
 
                         // Extérieurs du 3 (Bas et Gauche) -> Doivent être PLEINS
-                        if (currentCase.getTrait(3).getEtat() == ValeurTrait.VIDE || 
-                            currentCase.getTrait(1).getEtat() == ValeurTrait.VIDE) 
+                        if (currentCase.getTrait(3).getEtat() != ValeurTrait.PLEIN || 
+                            currentCase.getTrait(1).getEtat() != ValeurTrait.PLEIN) 
                                 return true;
 
                         // Extérieurs du 1 (Haut et Droite) -> Doivent être des CROIX
-                        if (caseHD.getTrait(0).getEtat() == ValeurTrait.VIDE || 
-                            caseHD.getTrait(2).getEtat() == ValeurTrait.VIDE) 
+                        if (caseHD.getTrait(0).getEtat() != ValeurTrait.PLEIN || 
+                            caseHD.getTrait(2).getEtat() != ValeurTrait.PLEIN) 
                                 return true;
                     }
 
@@ -63,13 +63,13 @@ public class TechniqueAvancee5 implements StrategieAide {
                     if (caseBG != null && caseBG.getNumero() == 1) {
 
                         // Extérieurs du 3 (Haut et Droite) -> Doivent être PLEINS
-                        if (currentCase.getTrait(0).getEtat() == ValeurTrait.VIDE || 
-                            currentCase.getTrait(2).getEtat() == ValeurTrait.VIDE) 
+                        if (currentCase.getTrait(0).getEtat() != ValeurTrait.PLEIN || 
+                            currentCase.getTrait(2).getEtat() != ValeurTrait.PLEIN) 
                                 return true;
 
                         // Extérieurs du 1 (Bas et Gauche) -> Doivent être des CROIX
-                        if (caseBG.getTrait(3).getEtat() == ValeurTrait.VIDE || 
-                            caseBG.getTrait(1).getEtat() == ValeurTrait.VIDE) 
+                        if (caseBG.getTrait(3).getEtat() != ValeurTrait.PLEIN || 
+                            caseBG.getTrait(1).getEtat() != ValeurTrait.PLEIN) 
                                 return true;
                     }
 
@@ -78,13 +78,13 @@ public class TechniqueAvancee5 implements StrategieAide {
                     if (caseBD != null && caseBD.getNumero() == 1) {
 
                         // Extérieurs du 3 (Haut et Gauche) -> Doivent être PLEINS
-                        if (currentCase.getTrait(0).getEtat() == ValeurTrait.VIDE || 
-                            currentCase.getTrait(1).getEtat() == ValeurTrait.VIDE) 
+                        if (currentCase.getTrait(0).getEtat() != ValeurTrait.PLEIN || 
+                            currentCase.getTrait(1).getEtat() != ValeurTrait.PLEIN) 
                                 return true;
 
                         // Extérieurs du 1 (Bas et Droite) -> Doivent être des CROIX
-                        if (caseBD.getTrait(3).getEtat() == ValeurTrait.VIDE || 
-                            caseBD.getTrait(2).getEtat() == ValeurTrait.VIDE) 
+                        if (caseBD.getTrait(3).getEtat() != ValeurTrait.PLEIN || 
+                            caseBD.getTrait(2).getEtat() != ValeurTrait.PLEIN) 
                                 return true;
                     }
                 }

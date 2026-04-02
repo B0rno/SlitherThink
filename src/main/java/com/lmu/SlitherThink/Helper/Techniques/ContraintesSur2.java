@@ -76,10 +76,10 @@ public class ContraintesSur2 implements StrategieAide {
      */
     private boolean verifContrainteCoin(Case c, int dir1, int dir2) {
         // Si le premier chemin est bloqué, le second devient obligatoire (s'il est encore vide)
-        if (c.getTrait(dir1).getEtat() == ValeurTrait.CROIX && c.getTrait(dir2).getEtat() == ValeurTrait.VIDE)
+        if (c.getTrait(dir1).getEtat() == ValeurTrait.CROIX && c.getTrait(dir2).getEtat() != ValeurTrait.PLEIN)
             return true;
         // Si le second chemin est bloqué, le premier devient obligatoire (s'il est encore vide)
-        if (c.getTrait(dir2).getEtat() == ValeurTrait.CROIX && c.getTrait(dir1).getEtat() == ValeurTrait.VIDE)
+        if (c.getTrait(dir2).getEtat() == ValeurTrait.CROIX && c.getTrait(dir1).getEtat() != ValeurTrait.PLEIN)
             return true;
         return false;
     }

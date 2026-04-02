@@ -34,19 +34,19 @@ public class Diagonale0Et3 implements StrategieAide {
                     Case cDiagBD = m.getCase(i + 1, j + 1);
 
                     if (cDiagHG != null && cDiagHG.getNumero() == 0) {
-                        if (c.getTrait(2).getEtat() == ValeurTrait.VIDE || c.getTrait(3).getEtat() == ValeurTrait.VIDE) 
+                        if (c.getTrait(2).getEtat() != ValeurTrait.PLEIN || c.getTrait(3).getEtat() != ValeurTrait.PLEIN) 
                             return true;
                     }
                     if (cDiagHD != null && cDiagHD.getNumero() == 0) {
-                        if (c.getTrait(1).getEtat() == ValeurTrait.VIDE || c.getTrait(3).getEtat() == ValeurTrait.VIDE) 
+                        if (c.getTrait(1).getEtat() != ValeurTrait.PLEIN || c.getTrait(3).getEtat() != ValeurTrait.PLEIN) 
                             return true;
                     }
                     if (cDiagBG != null && cDiagBG.getNumero() == 0) {
-                        if (c.getTrait(2).getEtat() == ValeurTrait.VIDE || c.getTrait(0).getEtat() == ValeurTrait.VIDE) 
+                        if (c.getTrait(2).getEtat() != ValeurTrait.PLEIN || c.getTrait(0).getEtat() != ValeurTrait.PLEIN) 
                             return true;
                     }
                     if (cDiagBD != null && cDiagBD.getNumero() == 0) {
-                        if (c.getTrait(1).getEtat() == ValeurTrait.VIDE || c.getTrait(0).getEtat() == ValeurTrait.VIDE) 
+                        if (c.getTrait(1).getEtat() != ValeurTrait.PLEIN || c.getTrait(0).getEtat() != ValeurTrait.PLEIN) 
                             return true;
                     }
                 }

@@ -30,8 +30,8 @@ public class TechniqueAvancee2 implements StrategieAide {
                     // Vérification du coin Haut-Gauche 
                     if (estBloque(getTraitHaut(m, r, c)) && estBloque(getTraitGauche(m, r, c))) {
                         // Les traits Haut (0) et Gauche (1) de la case doivent être PLEINS
-                        if (currentCase.getTrait(0).getEtat() == ValeurTrait.VIDE || 
-                            currentCase.getTrait(1).getEtat() == ValeurTrait.VIDE) {
+                        if (currentCase.getTrait(0).getEtat() != ValeurTrait.PLEIN || 
+                            currentCase.getTrait(1).getEtat() != ValeurTrait.PLEIN) {
                                 return true;
                         }
                     }
@@ -39,8 +39,8 @@ public class TechniqueAvancee2 implements StrategieAide {
                     // Vérification du coin Haut-Droite
                     if (estBloque(getTraitHaut(m, r, c + 1)) && estBloque(getTraitDroite(m, r, c + 1))) {
                         // Les traits Haut (0) et Droite (2) de la case doivent être PLEINS
-                        if (currentCase.getTrait(0).getEtat() == ValeurTrait.VIDE || 
-                            currentCase.getTrait(2).getEtat() == ValeurTrait.VIDE) {
+                        if (currentCase.getTrait(0).getEtat() != ValeurTrait.PLEIN || 
+                            currentCase.getTrait(2).getEtat() != ValeurTrait.PLEIN) {
                                 return true;
                         }
                     }
@@ -48,8 +48,8 @@ public class TechniqueAvancee2 implements StrategieAide {
                     // Vérification du coin Bas-Gauche 
                     if (estBloque(getTraitBas(m, r + 1, c)) && estBloque(getTraitGauche(m, r + 1, c))) {
                         // Les traits Bas (3) et Gauche (1) de la case doivent être PLEINS
-                        if (currentCase.getTrait(3).getEtat() == ValeurTrait.VIDE || 
-                            currentCase.getTrait(1).getEtat() == ValeurTrait.VIDE) {
+                        if (currentCase.getTrait(3).getEtat() != ValeurTrait.PLEIN || 
+                            currentCase.getTrait(1).getEtat() != ValeurTrait.PLEIN) {
                                 return true;
                         }
                     }
@@ -57,8 +57,8 @@ public class TechniqueAvancee2 implements StrategieAide {
                     // Vérification du coin Bas-Droite
                     if (estBloque(getTraitBas(m, r + 1, c + 1)) && estBloque(getTraitDroite(m, r + 1, c + 1))) {
                         // Les traits Bas (3) et Droite (2) de la case doivent être PLEINS
-                        if (currentCase.getTrait(3).getEtat() == ValeurTrait.VIDE || 
-                            currentCase.getTrait(2).getEtat() == ValeurTrait.VIDE) {
+                        if (currentCase.getTrait(3).getEtat() != ValeurTrait.PLEIN || 
+                            currentCase.getTrait(2).getEtat() != ValeurTrait.PLEIN) {
                                 return true;
                         }
                     }

@@ -30,7 +30,7 @@ public class NimporteQuelNumeroDansUnCoin implements StrategieAide {
         if (c1 != null) {
             int num = c1.getNumero();
             if (num == 3) {
-                if (c1.getTrait(0).getEtat() == ValeurTrait.VIDE || c1.getTrait(1).getEtat() == ValeurTrait.VIDE) return true;
+                if (c1.getTrait(0).getEtat() != ValeurTrait.PLEIN || c1.getTrait(1).getEtat() != ValeurTrait.PLEIN) return true;
             }
             else if(num == 1){
                 if (c1.getTrait(0).getEtat() == ValeurTrait.PLEIN || c1.getTrait(1).getEtat() == ValeurTrait.PLEIN) return true;
@@ -42,7 +42,7 @@ public class NimporteQuelNumeroDansUnCoin implements StrategieAide {
         if (c2 != null) {
             int num = c2.getNumero();
             if (num == 3) {
-                if (c2.getTrait(0).getEtat() == ValeurTrait.VIDE || c2.getTrait(2).getEtat() == ValeurTrait.VIDE) return true;
+                if (c2.getTrait(0).getEtat() != ValeurTrait.PLEIN || c2.getTrait(2).getEtat() != ValeurTrait.PLEIN) return true;
             } 
             else if(num == 1){
                 if (c2.getTrait(0).getEtat() == ValeurTrait.PLEIN || c2.getTrait(2).getEtat() == ValeurTrait.PLEIN) return true;
@@ -54,7 +54,7 @@ public class NimporteQuelNumeroDansUnCoin implements StrategieAide {
         if (c3 != null) {
             int num = c3.getNumero();
             if (num == 3) {
-                if (c3.getTrait(3).getEtat() == ValeurTrait.VIDE || c3.getTrait(1).getEtat() == ValeurTrait.VIDE) return true;
+                if (c3.getTrait(3).getEtat() != ValeurTrait.PLEIN || c3.getTrait(1).getEtat() != ValeurTrait.PLEIN) return true;
             }
             else if(num == 1){
                 if (c3.getTrait(3).getEtat() == ValeurTrait.PLEIN || c3.getTrait(1).getEtat() == ValeurTrait.PLEIN) return true;
@@ -66,7 +66,7 @@ public class NimporteQuelNumeroDansUnCoin implements StrategieAide {
         if (c4 != null) {
             int num = c4.getNumero();
             if (num == 1 || num == 3) {
-                if (c4.getTrait(3).getEtat() == ValeurTrait.VIDE || c4.getTrait(2).getEtat() == ValeurTrait.VIDE) return true;
+                if (c4.getTrait(3).getEtat() != ValeurTrait.PLEIN || c4.getTrait(2).getEtat() != ValeurTrait.PLEIN) return true;
             }
             else if(num == 1){
                 if (c4.getTrait(3).getEtat() == ValeurTrait.PLEIN || c4.getTrait(2).getEtat() == ValeurTrait.PLEIN) return true;

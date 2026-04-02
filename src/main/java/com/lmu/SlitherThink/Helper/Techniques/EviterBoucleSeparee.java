@@ -42,7 +42,7 @@ public class EviterBoucleSeparee implements StrategieAide {
         // Analyse des traits horizontaux vides
         for (int i = 0; i <= m.getHauteur(); i++) {
             for (int j = 0; j < m.getLargeur(); j++) {
-                if (m.getCase(i < m.getHauteur() ? i : i-1, j).getTrait(i < m.getHauteur() ? 0 : 3).getEtat() == ValeurTrait.VIDE) {
+                if (m.getCase(i < m.getHauteur() ? i : i-1, j).getTrait(i < m.getHauteur() ? 0 : 3).getEtat() != ValeurTrait.PLEIN) {
                     // Vérifie si un chemin relie déjà le sommet gauche (i, j) au sommet droit (i, j+1)
                     if (existeChemin(m, i, j, i, j + 1)) return true;
                 }
@@ -52,7 +52,7 @@ public class EviterBoucleSeparee implements StrategieAide {
         // Analyse des traits verticaux vides
         for (int i = 0; i < m.getHauteur(); i++) {
             for (int j = 0; j <= m.getLargeur(); j++) {
-                if (m.getCase(i, j < m.getLargeur() ? j : j-1).getTrait(j < m.getLargeur() ? 1 : 2).getEtat() == ValeurTrait.VIDE) {
+                if (m.getCase(i, j < m.getLargeur() ? j : j-1).getTrait(j < m.getLargeur() ? 1 : 2).getEtat() != ValeurTrait.PLEIN) {
                     // Vérifie si un chemin relie déjà le sommet haut (i, j) au sommet bas (i+1, j)
                     if (existeChemin(m, i, j, i + 1, j)) return true;
                 }

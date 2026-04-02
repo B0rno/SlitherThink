@@ -41,8 +41,8 @@ public class BoucleSur3 implements StrategieAide {
                     // Si un trait arrive de la gauche ou du haut vers ce coin
                     if (estPlein(m, i, j - 1, true) || estPlein(m, i - 1, j, false)) {
                         // Alors les murs opposés (droite : 2 et bas : 3) doivent être tracés
-                        if (c.getTrait(2).getEtat() == ValeurTrait.VIDE ||
-                                c.getTrait(3).getEtat() == ValeurTrait.VIDE) {
+                        if (c.getTrait(2).getEtat() != ValeurTrait.PLEIN ||
+                                c.getTrait(3).getEtat() != ValeurTrait.PLEIN) {
                             return true;
                         }
                     }
@@ -51,8 +51,8 @@ public class BoucleSur3 implements StrategieAide {
                     // Si un trait arrive de la droite ou du haut vers ce coin
                     if (estPlein(m, i, j + 1, true) || estPlein(m, i - 1, j + 1, false)) {
                         // Alors les murs opposés (gauche : 1 et bas : 3) doivent être tracés
-                        if (c.getTrait(1).getEtat() == ValeurTrait.VIDE ||
-                                c.getTrait(3).getEtat() == ValeurTrait.VIDE) {
+                        if (c.getTrait(1).getEtat() != ValeurTrait.PLEIN ||
+                                c.getTrait(3).getEtat() != ValeurTrait.PLEIN) {
                             return true;
                         }
                     }
@@ -61,8 +61,8 @@ public class BoucleSur3 implements StrategieAide {
                     // Si un trait arrive de la gauche ou du bas vers ce coin
                     if (estPlein(m, i + 1, j - 1, true) || estPlein(m, i + 1, j, false)) {
                         // Alors les murs opposés (haut : 0 et droite : 2) doivent être tracés
-                        if (c.getTrait(0).getEtat() == ValeurTrait.VIDE ||
-                                c.getTrait(2).getEtat() == ValeurTrait.VIDE) {
+                        if (c.getTrait(0).getEtat() != ValeurTrait.PLEIN ||
+                                c.getTrait(2).getEtat() != ValeurTrait.PLEIN) {
                             return true;
                         }
                     }
@@ -71,8 +71,8 @@ public class BoucleSur3 implements StrategieAide {
                     // Si un trait arrive de la droite ou du bas vers ce coin
                     if (estPlein(m, i + 1, j + 1, true) || estPlein(m, i + 1, j + 1, false)) {
                         // Alors les murs opposés (haut : 0 et gauche : 1) doivent être tracés
-                        if (c.getTrait(0).getEtat() == ValeurTrait.VIDE ||
-                                c.getTrait(1).getEtat() == ValeurTrait.VIDE) {
+                        if (c.getTrait(0).getEtat() != ValeurTrait.PLEIN ||
+                                c.getTrait(1).getEtat() != ValeurTrait.PLEIN) {
                             return true;
                         }
                     }

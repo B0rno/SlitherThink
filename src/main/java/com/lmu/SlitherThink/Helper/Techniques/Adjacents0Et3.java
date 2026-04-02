@@ -36,19 +36,19 @@ public class Adjacents0Et3 implements StrategieAide {
                     Case c4 = m.getCase(i, j - 1); // Gauche
 
                     if (c1 != null && c1.getNumero() == 0) {
-                        if (c.getTrait(0).getEtat() == ValeurTrait.VIDE || c.getTrait(1).getEtat() == ValeurTrait.VIDE || c.getTrait(2).getEtat() == ValeurTrait.VIDE) 
+                        if (c.getTrait(0).getEtat() != ValeurTrait.PLEIN || c.getTrait(1).getEtat() != ValeurTrait.PLEIN || c.getTrait(2).getEtat() != ValeurTrait.PLEIN) 
                             return true;
                     }
                     if (c2 != null && c2.getNumero() == 0) {
-                        if (c.getTrait(3).getEtat() == ValeurTrait.VIDE || c.getTrait(1).getEtat() == ValeurTrait.VIDE || c.getTrait(2).getEtat() == ValeurTrait.VIDE) 
+                        if (c.getTrait(3).getEtat() != ValeurTrait.PLEIN || c.getTrait(1).getEtat() != ValeurTrait.PLEIN || c.getTrait(2).getEtat() != ValeurTrait.PLEIN) 
                             return true;
                     }
                     if (c3 != null && c3.getNumero() == 0) {
-                        if (c.getTrait(0).getEtat() == ValeurTrait.VIDE || c.getTrait(1).getEtat() == ValeurTrait.VIDE || c.getTrait(3).getEtat() == ValeurTrait.VIDE) 
+                        if (c.getTrait(0).getEtat() != ValeurTrait.PLEIN || c.getTrait(1).getEtat() != ValeurTrait.PLEIN || c.getTrait(3).getEtat() != ValeurTrait.PLEIN) 
                             return true;
                     }
                     if (c4 != null && c4.getNumero() == 0) {
-                        if (c.getTrait(0).getEtat() == ValeurTrait.VIDE || c.getTrait(2).getEtat() == ValeurTrait.VIDE || c.getTrait(3).getEtat() == ValeurTrait.VIDE) 
+                        if (c.getTrait(0).getEtat() != ValeurTrait.PLEIN || c.getTrait(2).getEtat() != ValeurTrait.PLEIN || c.getTrait(3).getEtat() != ValeurTrait.PLEIN) 
                             return true;
                     }
                 }

@@ -47,7 +47,7 @@ public class TechniqueAvancee1 implements StrategieAide {
 
                 for (Trait t : traitsDuPoint) {
                     if (t.getEtat() == ValeurTrait.PLEIN) nbPleins++;
-                    else if (t.getEtat() == ValeurTrait.VIDE) nbVides++;
+                    else if (t.getEtat() != ValeurTrait.PLEIN) nbVides++;
                     else if (t.getEtat() == ValeurTrait.CROIX) nbVides++; // On traite les croix comme des vides pour la continuité
                 }
 
