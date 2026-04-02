@@ -56,16 +56,16 @@ public class Score {
 
     /**
      * Calcule le nombre d'étoiles obtenues.
-     * 3 étoiles : temps inférieur ou égal à 5 minutes avec moins de 3 aides.
-     * 2 étoiles : temps inférieur ou égal à 5 minutes avec 3 aides ou plus.
-     * 2 étoiles : temps supérieur à 5 minutes avec moins de 3 aides.
+     * 3 étoiles : temps inférieur ou égal à 5 minutes avec au maximum 3 aides.
+     * 2 étoiles : temps inférieur ou égal à 5 minutes avec plus de 3 aides.
+     * 2 étoiles : temps supérieur à 5 minutes avec au maximum 3 aides.
      * 1 étoile : sinon.
      */
     public void calculerEtoiles() {
         long secondes = getDureeEnSecondes();
-        if (secondes <= dureePourEtoile && nbAidesUtilisees < nbAidexMax) etoiles = 3;
+        if (secondes <= dureePourEtoile && nbAidesUtilisees <= nbAidexMax) etoiles = 3;
         else if (secondes <= dureePourEtoile) etoiles = 2;
-        else if (nbAidesUtilisees < nbAidexMax) etoiles = 2;
+        else if (nbAidesUtilisees <= nbAidexMax) etoiles = 2;
         else etoiles = 1;
     }
 

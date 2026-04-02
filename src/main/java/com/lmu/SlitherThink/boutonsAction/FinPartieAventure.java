@@ -65,7 +65,7 @@ public class FinPartieAventure extends ChangementFenetre {
     private boolean comparerTemps(String temps, String tempsMax) {
         String [] partsTemps = temps.split(":");
         String [] partsTempsMax = tempsMax.split(":");
-        int totalSecondes = Integer.parseInt(partsTemps[0]) * 90 + Integer.parseInt(partsTemps[1]);
+        int totalSecondes = Integer.parseInt(partsTemps[0]) * 60 + Integer.parseInt(partsTemps[1]);
         int totalSecondesMax = Integer.parseInt(partsTempsMax[0]) * 60 + Integer.parseInt(partsTempsMax[1]);
         
         return totalSecondes <= totalSecondesMax;
@@ -84,18 +84,12 @@ public class FinPartieAventure extends ChangementFenetre {
         txtTempsMax.setText("Temps : " + temps + " / " + tempsMax);
         txtComplete.setText("Partie complétée : " + (complete ? "oui" : "non"));
 
-        // Calcul des conditions
-        boolean aidesRespectees = (aides <= aidesMax);
-        boolean tempsRespecte = comparerTemps(temps, tempsMax);
+        int chronoSecondes = parseTempsEnSecondes(temps);
+        int nbEtoiles = complete ? calculerEtoiles(chronoSecondes, aides) : 0;
 
-        boolean e1 = complete;
-        boolean e2 = complete && (aidesRespectees || tempsRespecte);
-        boolean e3 = complete && aidesRespectees && tempsRespecte;
-
-
-        appliquerEtoile(etoile1, e1);
-        appliquerEtoile(etoile2, e2);
-        appliquerEtoile(etoile3, e3);
+        appliquerEtoile(etoile1, nbEtoiles >= 1);
+        appliquerEtoile(etoile2, nbEtoiles >= 2);
+        appliquerEtoile(etoile3, nbEtoiles >= 3);
 
         // Charger et afficher les high scores
         chargerEtAfficherHighScores();
@@ -105,6 +99,17 @@ public class FinPartieAventure extends ChangementFenetre {
         if (iv != null) {
             iv.setImage(pleine ? IMAGE_PLEINE : IMAGE_VIDE);
         }
+    }
+
+    private int parseTempsEnSecondes(String temps) {
+        if (temps == null || !temps.contains(":")) {
+            return 0;
+        }
+        String[] parts = temps.split(":");
+        if (parts.length != 2) {
+            return 0;
+        }
+        return Integer.parseInt(parts[0]) * 60 + Integer.parseInt(parts[1]);
     }
 
     /**
@@ -176,9 +181,9 @@ public class FinPartieAventure extends ChangementFenetre {
         final int DUREE_POUR_ETOILE = 300; // 5 minutes
         final int NB_AIDES_MAX = 3;
 
-        if (chrono <= DUREE_POUR_ETOILE && nbAides < NB_AIDES_MAX) return 3;
+        if (chrono <= DUREE_POUR_ETOILE && nbAides <= NB_AIDES_MAX) return 3;
         else if (chrono <= DUREE_POUR_ETOILE) return 2;
-        else if (nbAides < NB_AIDES_MAX) return 2;
+        else if (nbAides <= NB_AIDES_MAX) return 2;
         else return 1;
     }
 

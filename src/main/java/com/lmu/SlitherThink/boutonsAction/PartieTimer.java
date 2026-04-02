@@ -205,7 +205,7 @@ public class PartieTimer extends Partie {
 
     @FXML 
     public void lancerTutoriel() {
-        numPartie = -1; 
+        numPartie = 0; 
         Partie.setDernierMode("tutoriel");
         reinitialiserAffichageAide();
         
