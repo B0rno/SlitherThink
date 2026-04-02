@@ -145,15 +145,14 @@ public class ScoreTest {
 
     @Test
     public void testCalculerEtoiles2Etoiles() {
-        // Simuler une partie moyenne avec 1 aide
+        // Simuler une partie rapide avec peu d'aides (≤ 5min ET ≤ 3 aides)
         score.setDureeAccumulee(Duration.ofSeconds(120));
         score.setNbAidesUtilisees(1);
 
         score.calculerEtoiles();
 
-        // Devrait obtenir 2 étoiles
-        assertTrue(score.getEtoiles() >= 1 && score.getEtoiles() <= 2,
-            "Devrait obtenir 1 ou 2 étoiles");
+        // Devrait obtenir 3 étoiles (temps respecté ET aides respectées)
+        assertEquals(3, score.getEtoiles());
     }
 
     @Test
