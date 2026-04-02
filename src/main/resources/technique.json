@@ -40,7 +40,7 @@
             },
             {
               "name": "Diagonale 0 et 3",
-              "description": "Quand un 3 est placé en diagonale d’un 0, les 2 traits proches du 0 ne peuvent pas être tracés ensemble. Les 2 traits opposés au 0 doivent donc être pleins."
+              "description": "Quand un 3 est placé en diagonale d’un 0, les 2 traits proches du 0 sont forcément tracés ensemble."
             },
             {
               "name": "Deux 3 adjacents",
