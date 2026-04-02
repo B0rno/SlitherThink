@@ -176,8 +176,9 @@ public class FinPartieAventure extends ChangementFenetre {
         final int DUREE_POUR_ETOILE = 300; // 5 minutes
         final int NB_AIDES_MAX = 3;
 
-        if (chrono <= DUREE_POUR_ETOILE && nbAides == 0) return 3;
-        else if (chrono <= DUREE_POUR_ETOILE && nbAides <= NB_AIDES_MAX) return 2;
+        if (chrono <= DUREE_POUR_ETOILE && nbAides < NB_AIDES_MAX) return 3;
+        else if (chrono <= DUREE_POUR_ETOILE) return 2;
+        else if (nbAides < NB_AIDES_MAX) return 2;
         else return 1;
     }
 

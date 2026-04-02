@@ -15,7 +15,6 @@ import com.lmu.SlitherThink.save.csvScore.structure.StructureCSV;
 import com.lmu.SlitherThink.save.structure.DetailleSavePartie;
 import com.lmu.SlitherThink.save.structure.SaveGlobal;
 import com.lmu.SlitherThink.save.structure.SaveGrille;
-import com.lmu.SlitherThink.save.structure.SaveTechnique;
 
 import java.lang.reflect.Type;
 import java.util.HashMap;
@@ -29,7 +28,7 @@ import java.util.Map;
 public class SaveManager {
     private LoadSave save;
     private List<Class<?>> classesAExtraire = List.of(
-        SaveGrille.class, DetailleSavePartie.class, SaveGlobal.class, SaveTechnique.class
+        SaveGrille.class, DetailleSavePartie.class, SaveGlobal.class
     );
     private Map<String, String> dossiersJson;
 
@@ -91,7 +90,6 @@ public class SaveManager {
         } else {
             dossiersJson.put("SaveGrille", gsonBasique.toJson(save.getGrille()));
         }
-        dossiersJson.put("SaveTechnique", gsonBasique.toJson(save.getTechnique()));
         dossiersJson.put("SaveGlobal", gsonBasique.toJson(save.getSaveGlobal()));
 
         if (save.getSaveGlobal() != null) {
@@ -177,9 +175,6 @@ public class SaveManager {
 
         String prefixeSave = baseNormalisee + "save/";
 
-        if (nomNettoye.equalsIgnoreCase("SaveTechnique") || nomNettoye.equalsIgnoreCase("technique")) {
-            return prefixeSave + "technique.json";
-        }
         if (nomNettoye.equalsIgnoreCase("SaveGlobal")) {
             return prefixeSave + "saveGlobal.json";
         }

@@ -60,6 +60,16 @@ public class ChoixPartieAventure extends ChangementFenetre {
             return -1;
         }
     }
+
+    private boolean estNiveauPartie(String nomFichier) {
+        if (nomFichier == null) {
+            return false;
+        }
+
+        String nomNormalise = nomFichier.replace('\\', '/');
+        String nomSimple = nomNormalise.substring(nomNormalise.lastIndexOf('/') + 1).toLowerCase();
+        return nomSimple.startsWith("partie");
+    }
     
     @FXML
     public void initialize() {
@@ -88,6 +98,10 @@ public class ChoixPartieAventure extends ChangementFenetre {
                 // On vérifie que le score appartient bien au joueur actuel
                 if (scoreData.getPseudo() != null && scoreData.getPseudo().trim().equalsIgnoreCase(pseudoJoueurActuel)) {
                     String nomFichier = scoreData.getNiveau(); 
+
+                    if (!estNiveauPartie(nomFichier)) {
+                        continue;
+                    }
                     
                     if (nomFichier != null) {
                         // Extrait uniquement le numéro contenu dans le nom du fichier

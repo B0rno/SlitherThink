@@ -25,11 +25,7 @@ import com.lmu.SlitherThink.save.gestionDonnee.savePartieLienJoueur;
 import com.lmu.SlitherThink.save.structure.PositionTrait;
 import com.lmu.SlitherThink.save.structure.SaveGlobal;
 import com.lmu.SlitherThink.save.structure.SaveGrille;
-import com.lmu.SlitherThink.save.structure.SaveTechnique;
-import com.lmu.SlitherThink.save.structure.contenuTechnique;
-import com.lmu.SlitherThink.save.structure.languageContenue;
 import com.lmu.SlitherThink.save.structure.positionGrille;
-import com.lmu.SlitherThink.save.structure.stockageTechnique;
 
 /**
  * Gestionnaire central de chargement des données du jeu (Singleton).
@@ -37,7 +33,6 @@ import com.lmu.SlitherThink.save.structure.stockageTechnique;
  *
  * Données gérées:
  * - Grilles de jeu (mode libre et aventure)
- * - Techniques d'aide
  * - Sauvegardes globales
  * - Scores CSV
  *
@@ -47,7 +42,6 @@ public class LoadSave {
     private static LoadSave instance;
     private SaveGrille grille;
     private Map<String, SaveGrille> grilles;
-    private SaveTechnique technique;
     private SaveGlobal saveGlobal;
     private List<StructureCSV> scores;
     private final String basePath;
@@ -68,7 +62,7 @@ public class LoadSave {
 
     /**
      * Constructeur privé (Singleton).
-     * Charge toutes les données du jeu au démarrage: grilles, techniques, sauvegardes et scores.
+     * Charge toutes les données du jeu au démarrage: grilles, sauvegardes et scores.
      *
      * @param pathBeforeSave le chemin de base pour les fichiers
      */
@@ -77,7 +71,6 @@ public class LoadSave {
         savePartieLienJoueur.setBasePath(this.basePath);
 
         Gson gson = new Gson();
-        technique = lireJson("/save/technique.json", cheminFichier("save/technique.json"), SaveTechnique.class, gson);
         saveGlobal = lireJson("/save/saveGlobal.json", cheminFichier("save/saveGlobal.json"), SaveGlobal.class, gson);
         rechercheSave.setSaveGlobalCourant(saveGlobal);
 
@@ -267,36 +260,6 @@ public class LoadSave {
     }
 
     /**
-     * Affiche toutes les techniques chargées (debug).
-     */
-    public void afficherTechn() {
-        if (technique != null && technique.getStockageLangague() != null) {
-            for (languageContenue langcont : technique.getStockageLangague()) {
-                if (langcont == null) continue;
-                System.out.println("Langage: " + langcont.getLangage());
-                List<contenuTechnique> contenus = langcont.getContenu();
-                if (contenus == null) continue;
-                for (contenuTechnique contenu : contenus) {
-                    if (contenu == null) continue;
-                    System.out.println("----------------\nNiveau: " + contenu.getNv());
-                    List<stockageTechnique> techs = contenu.getTechniqueParsNv();
-                    if (techs == null) {
-                        System.out.println("Aucune technique disponible pour ce niveau.");
-                        continue;
-                    }
-                    for (stockageTechnique tech : techs) {
-                        if (tech == null) continue;
-                        System.out.println("----------------\nNom de la technique: " + tech.getName());
-                        System.out.println("----------------Description----------------\n" + tech.getDescription());
-                    }
-                }
-            }
-        } else {
-            System.out.println("Aucune technique disponible.");
-        }
-    }
-
-    /**
      * Affiche une grille spécifique (debug).
      */
     public void afficherGrille(String nomGrille, SaveGrille grille) {
@@ -324,10 +287,8 @@ public class LoadSave {
     public void affichertoJson() {
         Gson gson = new Gson();
         String jsonGrille = gson.toJson(grille);
-        String jsonTechnique = gson.toJson(technique);
 
         System.out.println("Grille en JSON:\n" + jsonGrille);
-        System.out.println("Technique en JSON:\n" + jsonTechnique);
     }
 
     /**
@@ -354,12 +315,6 @@ public class LoadSave {
         return grilles;
     }
 
-    /**
-     * @return les techniques chargées
-     */
-    public SaveTechnique getTechnique() {
-        return technique;
-    }
 
     /**
      * @return la sauvegarde globale
@@ -452,7 +407,6 @@ public class LoadSave {
     @Override
     public String toString() {
         this.afficherGrille(this.grilles.keySet().stream().findFirst().orElse("Grille par défaut"), this.grilles.values().stream().findFirst().orElse(grille));
-        this.afficherTechn();
         System.out.println("\n\nAffichage en JSON:");
         this.affichertoJson();
         return "Affichage de la grille et des techniques terminé.";
