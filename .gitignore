@@ -1,7 +1,9 @@
 # Java/Maven build outputs
 /target/
 
+# py
 
+*.py
 # IDE/editor metadata
 /.vscode/
 /.idea/
