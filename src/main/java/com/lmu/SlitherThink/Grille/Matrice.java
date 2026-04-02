@@ -281,8 +281,6 @@ public class Matrice {
     }
 
     public void saveGrille(String pseudo, String path, boolean saveAventure, int l, int c, int direction){
-        if(this.getCase(l,c).getTrait(direction).getEtat() == ValeurTrait.CROIX)
-            return; //La sauvegarde des croix n'est pas implémenté dans les json
 
         LoadSave save = LoadSave.getInstance("");
 
@@ -335,7 +333,7 @@ public class Matrice {
                 if(ligne == l && colonne == c){
                     if(etat.contains(direction))
                         etat.remove(Integer.valueOf(direction));
-                    else
+                    else if (this.getCase(l,c).getTrait(direction).getEtat() == ValeurTrait.PLEIN)
                         etat.add(direction);
                     caseExistante = true;
                     break;
