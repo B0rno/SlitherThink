@@ -74,6 +74,7 @@ public class LoadSave {
         saveGlobal = lireJson("/save/saveGlobal.json", cheminFichier("save/saveGlobal.json"), SaveGlobal.class, gson);
         rechercheSave.setSaveGlobalCourant(saveGlobal);
 
+
         grilles = chargerGrilles(gson);
         grille = choisirGrilleParDefaut();
         scores = LoadCSV.lire("/save/Score.csv", cheminFichier("save/Score.csv") , StructureCSV.class);
@@ -132,6 +133,36 @@ public class LoadSave {
     
         return resultat;
     }
+
+    /*
+    // si on veux prendre en prioriter les fichier sauvegarder coter joueur 
+    
+    private Map<String, SaveGrille> chargerGrilles(Gson gson) {
+        Map<String, SaveGrille> resultat = new LinkedHashMap<>();
+        Path dossierGrilles = Paths.get(basePath, "save", "saveGrille");
+        if (Files.isDirectory(dossierGrilles)) {
+            try (var fichiers = Files.list(dossierGrilles)) {
+                fichiers
+                    .filter(Files::isRegularFile)
+                    .filter(path -> path.getFileName().toString().toLowerCase().endsWith(".json"))
+                    .sorted(Comparator.comparing(path -> path.getFileName().toString()))
+                    .forEach(path -> {
+                        try (Reader reader = Files.newBufferedReader(path, StandardCharsets.UTF_8)) {
+                            SaveGrille grilleChargee = gson.fromJson(reader, SaveGrille.class);
+                            if (grilleChargee != null) {
+                                String nom = retirerExtension(path.getFileName().toString());
+                                resultat.put(nom, grilleChargee);
+                            }
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    });
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    
+    */
 
     /**
      * Extrait les noms de grilles depuis les sauvegardes globales.

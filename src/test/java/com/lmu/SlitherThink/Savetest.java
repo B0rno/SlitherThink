@@ -13,8 +13,6 @@ import com.lmu.SlitherThink.save.gestionDonnee.savePartieLienJoueur;
 import com.lmu.SlitherThink.save.structure.DetailleSavePartie;
 import com.lmu.SlitherThink.save.structure.PositionTrait;
 import com.lmu.SlitherThink.save.structure.SaveGlobal;
-import com.lmu.SlitherThink.save.structure.SaveTechnique;
-import com.lmu.SlitherThink.save.structure.languageContenue;
 
 public class Savetest {
     public static void main(String[] args) {
@@ -26,7 +24,6 @@ public class Savetest {
 
         afficherHeader("2) ACCEDER AUX DONNEES CHARGEES");
         afficherInfosGrilles(save);
-        afficherInfosTechniques(save);
         afficherInfosSauvegardes(save);
 
         afficherHeader("3) CREER ET RAJOUTER DES PARTIES");
@@ -86,22 +83,6 @@ public class Savetest {
                 PositionTrait premierTrait = traits.get(0);
                 System.out.println("Premier trait -> position: " + premierTrait.getPositionTrait() + ", etat: " + premierTrait.getEtatTrait());
             }
-        }
-    }
-
-    private static void afficherInfosTechniques(LoadSave save) {
-        SaveTechnique technique = save.getTechnique();
-        if (technique == null || technique.getStockageLangague() == null) {
-            System.out.println("Techniques: aucune donnée chargée");
-            return;
-        }
-
-        List<languageContenue> langages = technique.getStockageLangague();
-        System.out.println("Nombre de langages techniques: " + langages.size());
-        if (!langages.isEmpty() && langages.get(0) != null) {
-            languageContenue premier = langages.get(0);
-            int nbNiveaux = premier.getContenu() != null ? premier.getContenu().size() : 0;
-            System.out.println("Premier langage: " + premier.getLangage() + " (niveaux: " + nbNiveaux + ")");
         }
     }
 
