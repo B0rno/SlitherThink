@@ -16,7 +16,8 @@
             },
             {
               "name": "Boucle atteignant un 1",
-              "description": "La boucle ne peut jamais former un angle droit sur le coin d'une case 1 (cela utiliserait 2 traits). Quand un trait arrive sur le coin d'un 1, elle peut longer un seul côté ou passer son chemin, mais les 2 traits du 1 formant ce coin ne pourront jamais être pleins simultanément."            },
+              "description": "La boucle ne peut jamais former un angle droit sur le coin d'une case 1 (cela utiliserait 2 traits). Quand un trait arrive sur le coin d'un 1, elle peut longer un seul côté ou passer son chemin, mais les 2 traits du 1 formant ce coin ne pourront jamais être pleins simultanément."
+            },
             {
               "name": "Contraintes sur un 2",
               "description": "Une case 2 force la boucle à la traverser en diagonale. Si un trait plein arrive sur un coin du 2, le trait doit ressortir par le coin opposé en diagonale."
@@ -40,7 +41,7 @@
             },
             {
               "name": "Diagonale 0 et 3",
-              "description": "Quand un 3 est placé en diagonale d’un 0, les 2 traits proches du 0 sont forcément tracés ensemble."
+              "description": "Quand un 3 est placé en diagonale d’un 0, les 2 traits proches du 0 doivent être tracés ensemble."
             },
             {
               "name": "Deux 3 adjacents",
@@ -64,15 +65,15 @@
           "nv": "confirme",
           "techniqueParsNv": [
             {
-              "name": "Technique avancée 1 ",
+              "name": "Continuité forcée",
               "description": "La boucle doit toujours pouvoir continuer. Si une intersection a déjà un trait plein qui arrive et qu'un seul trait libre reste disponible, ce trait libre doit obligatoirement être plein pour permettre à la boucle de continuer."
             },
             {
-              "name": "Technique avancée 2",
+              "name": "Coins bloqués sur un 3",
               "description": "Observez les coins extérieurs d'une case 3. Si ces 2 coins sont bloqués (par le bord du plateau ou des croix), la boucle ne peut pas s'y échapper et doit longer l'intérieur de la case."
             },
             {
-              "name": "Technique avancée 3",
+              "name": "Règle du 4ème trait",
               "description": "Une case ne peut jamais avoir ses 4 traits pleins, sinon la boucle y serait piégée. Si une case a déjà 3 traits pleins, le dernier trait doit recevoir une croix (X)."
             },
             {
@@ -80,7 +81,7 @@
               "description": "Deux cases 2 placées côte à côte forment une symétrie parfaite. Si vous tracez un trait extérieur sur le premier 2, le trait symétrique du second 2 doit avoir le même état (plein ou croix)."
             },
             {
-              "name": "Technique avancée 5",
+              "name": "1 et 3 en diagonale",
               "description": "Quand un 1 et un 3 sont placés en diagonale, ils se limitent mutuellement. Les 2 traits extérieurs du 3 (loin du 1) doivent être pleins, et les 2 traits extérieurs du 1 (loin du 3) doivent avoir une croix (X)."
             }
           ]

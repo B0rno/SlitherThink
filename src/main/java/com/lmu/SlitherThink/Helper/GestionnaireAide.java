@@ -47,7 +47,7 @@ public class GestionnaireAide {
 
         //Aide fin de partie
         strategies.add(new EviterBoucleSeparee());
-
+        
 
     }
 
