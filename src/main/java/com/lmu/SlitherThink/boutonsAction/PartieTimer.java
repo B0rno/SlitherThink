@@ -1,5 +1,6 @@
 package com.lmu.SlitherThink.boutonsAction;
 
+import com.lmu.SlitherThink.App;
 import com.lmu.SlitherThink.Grille.Matrice;
 import com.lmu.SlitherThink.Partie.EtatPartie;
 import com.lmu.SlitherThink.Partie.Profil;
@@ -19,28 +20,31 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.util.Duration;
 
+/**
+ * Gère les parties avec un chronomètre (Mode Aventure et Tutoriel).
+ * S'occupe de l'enregistrement des scores en CSV et de la gestion du temps visuel.
+ * @author Ilann
+ */
 public class PartieTimer extends Partie {
     private static int numPartie;
 
     @FXML
     private Label timerLabel;
 
-
-    //chrono visuel
     private Timeline chronometre;
 
+    /**
+     * Gère la fin de partie, arrête les chronos et affiche l'écran de résultats.
+     * @param score L'objet score contenant les statistiques finales.
+     */
     @Override
     public void onVictoire(Score score) {
-
         saveScore(score);
-        // Arrêter le chrono visuel 
         if (chronometre != null) chronometre.stop();
         
-        // Arrêter le chrono réel et calculer les étoiles
         score.arreterChrono();
         score.calculerEtoiles();
 
-        // Récupérer les données réelles du Score pour l'écran de fin
         int aidesUtilisees = score.getNbAidesUtilisees();
         int aidesMax = score.getNbAidexMax();
         
@@ -51,6 +55,10 @@ public class PartieTimer extends Partie {
         changerVueFinPartie(aidesUtilisees, aidesMax, tempsFinal, tempsMaxEtoile, true);
     }
 
+    /**
+     * Sauvegarde le score final dans le fichier CSV et supprime la sauvegarde temporaire.
+     * @param score Le score à enregistrer.
+     */
     private void saveScore(Score score) {
         String grille = Partie.getGrilleEnCours();
         if (grille == null || grille.isBlank()) {
@@ -78,9 +86,12 @@ public class PartieTimer extends Partie {
         if (idFichier != null) {
             saveManager.delFichierId(idFichier);
         }
-
     }
 
+    /**
+     * Réagit aux changements d'état du moteur (pause/reprise) pour synchroniser le chrono.
+     * @param etat Le nouvel état de la partie.
+     */
     @Override
     public void onEtatChange(EtatPartie etat) {
         if (etat == EtatPartie.PAUSE) {
@@ -92,6 +103,7 @@ public class PartieTimer extends Partie {
         }
     }
 
+    /** Initialise la Timeline du chronomètre visuel. */
     @FXML 
     public void initialize(){
         chronometre = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
@@ -100,6 +112,7 @@ public class PartieTimer extends Partie {
         chronometre.setCycleCount(Timeline.INDEFINITE);
     }
 
+    /** Met à jour le label du timer avec le temps actuel du moteur de jeu. */
     private void actualiseChrono() {
         if (timerLabel != null && moteurJeu != null) {
             int secondes = (int) moteurJeu.getScore().getDureeEnSecondes();
@@ -107,12 +120,21 @@ public class PartieTimer extends Partie {
         }
     }
 
+    /**
+     * Formate les secondes en chaîne MM:SS.
+     * @param totalSeconds Le nombre de secondes.
+     * @return Le temps formaté.
+     */
     private String formatTime(int totalSeconds) {
         int minutes = totalSeconds / 60;
         int seconds = totalSeconds % 60;
         return String.format("%02d:%02d", minutes, seconds);
     }
 
+    /**
+     * Met la partie en pause et change de fenêtre.
+     * @param event L'événement d'action.
+     */
     @FXML
     @Override
     public void menuPause(ActionEvent event) {
@@ -120,6 +142,7 @@ public class PartieTimer extends Partie {
         super.menuPause(event);
     }
 
+    /** Utilise une aide via le moteur. */
     @FXML
     private void aide(ActionEvent event) {
         if (moteurJeu != null) {
@@ -127,6 +150,11 @@ public class PartieTimer extends Partie {
         }
     }
 
+    /**
+     * Initialise une partie aventure avec gestion des sauvegardes existantes.
+     * @param numero Le numéro du niveau.
+     * @param recommencer Si vrai, réinitialise la progression du niveau.
+     */
     @FXML
     public void initialiserPartie(int numero, boolean recommencer) {
         numPartie = numero;
@@ -139,13 +167,11 @@ public class PartieTimer extends Partie {
             return;
         }
 
-        // Lecture de la sauvegarde ici, si elle n'est pas lu, créer la sauvegarde
         Partie.nomGrille = "partie" + numero;
         Score score = new Score();
         if(!recommencer){
             boolean loaded = mat.loadSave(Pseudo.nomJoueur, "./save/saveGrille/partie" + numero + ".json", true);
             if(!loaded){
-                // Creer la référence de sauvegarde ici
                 SaveHelper saveHelper = SaveHelper.getInstance();
                 saveHelper.ajouterPartieAventure(LoadSave.getInstance(""), Pseudo.nomJoueur, "partie" + numero);
                 SaveManager saveManager = new SaveManager(LoadSave.getInstance(""));
@@ -169,7 +195,6 @@ public class PartieTimer extends Partie {
                 }
             }
         } else {
-            // Si on recommence, réinitialiser la sauvegarde existante
             LoadSave save = LoadSave.getInstance("");
             save.rechargerSaveGlobal();
 
@@ -179,7 +204,6 @@ public class PartieTimer extends Partie {
             );
 
             if (sauvegarde != null && sauvegarde.getId() != null) {
-                // Réinitialiser le détail de la sauvegarde (grille vide, chrono à 0, 0 aides)
                 DetailleSavePartie nouveauDetail = DetailleSavePartie.create(new ArrayList<>(), 0, 0);
                 nouveauDetail.setNameClass(sauvegarde.getId().toString());
                 sauvegarde.setDetailleSave(nouveauDetail);
@@ -189,7 +213,6 @@ public class PartieTimer extends Partie {
                 saveManager.actualiserSaveGlobal();
             }
         }
-
 
         this.moteurJeu = new com.lmu.SlitherThink.Partie.PartieHelper(new Profil(Pseudo.nomJoueur), mat, 3, score);
         this.moteurJeu.ajouterObserver(this);
@@ -203,6 +226,7 @@ public class PartieTimer extends Partie {
         chronometre.play();
     }
 
+    /** Lance le mode tutoriel avec des aides illimitées. */
     @FXML 
     public void lancerTutoriel() {
         numPartie = 0; 
@@ -221,13 +245,14 @@ public class PartieTimer extends Partie {
         chronometre.play();
     }
 
-    
+    /** Reprend l'exécution du moteur de jeu. */
     public void reprendrePartie() {
         if (moteurJeu != null) {
             moteurJeu.demarrer(); 
         }
     }
 
+    /** @return Le numéro de la partie aventure en cours. */
     public static int getNumPartie() {
         return numPartie;
     }

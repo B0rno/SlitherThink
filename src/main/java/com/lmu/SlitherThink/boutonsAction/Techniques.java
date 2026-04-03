@@ -21,6 +21,11 @@ import java.nio.charset.StandardCharsets;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+/**
+ * Contrôleur gérant l'affichage de l'aide documentaire (techniques de jeu).
+ * Charge dynamiquement les données depuis un fichier JSON .
+ * @author Ilann
+ */
 public class Techniques extends ChangementFenetre {
 
     private static String vuePrecedente = "menuAccueil";
@@ -28,15 +33,26 @@ public class Techniques extends ChangementFenetre {
     @FXML
     private Accordion accordeonTechniques;
 
+    /**
+     * Définit la vue vers laquelle l'utilisateur sera redirigé lors du clic sur retour.
+     * @param vue Le nom de la vue FXML cible.
+     */
     public static void setVuePrecedente(String vue) {
         vuePrecedente = vue;
     }
 
+    /**
+     * Initialise la fenêtre en lançant le chargement des techniques.
+     */
     @FXML
     public void initialize() {
         chargerTechniques();
     }
 
+    /**
+     * Lit le fichier JSON des techniques et construit dynamiquement l'interface graphique.
+     * Organise les techniques par niveau : débutant, basique et confirmé.
+     */
     private void chargerTechniques() {
         try {
             // Charger le JSON
@@ -115,6 +131,10 @@ public class Techniques extends ChangementFenetre {
         }
     }
 
+    /**
+     * Retourne à la fenêtre stockée dans la variable vuePrecedente.
+     * @param event L'événement d'action déclenché par le bouton.
+     */
     @FXML
     private void retour(ActionEvent event) {
         changerFenetre(event, vuePrecedente);

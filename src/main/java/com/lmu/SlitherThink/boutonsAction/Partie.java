@@ -29,6 +29,11 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 
+/**
+ * Contrôleur principal gérant le plateau de jeu, l'affichage de la grille 
+ * et la communication avec le moteur logique.
+ * @author Ilann
+ */
 public class Partie extends ChangementFenetre implements PartieObserver {
     protected com.lmu.SlitherThink.Partie.PartieHelper moteurJeu;
 
@@ -41,26 +46,29 @@ public class Partie extends ChangementFenetre implements PartieObserver {
 
     protected StackPane[][] matriceCases;
 
-    // --- MÉTHODES STATIQUES (Rétablies pour corriger les erreurs de compilation) ---
-    
+    /** @return Le nom du fichier de la grille actuelle. */
     public static String getGrilleEnCours() {
         return grilleEnCours;
     }
 
+    /** @param grille Définit la grille à charger. */
     public static void setGrilleEnCours(String grille) {
         grilleEnCours = grille;
     }
 
+    /** @param mode Définit si le mode est libre ou aventure. */
     public static void setDernierMode(String mode) {
         dernierMode = mode;
     }
 
+    /** @return Le dernier mode de jeu utilisé. */
     public static String getDernierMode() {
         return dernierMode;
     }
 
-    // --- LOGIQUE DE JEU ---
-
+    /** Déclenche l'écran de victoire. 
+     * @param score Le score final de la partie, utilisé pour afficher les résultats.
+    */
     @Override
     public void onVictoire(Score score) {
         App.changerVue("finPartieLibre");
@@ -69,22 +77,22 @@ public class Partie extends ChangementFenetre implements PartieObserver {
     @Override
     public void onEtatChange(EtatPartie etat) {}
 
-
     @FXML
     protected Label labelAide;  
 
+    /** Efface le texte du label d'aide. */
     protected void reinitialiserAffichageAide() {
         if (labelAide != null) {
             labelAide.setText("");
         }
     }
 
+    /** Affiche les détails de l'aide fournie par le moteur. */
     @Override
     public void onAideUtilisee() {
         if (moteurJeu != null) {
             Aide aide = moteurJeu.getAideEnCours();
             if (aide != null) {
-                // Afficher nom + description
                 String texte = aide.getNom() + "\n\n" + aide.getTechniqueLiee();
                 labelAide.setText(texte);
             } else {
@@ -93,11 +101,17 @@ public class Partie extends ChangementFenetre implements PartieObserver {
         }
     }
 
+    /** Ouvre la vue de pause. 
+     * @param event L'événement de clic sur le bouton de pause.
+    */
     @FXML
     public void menuPause(ActionEvent event) {
         changerFenetre(event, "pause");
     }
 
+    /** Demande une aide au moteur de jeu. 
+     * @param event L'événement de clic sur le bouton d'aide.
+    */
     @FXML
     private void aide(ActionEvent event) {
         if(moteurJeu != null) {
@@ -105,10 +119,17 @@ public class Partie extends ChangementFenetre implements PartieObserver {
         }
     }
 
+    /** Initialise une partie sans l'option recommencer. 
+     * @param grille Le nom du fichier de la grille à charger.
+    */
     public void initialiserPartie(String grille) {
         initialiserPartie(grille, false);
     }
 
+    /** * Initialise la structure de la partie, charge la matrice et gère la sauvegarde.
+     * @param grille Le nom du fichier de la grille à charger.
+     * @param recommencer Booléen qui indique si la partie doit être réinitialisée
+     */
     public void initialiserPartie(String grille, boolean recommencer) {
         setDernierMode("libre");
         setGrilleEnCours(grille);
@@ -120,19 +141,16 @@ public class Partie extends ChangementFenetre implements PartieObserver {
             return;
         }
 
-        // Lecture de la sauvegarde ici, si elle n'est pas lu, créer la sauvegarde
         Partie.nomGrille = grille;
         if (!recommencer) {
             boolean loaded = mat.loadSave(Pseudo.nomJoueur, "./save/saveGrille/" + grille + ".json", false);
             if(!loaded){
-                // Creer la référence de sauvegarde ici
                 SaveHelper saveHelper = SaveHelper.getInstance();
                 saveHelper.ajouterPartieLibre(LoadSave.getInstance(""), Pseudo.nomJoueur, grille);
                 SaveManager saveManager = new SaveManager(LoadSave.getInstance(""));
                 saveManager.actualiserSaveGlobal();
             }
         } else {
-            // Si on recommence, réinitialiser la sauvegarde existante
             LoadSave save = LoadSave.getInstance("");
             save.rechargerSaveGlobal();
 
@@ -142,7 +160,6 @@ public class Partie extends ChangementFenetre implements PartieObserver {
             );
 
             if (sauvegarde != null && sauvegarde.getId() != null) {
-                // Réinitialiser le détail de la sauvegarde
                 DetailleSavePartie nouveauDetail = DetailleSavePartie.create(new ArrayList<>(), 0, 0);
                 nouveauDetail.setNameClass(sauvegarde.getId().toString());
                 sauvegarde.setDetailleSave(nouveauDetail);
@@ -161,6 +178,7 @@ public class Partie extends ChangementFenetre implements PartieObserver {
         this.moteurJeu.demarrer();
     }
 
+    /** Enregistre le chrono et le nombre d'aides dans le fichier de sauvegarde global. */
     public void sauvegarderProgressionCourante() {
         if (moteurJeu == null || moteurJeu.getScore() == null) {
             return;
@@ -206,9 +224,6 @@ public class Partie extends ChangementFenetre implements PartieObserver {
         }
 
         DetailleSavePartie ancienDetail = sauvegarde.getDetailleSave();
-
-        // Mise à jour uniquement du chrono et des aides
-        // L'état de la grille est déjà sauvegardé par Matrice.saveGrille() à chaque clic
         ancienDetail.setChronometre(chrono);
         ancienDetail.setNbAides(nbAides);
 
@@ -219,6 +234,10 @@ public class Partie extends ChangementFenetre implements PartieObserver {
         }
     }
 
+    /** Génère les composants graphiques du plateau (points, traits et cellules). 
+     * @param mat La matrice logique du moteur de jeu à représenter graphiquement.
+     * @param taille La taille de la matrice (nombre de cases par côté).
+    */
     private void genererPlateau(Matrice mat, int taille) {
         this.matriceCases = new StackPane[taille][taille];
         zoneJeu.getChildren().clear();
@@ -234,16 +253,13 @@ public class Partie extends ChangementFenetre implements PartieObserver {
         int currentVerticalDir = 1;   // 1 = OUEST
 
         for (int l = 0; l < nbCellulesFX; l++) {
-            // Changement horizontal UNIQUEMENT quand l change et est pair
             if (l % 2 == 0 && l != 0) {
                 currentHorizontalDir = (currentHorizontalDir == 0) ? 3 : 0;
             }
 
-            // Reset vertical à chaque nouvelle ligne
             currentVerticalDir = 1;
             for (int c = 0; c < nbCellulesFX; c++) {
                 if (l % 2 != 0 && c % 2 != 0) {
-                    // Case à chiffre
                     StackPane caseChiffre = new StackPane();
                     caseChiffre.setPrefSize(tailleUnite, tailleUnite); 
                     caseChiffre.setMinSize(tailleUnite, tailleUnite);
@@ -251,7 +267,6 @@ public class Partie extends ChangementFenetre implements PartieObserver {
                     matriceCases[(l-1)/2][(c-1)/2] = caseChiffre;
 
                 } else if ((l % 2 == 0 && c % 2 != 0) || (l % 2 != 0 && c % 2 == 0)) {
-                    // Trait (Horizontal ou Vertical)
                     boolean estHorizontal = (l % 2 == 0);
 
                     int ligneCase;
@@ -260,14 +275,11 @@ public class Partie extends ChangementFenetre implements PartieObserver {
 
                     if (estHorizontal) {
                         direction = currentHorizontalDir;
-
                         colonneCase = (c - 1) / 2;
 
                         if (direction == 0) {
-                            // NORD → case en dessous
                             ligneCase = l / 2;
                         } else {
-                            // SUD → case au dessus
                             ligneCase = (l / 2) - 1;
                         }
 
@@ -276,17 +288,12 @@ public class Partie extends ChangementFenetre implements PartieObserver {
 
                     } else {
                         direction = currentVerticalDir;
-
-                        // alternance verticale à CHAQUE trait
                         currentVerticalDir = (currentVerticalDir == 1) ? 2 : 1;
-
                         ligneCase = (l - 1) / 2;
 
                         if (direction == 1) {
-                            // OUEST → case à droite
                             colonneCase = c / 2;
                         } else {
-                            // EST → case à gauche
                             colonneCase = (c / 2) - 1;
                         }
 
@@ -296,12 +303,10 @@ public class Partie extends ChangementFenetre implements PartieObserver {
                     Trait traitLogique = new Trait();
                     traitLogique.setTrait(mat.getCase(ligneCase, colonneCase).getTrait(direction).getEtat());
                     
-                    // On récupère le StackPane contenant le rectangle + la croix
                     Node traitGraphique = creerTraitGraphique(estHorizontal, traitLogique, tailleUnite, l, c);
                     plateau.add(traitGraphique, c, l);
 
                 } else {
-                    // Point d'intersection
                     Circle point = new Circle(tailleUnite * 0.15, Color.DARKGREY);
                     plateau.add(point, c, l);
                 }
@@ -310,40 +315,42 @@ public class Partie extends ChangementFenetre implements PartieObserver {
         zoneJeu.getChildren().add(plateau);
     }
 
+    /** Crée un trait interactif (rectangle invisible) avec visuel pour les croix. 
+     * @param horizontal Indique si le trait est horizontal ou vertical.
+     * @param logique L'objet Trait du moteur de jeu associé à ce trait graphique.
+     * @param tailleUnite La taille d'une unité de la grille pour dimensionner le trait.
+     * @param l La ligne dans la grille FX où le trait est placé.
+     * @param c La colonne dans la grille FX où le trait est placé.
+     * @return Un Node contenant le trait interactif et son visuel de croix.
+    */
     private Node creerTraitGraphique(boolean horizontal, Trait logique, double tailleUnite, int l, int c) {
         double longTrait = tailleUnite; 
         double epaisTrait = tailleUnite * 0.2; 
     
-        // 1. Le Rectangle (base cliquable)
         Rectangle rect = new Rectangle(
             horizontal ? longTrait : epaisTrait, 
             horizontal ? epaisTrait : longTrait
         );
         rect.setFill(Color.TRANSPARENT);
 
-        // 2. La Croix dessinée (2 lignes rouges)
-        // On définit la taille de la croix pour qu'elle soit bien visible
-        double tailleC = epaisTrait * 0.4; // Ajuste ici pour agrandir/réduire la croix
+        double tailleC = epaisTrait * 0.4; 
         
         Line l1 = new Line(-tailleC, -tailleC, tailleC, tailleC);
         Line l2 = new Line(tailleC, -tailleC, -tailleC, tailleC);
         
         l1.setStroke(Color.RED);
-        l1.setStrokeWidth(2.5); // Épaisseur des traits de la croix
+        l1.setStrokeWidth(2.5); 
         l2.setStroke(Color.RED);
         l2.setStrokeWidth(2.5);
 
-        // On groupe les lignes. Le StackPane les centrera automatiquement.
         Group dessinCroix = new Group(l1, l2);
         dessinCroix.setVisible(false);
-        dessinCroix.setMouseTransparent(true); // Pour que le clic passe au rectangle
+        dessinCroix.setMouseTransparent(true); 
 
-        // 3. Le conteneur StackPane pour empiler rect + croix
         StackPane conteneur = new StackPane();
         conteneur.getChildren().addAll(rect, dessinCroix);
         conteneur.setCursor(javafx.scene.Cursor.HAND);
     
-        // Logique de rafraîchissement
         Runnable rafraichirVisuel = () -> {
             switch (logique.getEtat()) {
                 case PLEIN:
@@ -361,7 +368,6 @@ public class Partie extends ChangementFenetre implements PartieObserver {
             }
         };
     
-        // Événements
         conteneur.setOnMousePressed(event -> {
             logique.etatSuivant();
             rafraichirVisuel.run();
@@ -381,6 +387,11 @@ public class Partie extends ChangementFenetre implements PartieObserver {
         return conteneur;
     }
     
+    /** Traduit les coordonnées FX en coordonnées de matrice pour le moteur. 
+     * @param l La ligne dans la grille FX.
+     * @param c La colonne dans la grille FX.
+     * @param horizontal Indique si le trait est horizontal ou vertical.
+    */
     private void communiquerAuMoteur(int l, int c, boolean horizontal) {
         if (moteurJeu != null) {
             int ligneM, colM, dir;
@@ -399,6 +410,10 @@ public class Partie extends ChangementFenetre implements PartieObserver {
         }
     }
 
+    /** Charge la matrice et place les indices numériques sur le plateau. 
+     * @param mat La matrice à charger et afficher. 
+     * @return La matrice chargée avec les cases mises à jour.
+    */
     public Matrice chargerMatrice(Matrice mat){
         int taille = mat.getHauteur();
         genererPlateau(mat, taille);

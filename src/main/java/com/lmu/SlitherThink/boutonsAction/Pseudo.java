@@ -9,15 +9,24 @@ import javafx.event.ActionEvent;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Contrôleur gérant la saisie du pseudo du joueur et l'autocomplétion.
+ * Permet d'identifier l'utilisateur pour charger ses sauvegardes et scores.
+ * @author Ilann
+ */
 public class Pseudo extends ChangementFenetre {
     @FXML private TextField txtPseudo;
     @FXML private Button btnConfirmer;
 
+    /** Nom du joueur actuellement connecté, accessible globalement. */
     public static String nomJoueur = null; 
 
     private ContextMenu suggestionsMenu = new ContextMenu();
     private List<String> historiquePseudos;
 
+    /**
+     * Initialise la vue, charge l'historique des pseudos et configure les écouteurs de saisie.
+     */
     @FXML
     public void initialize() {
         SaveManager sm = new SaveManager(LoadSave.getInstance(""));
@@ -39,6 +48,10 @@ public class Pseudo extends ChangementFenetre {
         });
     }
 
+    /**
+     * Filtre et affiche les suggestions de pseudos en fonction de la saisie actuelle.
+     * @param saisi La chaîne de caractères actuellement tapée par l'utilisateur.
+     */
     private void autoCompletion(String saisi) {
         suggestionsMenu.getItems().clear();
         if (saisi.isEmpty() || historiquePseudos == null || historiquePseudos.isEmpty()) {
@@ -70,6 +83,10 @@ public class Pseudo extends ChangementFenetre {
         }
     }
 
+    /**
+     * Enregistre le pseudo choisi et redirige vers le menu d'accueil.
+     * @param event L'événement déclenché par le clic sur le bouton de confirmation.
+     */
     @FXML
     private void confirmer(ActionEvent event) {
         String pseudo = txtPseudo.getText().trim();

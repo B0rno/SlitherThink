@@ -13,11 +13,22 @@ import com.lmu.SlitherThink.boutonsAction.ChoixPartieAventure;
 import com.lmu.SlitherThink.save.SaveManager;
 import com.lmu.SlitherThink.save.LoadSave;
 
+/**
+ * Point d'entrée principal de l'application JavaFX.
+ * Gère le cycle de vie de la fenêtre, le système de zoom adaptatif (scaling) 
+ * et la navigation entre les différentes vues du jeu.
+ * @author Ilann
+ */
 public class App extends Application {
 
-    // Conteneur GLOBAL qui va garder le zoom en permanence
+    /** Conteneur global accueillant les différentes vues avec une transformation de mise à l'échelle. */
     public static StackPane conteneurVues = new StackPane();
 
+    /**
+     * Initialise l'application, configure le gestionnaire de vues et lance la scène principale.
+     * @param stage Le support principal de l'application.
+     * @throws Exception Si le chargement des ressources FXML ou CSS échoue.
+     */
     @Override
     public void start(Stage stage) throws Exception {
         // Chargement de la save
@@ -94,7 +105,10 @@ public class App extends Application {
         pause.play();
     }
 
-    // Méthode pour changer de page
+    /**
+     * Remplace la vue actuelle par une nouvelle vue chargée depuis le gestionnaire.
+     * @param nomVue Le nom identifiant de la vue à afficher.
+     */
     public static void changerVue(String nomVue) {
         Region nouvelleVue = (Region) GestionnaireVues.getView(nomVue);
         if (nouvelleVue == null) {
@@ -112,6 +126,10 @@ public class App extends Application {
         }
     }
 
+    /**
+     * Point d'entrée du programme.
+     * @param args Arguments de la ligne de commande.
+     */
     public static void main(String[] args) {
         launch(args);
     }

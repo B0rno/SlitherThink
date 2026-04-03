@@ -11,8 +11,17 @@ import com.lmu.SlitherThink.save.SaveManager;
 import com.lmu.SlitherThink.save.structure.DetailleSavePartie;
 import com.lmu.SlitherThink.save.gestionDonnee.rechercheSave;
 
+/**
+ * Contrôleur gérant l'écran de pause du jeu.
+ * Permet de reprendre, recommencer, abandonner ou consulter les techniques.
+ * @author Ilann
+ */
 public class Pause extends ChangementFenetre{
 
+    /**
+     * Réinitialise la partie actuelle selon le mode de jeu (Libre, Aventure ou Tutoriel).
+     * @param event L'événement déclenché par le bouton recommencer.
+     */
     @FXML
     public void recommencer(ActionEvent event) {
         //ne pas sauvegarder
@@ -44,6 +53,10 @@ public class Pause extends ChangementFenetre{
         }
     }
 
+    /**
+     * Réinitialise les données de sauvegarde de la grille actuelle et retourne à l'accueil.
+     * @param event L'événement déclenché par le bouton abandonner.
+     */
     @FXML 
     private void abandonner(ActionEvent event) {
         LoadSave save = LoadSave.getInstance("");
@@ -70,12 +83,20 @@ public class Pause extends ChangementFenetre{
     }
 
 
+    /**
+     * Redirige vers l'écran des techniques en mémorisant la vue actuelle.
+     * @param event L'événement déclenché par le bouton techniques.
+     */
     @FXML
     private void techniques(ActionEvent event) {
         Techniques.setVuePrecedente("pause");
         changerFenetre(event, "techniques");
     }
 
+    /**
+     * Sauvegarde la progression actuelle avant de retourner au menu principal.
+     * @param event L'événement déclenché par le bouton menu principal.
+     */
     @FXML
     private void menuPrincipal(ActionEvent event) {
         if ("libre".equals(Partie.dernierMode)) {
@@ -93,6 +114,10 @@ public class Pause extends ChangementFenetre{
         changerFenetre(event, "menuAccueil");
     }
 
+    /**
+     * Reprend la partie en cours selon le mode de jeu actif.
+     * @param event L'événement déclenché par le bouton reprendre.
+     */
     @FXML
     private void reprendre(ActionEvent event) {
         
