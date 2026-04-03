@@ -14,7 +14,7 @@ import java.util.List;
  * Technique: Technique avancée 1 (Continuité de la boucle)
  * Parcourt chaque intersection (coin) de la grille pour garantir que la boucle ne se retrouve jamais dans un cul-de-sac et ne se divise pas.
  */
-public class TechniqueAvancee1 implements StrategieAide {
+public class ContinuiteForcee implements StrategieAide {
 
     // Attention : l'espace à la fin est conservé pour matcher exactement avec le JSON
     private static final String NOM = "Technique avancée 1 ";

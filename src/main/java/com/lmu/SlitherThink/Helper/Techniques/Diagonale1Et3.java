@@ -12,7 +12,7 @@ import com.lmu.SlitherThink.Helper.StrategieAide;
  * Parcourt la matrice pour trouver un '3' et un '1' placés en diagonale.
  * On force les deux bords extérieurs du '3' à être PLEINS et les deux bords extérieurs du '1' à être marqués d'une CROIX.
  */
-public class TechniqueAvancee5 implements StrategieAide {
+public class Diagonale1Et3 implements StrategieAide {
 
     private static final String NOM = "Technique avancée 5";
 

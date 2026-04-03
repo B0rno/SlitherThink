@@ -13,7 +13,7 @@ import com.lmu.SlitherThink.Helper.StrategieAide;
  * Si les deux chemins situés à l'extérieur d'un coin d'une case '3' sont bloqués (croix ou bord du plateau), la boucle ne peut pas s'échapper par ce coin.
  * Elle doit donc obligatoirement longer les deux traits de la case formant ce coin.
  */
-public class TechniqueAvancee2 implements StrategieAide {
+public class CoinsBloquesSurUn3 implements StrategieAide {
 
     private static final String NOM = "Technique avancée 2";
 
