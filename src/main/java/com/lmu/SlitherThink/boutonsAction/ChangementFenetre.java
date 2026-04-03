@@ -1,11 +1,15 @@
 package com.lmu.SlitherThink.boutonsAction;
 
-import javafx.event.ActionEvent;
-import com.lmu.SlitherThink.App;
-import com.lmu.SlitherThink.GestionnaireVues;
 import java.io.File;
 import java.net.URL;
 import java.util.Random;
+
+import com.lmu.SlitherThink.App;
+import com.lmu.SlitherThink.GestionnaireVues;
+import com.lmu.SlitherThink.save.LoadSave;
+import com.lmu.SlitherThink.save.gestionDonnee.rechercheSave;
+
+import javafx.event.ActionEvent;
 
 /**
  * Classe abstraite de base gérant la navigation entre les différentes vues de l'application.
@@ -63,7 +67,28 @@ public abstract class ChangementFenetre {
      * @param difficulte Le niveau de difficulté souhaité.
      */
     protected void choixPartieLibre(ActionEvent event, String difficulte) {
-        String nomGrille = recupererGrilleAleatoire(difficulte); 
+        LoadSave save = LoadSave.getInstance("");
+
+
+        String nomGrille = null;
+        for (var sauvegarde : rechercheSave.getSauvegardesJoueurLibre(save.getSaveGlobal(), Pseudo.nomJoueur)) {
+            if (difficulte.equals(sauvegarde.getDifficulte())) {
+                nomGrille = extraireNomGrilleDepuisPath(sauvegarde.getPath());
+                if (nomGrille != null) {
+                    System.out.println("Grille trouvée dans les sauvegardes : " + nomGrille);
+                    break;
+                }
+            }
+        }
+
+
+
+
+        if (nomGrille == null) {
+            nomGrille = recupererGrilleAleatoire(difficulte); 
+        }
+        // 1. Récupérer un nom de fichier valide (ex: "GrilleFacile7X7_2")
+        
 
         if (nomGrille == null) {
             System.err.println("Erreur : Aucune grille trouvée pour la difficulté " + difficulte);
@@ -75,12 +100,26 @@ public abstract class ChangementFenetre {
         Partie controller = (Partie) GestionnaireVues.getController("partie");  
         
         if (controller != null) {
+            final String nomGrilleFinal = nomGrille;
+            // 4. On demande à JavaFX d'exécuter l'initialisation juste après l'affichage
+            // pour garantir que zoneJeu ne soit pas null
             javafx.application.Platform.runLater(() -> {
-                controller.initialiserPartie(nomGrille);
+                controller.initialiserPartie(nomGrilleFinal);
             });
         } else {
             System.err.println("Erreur : Le contrôleur de la partie est introuvable !");
         }
+    }
+
+    private String extraireNomGrilleDepuisPath(String pathGrille) {
+        if (pathGrille == null || pathGrille.isBlank()) {
+            return null;
+        }
+        String nomFichier = new File(pathGrille).getName();
+        if (nomFichier.endsWith(".json")) {
+            return nomFichier.substring(0, nomFichier.length() - 5);
+        }
+        return nomFichier;
     }
 
     /**

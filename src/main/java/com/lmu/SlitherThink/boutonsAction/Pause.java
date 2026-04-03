@@ -2,14 +2,12 @@ package com.lmu.SlitherThink.boutonsAction;
 
 
 import com.lmu.SlitherThink.GestionnaireVues;
+import com.lmu.SlitherThink.save.LoadSave;
+import com.lmu.SlitherThink.save.SaveManager;
+import com.lmu.SlitherThink.save.gestionDonnee.rechercheSave;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import java.util.ArrayList;
-import com.lmu.SlitherThink.save.LoadSave;
-import com.lmu.SlitherThink.save.SaveManager;
-import com.lmu.SlitherThink.save.structure.DetailleSavePartie;
-import com.lmu.SlitherThink.save.gestionDonnee.rechercheSave;
 
 /**
  * Contrôleur gérant l'écran de pause du jeu.
@@ -68,17 +66,15 @@ public class Pause extends ChangementFenetre{
         );
 
         if (sauvegarde != null && sauvegarde.getId() != null) {
-            // Réinitialiser le détail de la sauvegarde
-            DetailleSavePartie nouveauDetail = DetailleSavePartie.create(new ArrayList<>(), 0, 0);
-            nouveauDetail.setNameClass(sauvegarde.getId().toString());
-            sauvegarde.setDetailleSave(nouveauDetail);
 
             SaveManager saveManager = new SaveManager(save);
-            saveManager.updateSaveFichierId(sauvegarde.getId());
+            saveManager.delFichierId(sauvegarde.getId());
             saveManager.actualiserSaveGlobal();
 
             System.out.println("[DEBUG] Sauvegarde réinitialisée pour abandonner");
         }
+        save.rechargerSaveGlobal(); // Recharger pour s'assurer que les changements sont pris en compte
+        
         changerFenetre(event, "menuAccueil");
     }
 

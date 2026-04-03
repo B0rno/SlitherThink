@@ -8,6 +8,8 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import com.google.gson.Gson;
 import com.lmu.SlitherThink.save.structure.DetailleSavePartie;
@@ -18,6 +20,7 @@ import com.lmu.SlitherThink.save.structure.DetailleSavePartie;
  */
 public class savePartieLienJoueur {
     private static final String pathLienJoueurSave = "/save/saveJoueur/";
+    private static final Pattern PATTERN_NOM_GRILLE = Pattern.compile("^Grille([A-Za-z]+)\\d+[xX]\\d+(?:_\\d+)?(?:\\.json)?$");
     private static String basePath = "";
     private String pseudo;
     private Integer id;
@@ -40,6 +43,18 @@ public class savePartieLienJoueur {
         this.pseudo = pseudo;
         this.id = id;
         this.path = path;
+    }
+
+    public String getDifficulte(){
+        if (path == null || path.isBlank()) {
+            return null;
+        }
+        String nomFichier = Paths.get(path).getFileName().toString();
+        Matcher matcher = PATTERN_NOM_GRILLE.matcher(nomFichier);
+        if (!matcher.matches()) {
+            return null;
+        }
+        return matcher.group(1);
     }
 
     /**

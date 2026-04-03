@@ -184,4 +184,37 @@ public class rechercheSave {
         }
         return normalise.toLowerCase();
     }
+
+
+    /**
+        * Trouve toutes les sauvegardes associées à un pseudo donné dans les sauvegardes libres.
+         * Utilise la sauvegarde globale courante définie par setSaveGlobalCourant.
+         * @param pseudo le pseudo du joueur
+         * @return la liste des sauvegardes associées
+     */
+    public static List<savePartieLienJoueur> getSauvegardesJoueurLibre(SaveGlobal saveGlobal, String pseudo) {
+         if (saveGlobal == null || pseudo == null) {
+            return null;
+        }
+        List<savePartieLienJoueur> resultats = trouverSauvegardesParPseudo(saveGlobal.getSauvegardeLibre(), pseudo);
+        return resultats;
+
+    }
+
+    private static List<savePartieLienJoueur> trouverSauvegardesParPseudo(List<savePartieLienJoueur> sauvegardes, String pseudo) {
+        if (sauvegardes == null || pseudo == null) {
+            return null;
+        }
+
+        String pseudoNormalise = pseudo.trim();
+        List<savePartieLienJoueur> resultats = new java.util.ArrayList<>();
+
+        for (savePartieLienJoueur sp : sauvegardes) {
+            if (sp != null && sp.getPseudo() != null && sp.getPseudo().trim().equalsIgnoreCase(pseudoNormalise)) {
+                resultats.add(sp);
+            }
+        }
+
+        return resultats;
+    }
 }
