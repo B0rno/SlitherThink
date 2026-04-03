@@ -40,10 +40,10 @@ public class GestionnaireAide {
         strategies.add(new ContraintesSur2());
 
         //Aide confirme
-        strategies.add(new TechniqueAvancee1());
-        strategies.add(new TechniqueAvancee2());
+        strategies.add(new ContinuiteForcee());
+        strategies.add(new CoinsBloquesSurUn3());
         strategies.add(new Symetrie2Adjacents());
-        strategies.add(new TechniqueAvancee5());
+        strategies.add(new Diagonale1Et3());
 
         //Aide fin de partie
         strategies.add(new EviterBoucleSeparee());
