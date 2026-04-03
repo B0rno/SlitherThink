@@ -6,9 +6,15 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.event.ActionEvent;
 
+/**
+ * Contrôleur de la vue de sélection des niveaux du mode Aventure.
+ * Cette classe gère l'affichage des niveaux disponibles, la récupération des meilleurs 
+ * scores (étoiles) du joueur actuel et le lancement des parties.
+ * * @author Ilann
+ */
 public class ChoixPartieAventure extends ChangementFenetre {
     
-    // Déclaration de toutes les étoiles
+    // Déclarations FXML des ImageView pour les étoiles (12 niveaux, 3 étoiles par niveau)
     @FXML private ImageView etoile_1_1, etoile_1_2, etoile_1_3;
     @FXML private ImageView etoile_2_1, etoile_2_2, etoile_2_3;
     @FXML private ImageView etoile_3_1, etoile_3_2, etoile_3_3;
@@ -22,9 +28,16 @@ public class ChoixPartieAventure extends ChangementFenetre {
     @FXML private ImageView etoile_11_1, etoile_11_2, etoile_11_3;
     @FXML private ImageView etoile_12_1, etoile_12_2, etoile_12_3;
 
+    /** Image représentant une étoile obtenue. */
     private final Image IMAGE_PLEINE = new Image(getClass().getResourceAsStream("/images/etoilePleine.png"));
+    
+    /** Image représentant une étoile non obtenue. */
     private final Image IMAGE_VIDE = new Image(getClass().getResourceAsStream("/images/etoileVide.png"));
 
+    /**
+     * Regroupe toutes les ImageView d'étoiles dans une matrice pour faciliter le parcours.
+     * @return Un tableau à deux dimensions [niveau-1][index_etoile].
+     */
     private ImageView[][] getToutesLesEtoiles() {
         return new ImageView[][] {
             {etoile_1_1, etoile_1_2, etoile_1_3}, {etoile_2_1, etoile_2_2, etoile_2_3},
@@ -36,6 +49,9 @@ public class ChoixPartieAventure extends ChangementFenetre {
         };
     }
 
+    /**
+     * Réinitialise graphiquement toutes les étoiles en les affichant comme "vides".
+     */
     private void reinitialiserEtoilesVides() {
         for (ImageView[] ligneEtoiles : getToutesLesEtoiles()) {
             for (ImageView etoile : ligneEtoiles) {
@@ -46,14 +62,15 @@ public class ChoixPartieAventure extends ChangementFenetre {
         }
     }
 
+    /**
+     * Extrait le numéro du niveau à partir du nom d'un fichier de sauvegarde ou d'une ressource.
+     * @param nomFichier Le nom de la chaîne à analyser.
+     * @return Le numéro du niveau extrait, ou -1 en cas d'erreur.
+     */
     private int extraireNumeroNiveau(String nomFichier) {
-        if (nomFichier == null) {
-            return -1;
-        }
+        if (nomFichier == null) return -1;
         String chiffres = nomFichier.replaceAll("[^0-9]", "");
-        if (chiffres.isEmpty()) {
-            return -1;
-        }
+        if (chiffres.isEmpty()) return -1;
         try {
             return Integer.parseInt(chiffres);
         } catch (NumberFormatException e) {
@@ -61,72 +78,73 @@ public class ChoixPartieAventure extends ChangementFenetre {
         }
     }
 
+    /**
+     * Vérifie si le fichier de sauvegarde correspond bien à une partie du mode aventure.
+     * @param nomFichier Le nom du fichier à tester.
+     * @return true si le fichier commence par "partie" (insensible à la casse).
+     */
     private boolean estNiveauPartie(String nomFichier) {
-        if (nomFichier == null) {
-            return false;
-        }
-
+        if (nomFichier == null) return false;
         String nomNormalise = nomFichier.replace('\\', '/');
         String nomSimple = nomNormalise.substring(nomNormalise.lastIndexOf('/') + 1).toLowerCase();
         return nomSimple.startsWith("partie");
     }
     
+    /**
+     * Méthode d'initialisation de JavaFX. Appelle le rafraîchissement des étoiles au chargement.
+     */
     @FXML
     public void initialize() {
         rafraichirEtoiles();
     }
 
+    /**
+     * Méthode à appeler lorsque la vue devient active pour mettre à jour l'affichage des scores.
+     */
     public void onViewShown() {
         rafraichirEtoiles();
     }
 
+    /**
+     * Parcourt les scores sauvegardés pour le joueur actuel, calcule le nombre d'étoiles
+     * obtenues pour chaque niveau aventure et met à jour l'interface graphique.
+     */
     private void rafraichirEtoiles() {
         reinitialiserEtoilesVides();
 
         String pseudoJoueurActuel = Pseudo.nomJoueur == null ? "" : Pseudo.nomJoueur.trim();
-        if (pseudoJoueurActuel.isEmpty()) {
-            return;
-        }
+        if (pseudoJoueurActuel.isEmpty()) return;
 
-        int[] meilleuresEtoiles = new int[13]; // Indices de 1 à 12 (0 ignoré)
+        int[] meilleuresEtoiles = new int[13];
 
         try {
             com.lmu.SlitherThink.save.LoadSave save = com.lmu.SlitherThink.save.LoadSave.getInstance("");
             java.util.List<com.lmu.SlitherThink.save.csvScore.structure.StructureCSV> scores = save.getScores();
 
             for (com.lmu.SlitherThink.save.csvScore.structure.StructureCSV scoreData : scores) {
-                // On vérifie que le score appartient bien au joueur actuel
                 if (scoreData.getPseudo() != null && scoreData.getPseudo().trim().equalsIgnoreCase(pseudoJoueurActuel)) {
                     String nomFichier = scoreData.getNiveau(); 
 
-                    if (!estNiveauPartie(nomFichier)) {
-                        continue;
-                    }
+                    if (!estNiveauPartie(nomFichier)) continue;
                     
-                    if (nomFichier != null) {
-                        // Extrait uniquement le numéro contenu dans le nom du fichier
-                        int niveau = extraireNumeroNiveau(nomFichier);
+                    int niveau = extraireNumeroNiveau(nomFichier);
+                        
+                    if (niveau >= 1 && niveau <= 12) {
+                        int chrono = scoreData.getChrono();
+                        int nbAides = scoreData.getNbAide();
                             
-                        if (niveau >= 1 && niveau <= 12) {
-                            int chrono = scoreData.getChrono();
-                            int nbAides = scoreData.getNbAide();
-                                
-                            // Utilisation de Score.java pour le calcul
-                            com.lmu.SlitherThink.Partie.Score calculScore = new com.lmu.SlitherThink.Partie.Score();
-                            calculScore.setReconstructionSave(chrono, nbAides);
-                            calculScore.calculerEtoiles();
-                            int etoilesPossibles = calculScore.getEtoiles();
-                                
-                            // On garde le meilleur score par niveau
-                            if (etoilesPossibles > meilleuresEtoiles[niveau]) {
-                                meilleuresEtoiles[niveau] = etoilesPossibles;
-                            }
+                        com.lmu.SlitherThink.Partie.Score calculScore = new com.lmu.SlitherThink.Partie.Score();
+                        calculScore.setReconstructionSave(chrono, nbAides);
+                        calculScore.calculerEtoiles();
+                        int etoilesPossibles = calculScore.getEtoiles();
+                            
+                        if (etoilesPossibles > meilleuresEtoiles[niveau]) {
+                            meilleuresEtoiles[niveau] = etoilesPossibles;
                         }
                     }
                 }
             }
 
-            // Met à jour l'affichage avec les meilleures étoiles stockées
             for (int i = 1; i <= 12; i++) {
                 if (meilleuresEtoiles[i] > 0) {
                     afficherEtoiles(i, meilleuresEtoiles[i]);
@@ -139,9 +157,9 @@ public class ChoixPartieAventure extends ChangementFenetre {
     }
 
     /**
-     * Remplace l'image des étoiles vides par des étoiles pleines selon le nombre d'étoiles obtenues.
-     * @param niveau Niveau de 1 à 12
-     * @param nbEtoiles Nombre d'étoiles gagnées (0 à 3)
+     * Remplace les images des étoiles vides par des étoiles pleines pour un niveau donné.
+     * @param niveau L'indice du niveau (1 à 12).
+     * @param nbEtoiles Le nombre d'étoiles pleines à afficher (maximum 3).
      */
     public void afficherEtoiles(int niveau, int nbEtoiles) {
         ImageView[][] toutesLesEtoiles = getToutesLesEtoiles();
@@ -155,17 +173,24 @@ public class ChoixPartieAventure extends ChangementFenetre {
         }
     }
 
+    /**
+     * Retourne à la vue de sélection du mode de jeu.
+     * @param event L'événement de clic.
+     */
     @FXML
     private void retour(ActionEvent event) {
         changerFenetre(event, "choixMode");
     }
 
-    //load partie en fonction du bouton cliqué (load la vue "partie" avec le numero de la partie cliquée)
+    /**
+     * Lance la partie correspondant au bouton cliqué.
+     * Le numéro du niveau est extrait de l'identifiant du bouton.
+     * @param event L'événement de clic sur un bouton de niveau.
+     */
     @FXML
     public void partie(ActionEvent event) {
         Button b = (Button) event.getSource();
         String niveau = b.getId().replace("btn", "");   
         choixPartieAventure(event, niveau);
-        //méthode dans changementfenetre.java
     }
 }

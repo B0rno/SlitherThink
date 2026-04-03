@@ -7,12 +7,30 @@ import java.io.File;
 import java.net.URL;
 import java.util.Random;
 
+/**
+ * Classe abstraite de base gérant la navigation entre les différentes vues de l'application.
+ * * @author Ilann
+ */
 public abstract class ChangementFenetre {
 
+    /**
+     * Change la vue actuelle de l'application vers une vue spécifiée.
+     * * @param event L'événement déclencheur (clic de bouton, etc.).
+     * @param viewName Le nom de la vue FXML à charger (sans l'extension .fxml).
+     */
     protected void changerFenetre(ActionEvent event, String viewName) {
         App.changerVue(viewName);
     }
 
+    /**
+     * Prépare et affiche l'écran de fin de partie pour le mode Aventure.
+     * Transmet les statistiques de la partie (aides utilisées, temps) au contrôleur dédié.
+     * * @param aides Nombre d'aides utilisées durant la partie.
+     * @param aidesMax Nombre maximum d'aides autorisées.
+     * @param temps Temps réalisé par le joueur (format String).
+     * @param tempsMax Temps limite ou record à battre (format String).
+     * @param succes Booléen indiquant si la partie est gagnée ou perdue.
+     */
     protected void changerVueFinPartie(int aides, int aidesMax, String temps, String tempsMax, boolean succes) {
         FinPartieAventure controller = (FinPartieAventure) GestionnaireVues.getController("finPartieAventure");
         if (controller != null) {
@@ -23,6 +41,11 @@ public abstract class ChangementFenetre {
         }
     }
 
+    /**
+     * Initialise et lance une partie spécifique du mode Aventure.
+     * * @param event L'événement déclencheur.
+     * @param numPartie Le numéro de la grille ou du niveau à charger (sous forme de chaîne de caractères).
+     */
     protected void choixPartieAventure(ActionEvent event, String numPartie) {
         PartieTimer controller = (PartieTimer) GestionnaireVues.getController("partieTimer");
         if (controller != null) {
@@ -34,8 +57,12 @@ public abstract class ChangementFenetre {
         }
     }
 
+    /**
+     * Sélectionne une grille aléatoire selon la difficulté choisie et lance une partie libre.
+     * * @param event L'événement déclencheur.
+     * @param difficulte Le niveau de difficulté souhaité.
+     */
     protected void choixPartieLibre(ActionEvent event, String difficulte) {
-        // 1. Récupérer un nom de fichier valide (ex: "GrilleFacile7X7_2")
         String nomGrille = recupererGrilleAleatoire(difficulte); 
 
         if (nomGrille == null) {
@@ -43,15 +70,11 @@ public abstract class ChangementFenetre {
             return;
         }
 
-        // 2. IMPORTANT : On change d'abord la vue pour que l'injection FXML se fasse
         App.changerVue("partie");
 
-        // 3. On récupère le contrôleur de l'instance qui vient d'être affichée
         Partie controller = (Partie) GestionnaireVues.getController("partie");  
         
         if (controller != null) {
-            // 4. On demande à JavaFX d'exécuter l'initialisation juste après l'affichage
-            // pour garantir que zoneJeu ne soit pas null
             javafx.application.Platform.runLater(() -> {
                 controller.initialiserPartie(nomGrille);
             });
@@ -60,6 +83,12 @@ public abstract class ChangementFenetre {
         }
     }
 
+    /**
+     * Parcourt le dossier des ressources pour trouver une grille JSON correspondant 
+     * à la difficulté demandée.
+     * * @param difficulte Le niveau de difficulté à rechercher (ex: "Facile").
+     * @return Le nom du fichier trouvé (sans l'extension .json), ou null si aucune grille n'est disponible.
+     */
     public String recupererGrilleAleatoire(String difficulte) {
         try {
             URL resource = getClass().getResource("/GrilleJson");
@@ -67,7 +96,6 @@ public abstract class ChangementFenetre {
 
             File dossier = new File(resource.toURI());
             
-            // Filtre : commence par "Grille" + difficulté ET est un fichier (pas le dossier Exemple)
             File[] fichiersTrouves = dossier.listFiles((dir, name) -> 
                 name.startsWith("Grille" + difficulte) && name.endsWith(".json"));
         
