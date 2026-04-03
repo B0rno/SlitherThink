@@ -307,4 +307,34 @@ public class SaveManager {
         return rechercheSave.trouverDetailleSaveParId(save.getSaveGlobal(), id);
     }
 
+    public List<String> getTousLesPseudos() {
+        if (save == null) return List.of();
+    
+        java.util.Set<String> pseudos = new java.util.HashSet<>();
+    
+        SaveGlobal global = save.getSaveGlobal();
+        if (global != null) {
+            if (global.getSauvegardeLibre() != null) {
+                for (savePartieLienJoueur sp : global.getSauvegardeLibre()) {
+                    if (sp.getPseudo() != null) pseudos.add(sp.getPseudo());
+                }
+            }
+            if (global.getSauvegardeAventure() != null) {
+                for (savePartieLienJoueur sp : global.getSauvegardeAventure()) {
+                    if (sp.getPseudo() != null) pseudos.add(sp.getPseudo());
+                }
+            }
+        }
+    
+        if (save.getScores() != null) {
+            for (StructureCSV score : save.getScores()) {
+                if (score.getNom() != null) {
+                    pseudos.add(score.getNom());
+                }
+            }
+        }
+    
+        return new java.util.ArrayList<>(pseudos);
+    }
+
 }
