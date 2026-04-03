@@ -40,45 +40,45 @@ public class BoucleSur1 implements StrategieAide {
                         c.getTrait(1).getEtat() == ValeurTrait.PLEIN || 
                         c.getTrait(2).getEtat() == ValeurTrait.PLEIN || 
                         c.getTrait(3).getEtat() == ValeurTrait.PLEIN) {
-                        return false; // Si un trait est déjà plein, on ne peut pas appliquer cette technique
+                        continue; // Si un trait est déjà plein, on ne peut pas appliquer cette technique
                     }
 
                     // Test coin haut-gauche (Nord-Ouest)
                     // Si un trait arrive de la gauche ou du haut vers ce coin
-                    if (estPlein(m, i, j - 1, true) || estPlein(m, i - 1, j, false)) {
+                    if (estPlein(m, i, j - 1, 0) || estPlein(m, i - 1, j, 3)) {
                         // Alors les murs opposés (droite : 2 et bas : 3) ne peuvent pas être tracés
-                        if (c.getTrait(2).getEtat() != ValeurTrait.PLEIN ||
-                                c.getTrait(3).getEtat() != ValeurTrait.PLEIN) {
+                        if (c.getTrait(1).getEtat() != ValeurTrait.CROIX ||
+                                c.getTrait(2).getEtat() != ValeurTrait.CROIX) {
                             return true;
                         }
                     }
 
                     // Test haut-droite (Nord-Est)
                     // Si un trait arrive de la droite ou du haut vers ce coin
-                    if (estPlein(m, i, j + 1, true) || estPlein(m, i - 1, j + 1, false)) {
+                    if (estPlein(m, i, j + 1, 0) || estPlein(m, i - 1, j, 1)) {
                         // Alors les murs opposés (gauche : 1 et bas : 3) ne peuvent pas être tracés
-                        if (c.getTrait(1).getEtat() != ValeurTrait.PLEIN ||
-                                c.getTrait(3).getEtat() != ValeurTrait.PLEIN) {
+                        if (c.getTrait(3).getEtat() != ValeurTrait.CROIX ||
+                                c.getTrait(2).getEtat() != ValeurTrait.CROIX) {
                             return true;
                         }
                     }
 
                     // Test bas-gauche (Sud-Ouest)
                     // Si un trait arrive de la gauche ou du bas vers ce coin
-                    if (estPlein(m, i + 1, j - 1, true) || estPlein(m, i + 1, j, false)) {
+                    if (estPlein(m, i + 1, j - 1, 2) || estPlein(m, i + 1, j, 3)) {
                         // Alors les murs opposés (haut : 0 et droite : 2) ne peuvent pas être tracés
-                        if (c.getTrait(0).getEtat() != ValeurTrait.PLEIN ||
-                                c.getTrait(2).getEtat() != ValeurTrait.PLEIN) {
+                        if (c.getTrait(0).getEtat() != ValeurTrait.CROIX ||
+                                c.getTrait(1).getEtat() != ValeurTrait.CROIX) {
                             return true;
                         }
                     }
 
                     // Test bas-droite (Sud-Est)
                     // Si un trait arrive de la droite ou du bas vers ce coin
-                    if (estPlein(m, i + 1, j + 1, true) || estPlein(m, i + 1, j + 1, false)) {
+                    if (estPlein(m, i, j + 1, 2) || estPlein(m, i + 1, j, 1)) {
                         // Alors les murs opposés (haut : 0 et gauche : 1) ne peuvent pas être tracés
-                        if (c.getTrait(0).getEtat() != ValeurTrait.PLEIN ||
-                                c.getTrait(1).getEtat() != ValeurTrait.PLEIN) {
+                        if (c.getTrait(0).getEtat() != ValeurTrait.CROIX ||
+                                c.getTrait(3).getEtat() != ValeurTrait.CROIX) {
                             return true;
                         }
                     }
@@ -94,19 +94,15 @@ public class BoucleSur1 implements StrategieAide {
      * @param m la matrice du jeu contenant l'état actuel des traits
      * @param ligne l'indice de la ligne où se situe le trait
      * @param col l'indice de la colonne où se situe le trait
-     * @param horizontal vrai (true) si on teste un trait horizontal, faux (false) pour un trait vertical
+     * @param indexTrait l'indice du trait à tester
      * @return vrai (true) si le trait existe et qu'il est marqué comme "PLEIN", faux (false) sinon
      */
-    private boolean estPlein(Matrice m, int ligne, int col, boolean horizontal) {
-        if (horizontal) {
-            if (ligne < 0 || ligne > m.getHauteur() || col < 0 || col >= m.getLargeur()) return false;
-            Case c = m.getCase(ligne, col);
-            return (c != null && c.getTrait(0).getEtat() == ValeurTrait.PLEIN);
-        } else {
-            if (ligne < 0 || ligne >= m.getHauteur() || col < 0 || col > m.getLargeur()) return false;
-            Case c = m.getCase(ligne, col);
-            return (c != null && c.getTrait(1).getEtat() == ValeurTrait.PLEIN);
+    private boolean estPlein(Matrice m, int ligne, int col, int indexTrait) {
+        if (ligne < 0 || ligne >= m.getHauteur() || col < 0 || col >= m.getLargeur()) {
+            return false;
         }
+        Case c = m.getCase(ligne, col);
+        return (c != null && c.getTrait(indexTrait).getEtat() == ValeurTrait.PLEIN);
     }
 
     /**

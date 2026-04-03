@@ -16,6 +16,12 @@ public class Deux3Adjacents implements StrategieAide {
 
     private static final String NOM = "Deux 3 adjacents";
 
+    // Définition des indices des traits (convention standard horaire)
+    private static final int HAUT = 0;
+    private static final int DROITE = 1;
+    private static final int BAS = 2;
+    private static final int GAUCHE = 3;
+
     /**
      * @param m La matrice du jeu
      * @return true si l'aide est applicable
@@ -33,17 +39,36 @@ public class Deux3Adjacents implements StrategieAide {
                     Case cGauche = m.getCase(i, j - 1);
                     Case cDroite = m.getCase(i, j + 1);
 
-                    if ((cGauche != null && cGauche.getNumero() == 3) || (cDroite != null && cDroite.getNumero() == 3)) {
-                        if (c.getTrait(1).getEtat() == (ValeurTrait.VIDE) || c.getTrait(2).getEtat() != ValeurTrait.PLEIN) 
+                    // Voisin à Gauche : le côté partagé est GAUCHE, l'opposé est DROITE
+                    if (cGauche != null && cGauche.getNumero() == 3) {
+                        if (c.getTrait(GAUCHE).getEtat() != ValeurTrait.PLEIN || 
+                            c.getTrait(DROITE).getEtat() != ValeurTrait.PLEIN) {
                             return true;
-                        if (c.getTrait(1).getEtat() == (ValeurTrait.CROIX) || c.getTrait(2).getEtat() == ValeurTrait.CROIX) 
-                            return true;
+                        }
                     }
-                    if ((cHaut != null && cHaut.getNumero() == 3) || (cBas != null && cBas.getNumero() == 3)) {
-                        if (c.getTrait(0).getEtat() != ValeurTrait.PLEIN || c.getTrait(3).getEtat() != ValeurTrait.PLEIN) 
+                    
+                    // Voisin à Droite : le côté partagé est DROITE, l'opposé est GAUCHE
+                    if (cDroite != null && cDroite.getNumero() == 3) {
+                        if (c.getTrait(DROITE).getEtat() != ValeurTrait.PLEIN || 
+                            c.getTrait(GAUCHE).getEtat() != ValeurTrait.PLEIN) {
                             return true;
-                        if (c.getTrait(0).getEtat() == ValeurTrait.CROIX || c.getTrait(3).getEtat() == ValeurTrait.CROIX) 
+                        }
+                    }
+                    
+                    // Voisin en Haut : le côté partagé est HAUT, l'opposé est BAS
+                    if (cHaut != null && cHaut.getNumero() == 3) {
+                        if (c.getTrait(HAUT).getEtat() != ValeurTrait.PLEIN || 
+                            c.getTrait(BAS).getEtat() != ValeurTrait.PLEIN) {
                             return true;
+                        }
+                    }
+                    
+                    // Voisin en Bas : le côté partagé est BAS, l'opposé est HAUT
+                    if (cBas != null && cBas.getNumero() == 3) {
+                        if (c.getTrait(BAS).getEtat() != ValeurTrait.PLEIN || 
+                            c.getTrait(HAUT).getEtat() != ValeurTrait.PLEIN) {
+                            return true;
+                        }
                     }
                 }
             }

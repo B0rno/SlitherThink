@@ -16,6 +16,11 @@ public class Diagonale0Et3 implements StrategieAide {
 
     private static final String NOM = "Diagonale 0 et 3";
 
+    private static final int HAUT = 0;
+    private static final int DROITE = 1;
+    private static final int BAS = 2;
+    private static final int GAUCHE = 3;
+
     /**
      * @param m La matrice du jeu
      * @return true si l'aide est applicable
@@ -34,19 +39,19 @@ public class Diagonale0Et3 implements StrategieAide {
                     Case cDiagBD = m.getCase(i + 1, j + 1);
 
                     if (cDiagHG != null && cDiagHG.getNumero() == 0) {
-                        if (c.getTrait(1).getEtat() != ValeurTrait.PLEIN || c.getTrait(0).getEtat() != ValeurTrait.PLEIN) 
+                        if (c.getTrait(HAUT).getEtat() != ValeurTrait.PLEIN || c.getTrait(GAUCHE).getEtat() != ValeurTrait.PLEIN) 
                             return true;
                     }
                     if (cDiagHD != null && cDiagHD.getNumero() == 0) {
-                        if (c.getTrait(2).getEtat() != ValeurTrait.PLEIN || c.getTrait(0).getEtat() != ValeurTrait.PLEIN) 
+                        if (c.getTrait(HAUT).getEtat() != ValeurTrait.PLEIN || c.getTrait(DROITE).getEtat() != ValeurTrait.PLEIN) 
                             return true;
                     }
                     if (cDiagBG != null && cDiagBG.getNumero() == 0) {
-                        if (c.getTrait(1).getEtat() != ValeurTrait.PLEIN || c.getTrait(3).getEtat() != ValeurTrait.PLEIN) 
+                        if (c.getTrait(BAS).getEtat() != ValeurTrait.PLEIN || c.getTrait(GAUCHE).getEtat() != ValeurTrait.PLEIN) 
                             return true;
                     }
                     if (cDiagBD != null && cDiagBD.getNumero() == 0) {
-                        if (c.getTrait(2).getEtat() != ValeurTrait.PLEIN || c.getTrait(3).getEtat() != ValeurTrait.PLEIN) 
+                        if (c.getTrait(BAS).getEtat() != ValeurTrait.PLEIN || c.getTrait(DROITE).getEtat() != ValeurTrait.PLEIN) 
                             return true;
                     }
                 }
