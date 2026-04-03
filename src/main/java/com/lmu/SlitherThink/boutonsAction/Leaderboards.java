@@ -206,6 +206,7 @@ public class Leaderboards extends ChangementFenetre {
         final int NB_AIDES_MAX = 3;
 
         if (chrono <= DUREE_POUR_ETOILE && nbAides <= NB_AIDES_MAX) return 3;
+        else if (chrono <= DUREE_POUR_ETOILE) return 2;
         else if (nbAides <= NB_AIDES_MAX) return 2;
         else return 1;
     }
