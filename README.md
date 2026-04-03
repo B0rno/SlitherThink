@@ -49,8 +49,8 @@ Projet académique réalisé dans le cadre du module GL2 (L3 Informatique)
 ### Progression et scores
 - **Chronométrage** avec pause/reprise
 - **Système d'étoiles** basé sur le temps et le nombre d'aides
-  - 3 étoiles : temps inférieur ou égal à 5 min ET 0 aides
-  - 2 étoiles : temps inférieur ou égal à 5 min ET maximum 3 aides
+  - 3 étoiles : temps inférieur ou égal à 5 min ET maximum 3 aides
+  - 2 étoiles : temps inférieur ou égal à 5 min OU maximum 3 aides
   - 1 étoile : partie complétée
 - **Leaderboards** : Top 10 par partie, trié par étoiles puis temps
 - **Sauvegarde automatique** dans Score.csv
