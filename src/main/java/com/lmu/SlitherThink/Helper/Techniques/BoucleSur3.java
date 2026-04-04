@@ -37,9 +37,22 @@ public class BoucleSur3 implements StrategieAide {
                 // On cible uniquement les cases contenant un 3
                 if (c != null && c.getNumero() == 3) {
 
+                    // Compter le nombre de traits déjà pleins
+                    int nbPleins = 0;
+                    for (int dir = 0; dir < 4; dir++) {
+                        if (c.getTrait(dir).getEtat() == ValeurTrait.PLEIN) {
+                            nbPleins++;
+                        }
+                    }
+
+                    // Si déjà 3 traits pleins, la contrainte est satisfaite, ne rien suggérer
+                    if (nbPleins >= 3) {
+                        continue;
+                    }
+
                     // Test coin haut-gauche (Nord-Ouest)
                     // Si un trait arrive de la gauche ou du haut vers ce coin
-                    if (estPlein(m, i, j - 1, true) || estPlein(m, i - 1, j, false)) {
+                    if (estPlein(m, i, j - 1, 2) || estPlein(m, i - 1, j, 3)) {
                         // Alors les murs opposés (droite : 2 et bas : 3) doivent être tracés
                         if (c.getTrait(2).getEtat() != ValeurTrait.PLEIN ||
                                 c.getTrait(3).getEtat() != ValeurTrait.PLEIN) {
@@ -49,7 +62,7 @@ public class BoucleSur3 implements StrategieAide {
 
                     // Test haut-droite (Nord-Est)
                     // Si un trait arrive de la droite ou du haut vers ce coin
-                    if (estPlein(m, i, j + 1, true) || estPlein(m, i - 1, j + 1, false)) {
+                    if (estPlein(m, i, j + 1, 1) || estPlein(m, i - 1, j, 3)) {
                         // Alors les murs opposés (gauche : 1 et bas : 3) doivent être tracés
                         if (c.getTrait(1).getEtat() != ValeurTrait.PLEIN ||
                                 c.getTrait(3).getEtat() != ValeurTrait.PLEIN) {
@@ -59,7 +72,7 @@ public class BoucleSur3 implements StrategieAide {
 
                     // Test bas-gauche (Sud-Ouest)
                     // Si un trait arrive de la gauche ou du bas vers ce coin
-                    if (estPlein(m, i + 1, j - 1, true) || estPlein(m, i + 1, j, false)) {
+                    if (estPlein(m, i, j - 1, 2) || estPlein(m, i + 1, j, 0)) {
                         // Alors les murs opposés (haut : 0 et droite : 2) doivent être tracés
                         if (c.getTrait(0).getEtat() != ValeurTrait.PLEIN ||
                                 c.getTrait(2).getEtat() != ValeurTrait.PLEIN) {
@@ -69,7 +82,7 @@ public class BoucleSur3 implements StrategieAide {
 
                     // Test bas-droite (Sud-Est)
                     // Si un trait arrive de la droite ou du bas vers ce coin
-                    if (estPlein(m, i + 1, j + 1, true) || estPlein(m, i + 1, j + 1, false)) {
+                    if (estPlein(m, i, j + 1, 1) || estPlein(m, i + 1, j, 0)) {
                         // Alors les murs opposés (haut : 0 et gauche : 1) doivent être tracés
                         if (c.getTrait(0).getEtat() != ValeurTrait.PLEIN ||
                                 c.getTrait(1).getEtat() != ValeurTrait.PLEIN) {
@@ -86,21 +99,17 @@ public class BoucleSur3 implements StrategieAide {
      * Vérifie si un trait est "Plein" sans sortir des limites de la grille.
      *
      * @param m la matrice du jeu contenant l'état actuel des traits
-     * @param ligne l'indice de la ligne où se situe le trait
-     * @param col l'indice de la colonne où se situe le trait
-     * @param horizontal vrai (true) si on teste un trait horizontal, faux (false) pour un trait vertical
+     * @param ligne l'indice de la ligne de la case
+     * @param col l'indice de la colonne de la case
+     * @param indexTrait l'indice du trait à tester (0=Nord, 1=Ouest, 2=Est, 3=Sud)
      * @return vrai (true) si le trait existe et qu'il est marqué comme "PLEIN", faux (false) sinon
      */
-    private boolean estPlein(Matrice m, int ligne, int col, boolean horizontal) {
-        if (horizontal) {
-            if (ligne < 0 || ligne > m.getHauteur() || col < 0 || col >= m.getLargeur()) return false;
-            Case c = m.getCase(ligne, col);
-            return (c != null && c.getTrait(0).getEtat() == ValeurTrait.PLEIN);
-        } else {
-            if (ligne < 0 || ligne >= m.getHauteur() || col < 0 || col > m.getLargeur()) return false;
-            Case c = m.getCase(ligne, col);
-            return (c != null && c.getTrait(1).getEtat() == ValeurTrait.PLEIN);
+    private boolean estPlein(Matrice m, int ligne, int col, int indexTrait) {
+        if (ligne < 0 || ligne >= m.getHauteur() || col < 0 || col >= m.getLargeur()) {
+            return false;
         }
+        Case c = m.getCase(ligne, col);
+        return (c != null && c.getTrait(indexTrait).getEtat() == ValeurTrait.PLEIN);
     }
 
     /**
