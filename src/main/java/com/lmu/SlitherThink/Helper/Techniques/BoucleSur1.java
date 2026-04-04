@@ -45,40 +45,40 @@ public class BoucleSur1 implements StrategieAide {
 
                     // Test coin haut-gauche (Nord-Ouest)
                     // Si un trait arrive de la gauche ou du haut vers ce coin
-                    if (estPlein(m, i, j - 1, 0) || estPlein(m, i - 1, j, 3)) {
+                    if (estPlein(m, i, j - 1, 2) || estPlein(m, i - 1, j, 3)) {
                         // Alors les murs opposés (droite : 2 et bas : 3) ne peuvent pas être tracés
-                        if (c.getTrait(1).getEtat() != ValeurTrait.CROIX ||
-                                c.getTrait(2).getEtat() != ValeurTrait.CROIX) {
+                        if (c.getTrait(2).getEtat() != ValeurTrait.CROIX ||
+                                c.getTrait(3).getEtat() != ValeurTrait.CROIX) {
                             return true;
                         }
                     }
 
                     // Test haut-droite (Nord-Est)
                     // Si un trait arrive de la droite ou du haut vers ce coin
-                    if (estPlein(m, i, j + 1, 0) || estPlein(m, i - 1, j, 1)) {
+                    if (estPlein(m, i, j + 1, 1) || estPlein(m, i - 1, j, 3)) {
                         // Alors les murs opposés (gauche : 1 et bas : 3) ne peuvent pas être tracés
-                        if (c.getTrait(3).getEtat() != ValeurTrait.CROIX ||
-                                c.getTrait(2).getEtat() != ValeurTrait.CROIX) {
+                        if (c.getTrait(1).getEtat() != ValeurTrait.CROIX ||
+                                c.getTrait(3).getEtat() != ValeurTrait.CROIX) {
                             return true;
                         }
                     }
 
                     // Test bas-gauche (Sud-Ouest)
                     // Si un trait arrive de la gauche ou du bas vers ce coin
-                    if (estPlein(m, i + 1, j - 1, 2) || estPlein(m, i + 1, j, 3)) {
+                    if (estPlein(m, i, j - 1, 2) || estPlein(m, i + 1, j, 0)) {
                         // Alors les murs opposés (haut : 0 et droite : 2) ne peuvent pas être tracés
                         if (c.getTrait(0).getEtat() != ValeurTrait.CROIX ||
-                                c.getTrait(1).getEtat() != ValeurTrait.CROIX) {
+                                c.getTrait(2).getEtat() != ValeurTrait.CROIX) {
                             return true;
                         }
                     }
 
                     // Test bas-droite (Sud-Est)
                     // Si un trait arrive de la droite ou du bas vers ce coin
-                    if (estPlein(m, i, j + 1, 2) || estPlein(m, i + 1, j, 1)) {
+                    if (estPlein(m, i, j + 1, 1) || estPlein(m, i + 1, j, 0)) {
                         // Alors les murs opposés (haut : 0 et gauche : 1) ne peuvent pas être tracés
                         if (c.getTrait(0).getEtat() != ValeurTrait.CROIX ||
-                                c.getTrait(3).getEtat() != ValeurTrait.CROIX) {
+                                c.getTrait(1).getEtat() != ValeurTrait.CROIX) {
                             return true;
                         }
                     }
