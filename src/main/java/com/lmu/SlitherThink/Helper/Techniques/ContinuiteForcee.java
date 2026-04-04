@@ -46,9 +46,11 @@ public class ContinuiteForcee implements StrategieAide {
                 int nbVides = 0;
 
                 for (Trait t : traitsDuPoint) {
-                    if (t.getEtat() == ValeurTrait.PLEIN) nbPleins++;
-                    else if (t.getEtat() != ValeurTrait.PLEIN) nbVides++;
-                    else if (t.getEtat() == ValeurTrait.CROIX) nbVides++; // On traite les croix comme des vides pour la continuité
+                    if (t.getEtat() == ValeurTrait.PLEIN) {
+                        nbPleins++;
+                    } else {
+                        nbVides++;
+                    }
                 }
 
                 // Condition 2 : 1 trait plein arrive et 1 seule sortie possible
