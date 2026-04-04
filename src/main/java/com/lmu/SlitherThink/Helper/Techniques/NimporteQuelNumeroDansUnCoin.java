@@ -65,7 +65,7 @@ public class NimporteQuelNumeroDansUnCoin implements StrategieAide {
         Case c4 = m.getCase(h - 1, w - 1);
         if (c4 != null) {
             int num = c4.getNumero();
-            if (num == 1 || num == 3) {
+            if (num == 3) {
                 if (c4.getTrait(3).getEtat() != ValeurTrait.PLEIN || c4.getTrait(2).getEtat() != ValeurTrait.PLEIN) return true;
             }
             else if(num == 1){
