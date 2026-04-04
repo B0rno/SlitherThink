@@ -16,11 +16,11 @@ public class Deux3Adjacents implements StrategieAide {
 
     private static final String NOM = "Deux 3 adjacents";
 
-    // Définition des indices des traits (convention standard horaire)
+    // Définition des indices des traits 
     private static final int HAUT = 0;
     private static final int DROITE = 1;
-    private static final int BAS = 2;
-    private static final int GAUCHE = 3;
+    private static final int BAS = 3;
+    private static final int GAUCHE = 2;
 
     /**
      * @param m La matrice du jeu
