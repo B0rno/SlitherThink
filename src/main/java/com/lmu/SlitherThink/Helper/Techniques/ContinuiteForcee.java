@@ -17,7 +17,7 @@ import java.util.List;
 public class ContinuiteForcee implements StrategieAide {
 
     // Attention : l'espace à la fin est conservé pour matcher exactement avec le JSON
-    private static final String NOM = "Technique avancée 1 ";
+    private static final String NOM = "Continuité forcée";
 
     @Override
     public boolean estApplicable(Matrice m) {

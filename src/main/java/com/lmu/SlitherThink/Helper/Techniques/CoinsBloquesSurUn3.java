@@ -15,7 +15,7 @@ import com.lmu.SlitherThink.Helper.StrategieAide;
  */
 public class CoinsBloquesSurUn3 implements StrategieAide {
 
-    private static final String NOM = "Technique avancée 2";
+    private static final String NOM = "Coins bloqués sur un 3";
 
     @Override
     public boolean estApplicable(Matrice m) {

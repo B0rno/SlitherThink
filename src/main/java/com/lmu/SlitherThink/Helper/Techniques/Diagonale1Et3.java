@@ -14,7 +14,7 @@ import com.lmu.SlitherThink.Helper.StrategieAide;
  */
 public class Diagonale1Et3 implements StrategieAide {
 
-    private static final String NOM = "Technique avancée 5";
+    private static final String NOM = "1 et 3 en Diagonale";
 
     @Override
     public boolean estApplicable(Matrice m) {
