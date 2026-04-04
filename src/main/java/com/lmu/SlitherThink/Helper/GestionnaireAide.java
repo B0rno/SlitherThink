@@ -25,19 +25,22 @@ public class GestionnaireAide {
         this.strategies = new ArrayList<>();
         // Ordre d'ajout = ordre de priorité (les stratégies les plus simples en premier)
         
-        // Aides débutant :
-        strategies.add(new AucuneLigneAutourDe0());
-        strategies.add(new Adjacents0Et3());
-        strategies.add(new Diagonale0Et3());
-        strategies.add(new Deux3Adjacents());
-        strategies.add(new NimporteQuelNumeroDansUnCoin());
-        strategies.add(new Deux3EnDiagonale());
-
         // Aide basique :
         strategies.add(new ContraintesSur3());
         strategies.add(new BoucleSur3());
         strategies.add(new BoucleSur1());
         strategies.add(new ContraintesSur2());
+
+        // Aides débutant :
+        strategies.add(new AucuneLigneAutourDe0());
+        strategies.add(new Adjacents0Et3());
+        strategies.add(new Diagonale0Et3());
+        strategies.add(new Deux3Adjacents());
+        strategies.add(new Deux3EnDiagonale());
+        strategies.add(new NimporteQuelNumeroDansUnCoin());
+        
+
+
 
         //Aide confirme
         strategies.add(new ContinuiteForcee());

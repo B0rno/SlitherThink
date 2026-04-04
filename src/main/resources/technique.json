@@ -48,10 +48,6 @@
               "description": "Deux cases 3 placées côte à côte doivent partager un trait plein entre elles. De plus, tous leurs traits extérieurs parallèles (en haut/bas ou gauche/droite) doivent aussi être pleins."
             },
             {
-              "name": "1 et 3 adjacents",
-              "description": "Lorsqu'une case 1 et une case 3 sont placées côte à côte, le trait de la case 3 qui se situe à l'exact opposé de la case 1 doit obligatoirement être plein."
-            },
-            {
               "name": "Deux 3 en diagonale",
               "description": "Quand deux cases 3 sont placées en diagonale, leurs traits extérieurs formant les coins opposés à leur jonction doivent être pleins."
             },
@@ -71,10 +67,6 @@
             {
               "name": "Coins bloqués sur un 3",
               "description": "Observez les coins extérieurs d'une case 3. Si ces 2 coins sont bloqués (par le bord du plateau ou des croix), la boucle ne peut pas s'y échapper et doit longer l'intérieur de la case."
-            },
-            {
-              "name": "Règle du 4ème trait",
-              "description": "Une case ne peut jamais avoir ses 4 traits pleins, sinon la boucle y serait piégée. Si une case a déjà 3 traits pleins, le dernier trait doit recevoir une croix (X)."
             },
             {
               "name": "La Symétrie des 2 Adjacents",
