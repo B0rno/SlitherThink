@@ -35,7 +35,7 @@ import javafx.scene.shape.Rectangle;
  * @author Ilann
  */
 public class Partie extends ChangementFenetre implements PartieObserver {
-    protected com.lmu.SlitherThink.Partie.PartieHelper moteurJeu;
+    protected com.lmu.SlitherThink.Partie.PartieGestion moteurJeu;
 
     public static String dernierMode = "libre";
     private static String grilleEnCours = null;
@@ -172,7 +172,7 @@ public class Partie extends ChangementFenetre implements PartieObserver {
             }
         }
 
-        this.moteurJeu = new com.lmu.SlitherThink.Partie.PartieHelper(new Profil(Pseudo.nomJoueur), mat, 3, new Score());
+        this.moteurJeu = new com.lmu.SlitherThink.Partie.PartieGestion(new Profil(Pseudo.nomJoueur), mat, 3, new Score());
         this.moteurJeu.ajouterObserver(this);
         chargerMatrice(mat);
         this.moteurJeu.demarrer();
