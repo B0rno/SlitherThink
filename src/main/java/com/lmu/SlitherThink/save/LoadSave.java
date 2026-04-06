@@ -334,9 +334,6 @@ public class LoadSave {
      * @return la sauvegarde globale
      */
     public SaveGlobal getSaveGlobal() {
-        if (saveGlobal == null) {
-            saveGlobal = creerSaveGlobalParDefaut();
-        }
         return saveGlobal;
     }
 
