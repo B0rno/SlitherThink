@@ -67,7 +67,6 @@ public class SaveHelper {
         );
         partie.setDetailleSave(SaveHelper.buildDetail());
         save.getSaveGlobal().addSauvegardeAventure(partie);
-        System.out.println("Ajout aventure -> pseudo=" + pseudo + ", id=");
         SaveManager saveManager = new SaveManager(save);
         saveManager.updateSaveFichierId(id);
     }
@@ -87,7 +86,6 @@ public class SaveHelper {
         );
         partie.setDetailleSave(SaveHelper.buildDetail());
         save.getSaveGlobal().addSauvegardeLibre(partie);
-        System.out.println("Ajout libre -> pseudo=" + pseudo + ", id=");
         SaveManager saveManager = new SaveManager(save);
         saveManager.updateSaveFichierId(id);
     }

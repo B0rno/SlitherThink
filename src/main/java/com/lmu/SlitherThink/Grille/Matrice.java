@@ -168,8 +168,6 @@ public class Matrice {
     
         if (toutesLesGrilles == null || !toutesLesGrilles.containsKey(key)) {
             System.err.println("ERREUR : La grille '" + key + "' est introuvable.");
-            // Petit debug pour voir ce qui est chargé
-            if(toutesLesGrilles != null) System.out.println("Grilles dispos : " + toutesLesGrilles.keySet());
             return null; 
         }
 
@@ -216,23 +214,6 @@ public class Matrice {
 
         loadedMatrice.compterTraitsValides();
 
-        // DEBUG : Afficher le nombre de traits PLEINS dans la solution
-        int nbTraitsPleins = 0;
-        for (int i = 0; i <= loadedMatrice.hauteur; i++) {
-            for (int j = 0; j < loadedMatrice.largeur; j++) {
-                if (loadedMatrice.traitsHorizontauxSol[i][j].getEtat() == ValeurTrait.PLEIN) {
-                    nbTraitsPleins++;
-                }
-            }
-        }
-        for (int i = 0; i < loadedMatrice.hauteur; i++) {
-            for (int j = 0; j <= loadedMatrice.largeur; j++) {
-                if (loadedMatrice.traitsVerticauxSol[i][j].getEtat() == ValeurTrait.PLEIN) {
-                    nbTraitsPleins++;
-                }
-            }
-        }
-        System.out.println("DEBUG Solution chargée : " + nbTraitsPleins + " traits PLEINS attendus");
 
         return loadedMatrice;
     }
@@ -266,12 +247,10 @@ public class Matrice {
                 
                 int ligne = coord.get(0);
                 int colonne = coord.get(1);
-                System.out.println("l:" + ligne + "c:" + colonne + "e:" + etat);
                 
                 for(Integer direction : etat){
                     if(this.getCase(ligne,colonne).getTrait(direction).getEtat() == ValeurTrait.VIDE){
                         this.cliquer(ligne, colonne, direction);
-                        System.out.println("ca marche !");
                     }
                 }
             }
@@ -445,7 +424,6 @@ public class Matrice {
 
         // Vérifier la victoire : tous les traits PLEINS doivent correspondre à la solution
         if(verifierTraitsPleins()) {
-            System.out.println("GAGNE !!!!!!!!!!!!!!!!!!!");
             this.completed = true;
         }
     }

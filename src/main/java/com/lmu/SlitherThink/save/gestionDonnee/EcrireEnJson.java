@@ -53,7 +53,6 @@ public class EcrireEnJson {
         Path chemin = Paths.get(nomFichier);
         try {
             Files.deleteIfExists(chemin);
-            System.out.println("Fichier supprimé: " + nomFichier);
         } catch (IOException e) {
             e.printStackTrace();
         }

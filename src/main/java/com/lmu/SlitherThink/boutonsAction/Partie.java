@@ -167,8 +167,6 @@ public class Partie extends ChangementFenetre implements PartieObserver {
                 SaveManager saveManager = new SaveManager(save);
                 saveManager.updateSaveFichierId(sauvegarde.getId());
                 saveManager.actualiserSaveGlobal();
-
-                System.out.println("[DEBUG] Sauvegarde réinitialisée pour recommencer (mode libre)");
             }
         }
 

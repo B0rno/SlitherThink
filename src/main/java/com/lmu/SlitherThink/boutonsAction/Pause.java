@@ -46,7 +46,6 @@ public class Pause extends ChangementFenetre{
             }
 
             else{
-                System.out.println("Erreur : Impossible de récupérer le controller de PartieTimer");    
             }
         }
     }
@@ -71,7 +70,6 @@ public class Pause extends ChangementFenetre{
             saveManager.delFichierId(sauvegarde.getId());
             saveManager.actualiserSaveGlobal();
 
-            System.out.println("[DEBUG] Sauvegarde réinitialisée pour abandonner");
         }
         save.rechargerSaveGlobal(); // Recharger pour s'assurer que les changements sont pris en compte
         

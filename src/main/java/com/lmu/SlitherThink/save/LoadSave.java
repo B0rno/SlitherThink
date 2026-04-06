@@ -126,8 +126,7 @@ public class LoadSave {
             // par ressource pour des grilles spécifiques si nécessaire.
             if (!dossierTrouveSurDisque) {
                 System.out.println("Dossier physique non trouvé pour " + (sousDir.isEmpty() ? "racine" : sousDir) + ", utilisation des ressources.");
-                // Note : Lister des fichiers à l'intérieur d'un JAR est complexe sans bibliothèque tierce.
-                // Si tu es dans un JAR, assure-toi que tes chemins de ressources sont corrects.
+             
             }
         }
     
@@ -291,38 +290,6 @@ public class LoadSave {
     }
 
     /**
-     * Affiche une grille spécifique (debug).
-     */
-    public void afficherGrille(String nomGrille, SaveGrille grille) {
-        if (grille != null) {
-            System.out.println("Nom de la grille: " + nomGrille);
-            System.out.println("Taille de la grille: " + grille.getTailleGrille());
-            List<positionGrille> cases = grille.getNumeroCases();
-            if (cases != null) {
-                for (positionGrille posgrille : cases) {
-                    if (posgrille == null) continue;
-                    System.out.println("----------------\nPosition: " + posgrille.getPositionGrille());
-                    System.out.println("Valeur: " + posgrille.getValeurGrille());
-                }
-            } else {
-                System.out.println("Aucune case disponible dans la grille.");
-            }
-        } else {
-            System.out.println("Aucune grille disponible.");
-        }
-    }
-
-    /**
-     * Affiche la grille et les techniques en JSON (debug).
-     */
-    public void affichertoJson() {
-        Gson gson = new Gson();
-        String jsonGrille = gson.toJson(grille);
-
-        System.out.println("Grille en JSON:\n" + jsonGrille);
-    }
-
-    /**
      * Récupère la liste des traits d'une grille spécifique.
      *
      * @param nomGrille le nom de la grille
@@ -385,6 +352,7 @@ public class LoadSave {
 
     /**
      * Affiche le contenu d'une sauvegarde par son ID (debug).
+     * Utilisé dans les tests pour vérifier que les données sont correctement chargées.
      *
      * @param idUtilisateur l'identifiant de la sauvegarde
      */
@@ -430,17 +398,6 @@ public class LoadSave {
      */
     public savePartieLienJoueur chercherSauvegardeParId(int idUtilisateur) {
         return rechercheSave.chercherSauvegardeParId(saveGlobal, idUtilisateur);
-    }
-
-    /**
-     * Affiche toutes les données chargées (debug).
-     */
-    @Override
-    public String toString() {
-        this.afficherGrille(this.grilles.keySet().stream().findFirst().orElse("Grille par défaut"), this.grilles.values().stream().findFirst().orElse(grille));
-        System.out.println("\n\nAffichage en JSON:");
-        this.affichertoJson();
-        return "Affichage de la grille et des techniques terminé.";
     }
 
     /**

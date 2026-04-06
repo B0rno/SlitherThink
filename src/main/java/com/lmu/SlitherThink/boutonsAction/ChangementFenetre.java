@@ -75,7 +75,6 @@ public abstract class ChangementFenetre {
             if (difficulte.equals(sauvegarde.getDifficulte())) {
                 nomGrille = extraireNomGrilleDepuisPath(sauvegarde.getPath());
                 if (nomGrille != null) {
-                    System.out.println("Grille trouvée dans les sauvegardes : " + nomGrille);
                     break;
                 }
             }

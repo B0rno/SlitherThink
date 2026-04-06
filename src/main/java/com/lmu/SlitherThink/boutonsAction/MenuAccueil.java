@@ -93,7 +93,6 @@ public class MenuAccueil extends ChangementFenetre {
      */
     @FXML
     private void pause(ActionEvent event) {
-        System.out.println("Pause");
         changerFenetre(event, "pause");
     }
 }

@@ -33,10 +33,5 @@ public class selectionNv {
     public static void main(String[] args) {
         int difficulte = 1; // Exemple de difficulté
         SaveGrille grille = selectionNvDiff(difficulte);
-        if (grille != null) {
-            System.out.println("Grille sélectionnée pour la difficulté " + difficulte + ": " + grille);
-        } else {
-            System.out.println("Aucune grille trouvée pour la difficulté " + difficulte); 
-        }
     }
 }

@@ -50,7 +50,6 @@ public class PartieTimer extends Partie {
         
         String tempsFinal = formatTime((int) score.getDureeEnSecondes());
         String tempsMaxEtoile = formatTime((int) score.getDureePourEtoile());
-        System.out.println("fin de la partie");
 
         changerVueFinPartie(aidesUtilisees, aidesMax, tempsFinal, tempsMaxEtoile, true);
     }
@@ -219,8 +218,6 @@ public class PartieTimer extends Partie {
         
         chargerMatrice(mat);
         actualiseChrono();
-
-        System.out.println(mat);
         
         this.moteurJeu.demarrer(); 
         chronometre.play();
