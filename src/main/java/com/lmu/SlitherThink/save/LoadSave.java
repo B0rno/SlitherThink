@@ -72,6 +72,12 @@ public class LoadSave {
 
         Gson gson = new Gson();
         saveGlobal = lireJson("/save/saveGlobal.json", cheminFichier("save/saveGlobal.json"), SaveGlobal.class, gson);
+        
+        // Initialiser avec un objet par défaut si le fichier n'existe pas
+        if (saveGlobal == null) {
+            saveGlobal = creerSaveGlobalParDefaut();
+        }
+        
         rechercheSave.setSaveGlobalCourant(saveGlobal);
 
 
@@ -241,6 +247,17 @@ public class LoadSave {
         }
 
         return Paths.get(System.getProperty("user.dir", ".")).toAbsolutePath().normalize().toString();
+    }
+
+    /**
+     * Crée un SaveGlobal par défaut avec des listes vides.
+     * Utilisé quand le fichier saveGlobal.json n'existe pas.
+     */
+    private SaveGlobal creerSaveGlobalParDefaut() {
+        SaveGlobal sauvegardeParDefaut = new SaveGlobal();
+        sauvegardeParDefaut.setSauvegardeLibre(new ArrayList<>());
+        sauvegardeParDefaut.setSauvegardeAventure(new ArrayList<>());
+        return sauvegardeParDefaut;
     }
 
     /**

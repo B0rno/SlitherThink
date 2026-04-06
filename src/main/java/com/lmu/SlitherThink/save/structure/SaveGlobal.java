@@ -60,4 +60,22 @@ public class SaveGlobal {
         }
         SauvegardeLibre.add(partie);
     }
+
+    /**
+     * Définit la liste des sauvegardes libres.
+     *
+     * @param sauvegardeLibre La liste des sauvegardes libres.
+     */
+    public void setSauvegardeLibre(List<savePartieLienJoueur> sauvegardeLibre) {
+        SauvegardeLibre = sauvegardeLibre;
+    }
+
+    /**
+     * Définit la liste des sauvegardes aventure.
+     *
+     * @param sauvegardeAventure La liste des sauvegardes aventure.
+     */
+    public void setSauvegardeAventure(List<savePartieLienJoueur> sauvegardeAventure) {
+        SauvegardeAventure = sauvegardeAventure;
+    }
 }
