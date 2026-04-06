@@ -5,7 +5,9 @@ import java.util.List;
 import com.lmu.SlitherThink.Grille.Matrice;
 import com.lmu.SlitherThink.Helper.GestionnaireAide;
 import com.lmu.SlitherThink.Helper.Aide;
-
+import com.lmu.SlitherThink.boutonsAction.Partie;
+import com.lmu.SlitherThink.boutonsAction.PartieTimer;
+import com.lmu.SlitherThink.GestionnaireVues;
 
 /**
  * Gère une partie de jeu SlitherLink.
@@ -118,6 +120,17 @@ public class PartieGestion {
             colonne, 
             direction
         );
+        if ("libre".equals(Partie.dernierMode)) {
+            Partie controller = (Partie) GestionnaireVues.getController("partie");
+            if (controller != null) {
+                controller.sauvegarderProgressionCourante();
+            }
+        } else {
+            PartieTimer controller = (PartieTimer) GestionnaireVues.getController("partieTimer");
+            if (controller != null) {
+                controller.sauvegarderProgressionCourante();
+            }
+        }
         s.incrementerCoups();
         if (verifierVictoire()) terminerPartie();
         return true;
