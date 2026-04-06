@@ -71,6 +71,7 @@ public class Partie extends ChangementFenetre implements PartieObserver {
     */
     @Override
     public void onVictoire(Score score) {
+        supprimerSauvegardeCourante();
         App.changerVue("finPartieLibre");
     }
 
@@ -229,6 +230,32 @@ public class Partie extends ChangementFenetre implements PartieObserver {
         if (id != null) {
             saveManager.updateSaveFichierId(id);
             saveManager.actualiserSaveGlobal();
+        }
+    }
+
+    private void supprimerSauvegardeCourante() {
+        String grille = getGrilleEnCours();
+        if (grille == null || grille.isBlank()) {
+            grille = nomGrille;
+        }
+        if (grille == null || grille.isBlank()) {
+            return;
+        }
+
+        LoadSave save = LoadSave.getInstance("");
+        save.rechargerSaveGlobal();
+
+        String pathGrille = "./save/saveGrille/" + grille + ".json";
+        var sauvegarde = rechercheSave.trouverSauvegardeParPseudoEtPath(
+            Pseudo.nomJoueur,
+            pathGrille
+        );
+
+        if (sauvegarde != null && sauvegarde.getId() != null) {
+            SaveManager saveManager = new SaveManager(save);
+            saveManager.delFichierId(sauvegarde.getId());
+            saveManager.actualiserSaveGlobal();
+            save.rechargerSaveGlobal();
         }
     }
 
