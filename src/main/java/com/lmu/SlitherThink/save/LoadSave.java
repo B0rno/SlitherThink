@@ -25,7 +25,6 @@ import com.lmu.SlitherThink.save.gestionDonnee.savePartieLienJoueur;
 import com.lmu.SlitherThink.save.structure.PositionTrait;
 import com.lmu.SlitherThink.save.structure.SaveGlobal;
 import com.lmu.SlitherThink.save.structure.SaveGrille;
-import com.lmu.SlitherThink.save.structure.positionGrille;
 
 /**
  * Gestionnaire central de chargement des données du jeu (Singleton).
