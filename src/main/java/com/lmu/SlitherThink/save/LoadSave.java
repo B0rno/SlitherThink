@@ -139,8 +139,7 @@ public class LoadSave {
                 } else {
                     nomsGrilles = new String[]{
                         "GrilleFacile5X5_1", "GrilleFacile5X5_2", "GrilleFacile7X7_1", "GrilleFacile7X7_2",
-                        "GrilleFacile9X9_1", "GrilleFacile9X9_2", "GrilleFacile9X9_3", "GrilleFacile11X11_1",
-                        "GrilleFacile11X11_2",
+                        "GrilleFacile9X9_1", "GrilleFacile9X9_2", "GrilleFacile9X9_3",
                         "GrilleMoyen5X5_1", "GrilleMoyen5X5_2", "GrilleMoyen7X7_1", "GrilleMoyen7X7_2",
                         "GrilleMoyen9X9_1", "GrilleMoyen9X9_2", "GrilleMoyen11X11_1", "GrilleMoyen11X11_2",
                         "GrilleMoyen13X13_1", "GrilleMoyen13X13_2",
