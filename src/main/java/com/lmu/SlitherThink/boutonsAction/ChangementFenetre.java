@@ -2,6 +2,7 @@ package com.lmu.SlitherThink.boutonsAction;
 
 import java.io.File;
 import java.net.URL;
+import java.util.List;
 import java.util.Random;
 
 import com.lmu.SlitherThink.App;
@@ -128,23 +129,22 @@ public abstract class ChangementFenetre {
      * @return Le nom du fichier trouvé (sans l'extension .json), ou null si aucune grille n'est disponible.
      */
     public String recupererGrilleAleatoire(String difficulte) {
-        try {
-            URL resource = getClass().getResource("/GrilleJson");
-            if (resource == null) return null;
+        // On demande à l'instance de LoadSave les grilles qu'elle a déjà indexées
+        LoadSave save = LoadSave.getInstance("");
+        var toutesLesGrilles = save.getGrilles(); // Retourne la Map<String, SaveGrille>
 
-            File dossier = new File(resource.toURI());
-            
-            File[] fichiersTrouves = dossier.listFiles((dir, name) -> 
-                name.startsWith("Grille" + difficulte) && name.endsWith(".json"));
-        
-            if (fichiersTrouves != null && fichiersTrouves.length > 0) {
-                Random rand = new Random();
-                File choix = fichiersTrouves[rand.nextInt(fichiersTrouves.length)];
-                return choix.getName().replace(".json", "");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+        if (toutesLesGrilles == null || toutesLesGrilles.isEmpty()) return null;
+
+        // On filtre les grilles qui correspondent à la difficulté demandée
+        List<String> grillesFiltrees = toutesLesGrilles.keySet().stream()
+            .filter(nom -> nom.contains(difficulte)) // Filtre sur "Facile", "Moyen", etc.
+            .toList();
+
+        if (!grillesFiltrees.isEmpty()) {
+            Random rand = new Random();
+            return grillesFiltrees.get(rand.nextInt(grillesFiltrees.size()));
         }
+        
         return null; 
     }
 }
