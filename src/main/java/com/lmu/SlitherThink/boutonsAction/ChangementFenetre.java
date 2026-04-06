@@ -1,13 +1,15 @@
 package com.lmu.SlitherThink.boutonsAction;
 
-import java.io.File;
-import java.net.URL;
+import java.util.List;
+import java.util.Map;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 import com.lmu.SlitherThink.App;
 import com.lmu.SlitherThink.GestionnaireVues;
 import com.lmu.SlitherThink.save.LoadSave;
 import com.lmu.SlitherThink.save.gestionDonnee.rechercheSave;
+import com.lmu.SlitherThink.save.structure.SaveGrille;
 
 import javafx.event.ActionEvent;
 
@@ -85,9 +87,7 @@ public abstract class ChangementFenetre {
 
         if (nomGrille == null) {
             nomGrille = recupererGrilleAleatoire(difficulte); 
-        }
-        // 1. Récupérer un nom de fichier valide (ex: "GrilleFacile7X7_2")
-        
+        }        
 
         if (nomGrille == null) {
             System.err.println("Erreur : Aucune grille trouvée pour la difficulté " + difficulte);
@@ -100,8 +100,6 @@ public abstract class ChangementFenetre {
         
         if (controller != null) {
             final String nomGrilleFinal = nomGrille;
-            // 4. On demande à JavaFX d'exécuter l'initialisation juste après l'affichage
-            // pour garantir que zoneJeu ne soit pas null
             javafx.application.Platform.runLater(() -> {
                 controller.initialiserPartie(nomGrilleFinal);
             });
@@ -114,7 +112,7 @@ public abstract class ChangementFenetre {
         if (pathGrille == null || pathGrille.isBlank()) {
             return null;
         }
-        String nomFichier = new File(pathGrille).getName();
+        String nomFichier = pathGrille.substring(pathGrille.lastIndexOf('/') + 1);
         if (nomFichier.endsWith(".json")) {
             return nomFichier.substring(0, nomFichier.length() - 5);
         }
@@ -128,23 +126,20 @@ public abstract class ChangementFenetre {
      * @return Le nom du fichier trouvé (sans l'extension .json), ou null si aucune grille n'est disponible.
      */
     public String recupererGrilleAleatoire(String difficulte) {
-        try {
-            URL resource = getClass().getResource("/GrilleJson");
-            if (resource == null) return null;
+        LoadSave save = LoadSave.getInstance(null);
+        Map<String, SaveGrille> grilles = save.getGrilles();
 
-            File dossier = new File(resource.toURI());
-            
-            File[] fichiersTrouves = dossier.listFiles((dir, name) -> 
-                name.startsWith("Grille" + difficulte) && name.endsWith(".json"));
-        
-            if (fichiersTrouves != null && fichiersTrouves.length > 0) {
-                Random rand = new Random();
-                File choix = fichiersTrouves[rand.nextInt(fichiersTrouves.length)];
-                return choix.getName().replace(".json", "");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+        if (grilles == null || grilles.isEmpty()) return null;
+
+        List<String> grillesFiltrees = grilles.keySet().stream()
+            .filter(nom -> nom.startsWith("Grille" + difficulte))
+            .collect(Collectors.toList());
+
+        if (!grillesFiltrees.isEmpty()) {
+            Random rand = new Random();
+            return grillesFiltrees.get(rand.nextInt(grillesFiltrees.size()));
         }
-        return null; 
+
+        return null;
     }
 }

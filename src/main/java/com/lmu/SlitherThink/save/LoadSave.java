@@ -127,11 +127,39 @@ public class LoadSave {
                 }
             }
     
-            // Si le scan disque a échoué pour ce dossier (cas du JAR), on peut tenter un chargement manuel 
-            // par ressource pour des grilles spécifiques si nécessaire.
             if (!dossierTrouveSurDisque) {
-                System.out.println("Dossier physique non trouvé pour " + (sousDir.isEmpty() ? "racine" : sousDir) + ", utilisation des ressources.");
-             
+                System.out.println("Chargement depuis ressources JAR pour " + (sousDir.isEmpty() ? "racine" : sousDir));
+
+                String[] nomsGrilles;
+                if (sousDir.equals("Aventure")) {
+                    nomsGrilles = new String[]{
+                        "tutoriel", "partie1", "partie2", "partie3", "partie4", "partie5",
+                        "partie6", "partie7", "partie8", "partie9", "partie10", "partie11", "partie12"
+                    };
+                } else {
+                    nomsGrilles = new String[]{
+                        "GrilleFacile5X5_1", "GrilleFacile5X5_2", "GrilleFacile7X7_1", "GrilleFacile7X7_2",
+                        "GrilleFacile9X9_1", "GrilleFacile9X9_2", "GrilleFacile9X9_3", "GrilleFacile11X11_1",
+                        "GrilleFacile11X11_2",
+                        "GrilleMoyen5X5_1", "GrilleMoyen5X5_2", "GrilleMoyen7X7_1", "GrilleMoyen7X7_2",
+                        "GrilleMoyen9X9_1", "GrilleMoyen9X9_2", "GrilleMoyen11X11_1", "GrilleMoyen11X11_2",
+                        "GrilleMoyen13X13_1", "GrilleMoyen13X13_2",
+                        "GrilleDifficile5x5_1", "GrilleDifficile5X5_2", "GrilleDifficile7X7_1", "GrilleDifficile7X7_2",
+                        "GrilleDifficile9X9_1", "GrilleDifficile9X9_2", "GrilleDifficile11X11_1", "GrilleDifficile11X11_2",
+                        "GrilleDifficile13X13_1", "GrilleDifficile13X13_2"
+                    };
+                }
+
+                for (String nom : nomsGrilles) {
+                    String cheminRessource = "/GrilleJson/" + (sousDir.isEmpty() ? "" : sousDir + "/") + nom + ".json";
+                    SaveGrille g = lireJson(cheminRessource, null, SaveGrille.class, gson);
+                    if (g != null) {
+                        resultat.put(nom, g);
+                        System.out.println("✓ Chargé: " + nom);
+                    } else {
+                        System.err.println("✗ Échec: " + nom + " (" + cheminRessource + ")");
+                    }
+                }
             }
         }
     
