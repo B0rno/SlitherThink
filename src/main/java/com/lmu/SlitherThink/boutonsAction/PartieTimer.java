@@ -60,7 +60,7 @@ public class PartieTimer extends Partie {
      * @param score Le score à enregistrer.
      */
     private void saveScore(Score score) {
-        String grille = Partie.getGrilleEnCours();
+        String grille = Partie.nomGrille;
         if (grille == null || grille.isBlank()) {
             grille = numPartie > 0 ? "partie" + numPartie : "tutoriel";
         }
